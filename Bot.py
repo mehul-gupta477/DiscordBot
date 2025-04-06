@@ -65,7 +65,6 @@ async def resources(ctx):
 
 if __name__ == "__main__":
     # Probably not the best way to do this, but it works for now
-    bot.run("MTM0NjU5Nzg2MjI1NDk3MzAzOQ.GAxI1x.Cufcd5NL9cDsb40LGj31BNrF6hu6tUqruzRQac")
-
+    bot.run(os.getenv("DISCORD_BOT_TOKEN"))
 # to run the bot, run the command: python Bot.py in the folder containing the file. 
 # make sure you have the discord.py library installed. 

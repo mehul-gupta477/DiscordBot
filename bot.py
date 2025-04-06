@@ -2,6 +2,8 @@
 
 import discord
 from discord.ext import commands
+import os
+from dotenv import load_dotenv
 
 # Set up Discord Intents to enable bot to receive message events
 intents = discord.Intents.default()

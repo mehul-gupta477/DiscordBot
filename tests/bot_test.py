@@ -4,7 +4,7 @@
 
 import unittest
 from unittest.mock import AsyncMock, MagicMock
-from Bot import bot  # Import the bot instance directly
+from bot import bot  # Import the bot instance directly
 
 class TestCSClubBot(unittest.IsolatedAsyncioTestCase):
     """Test suite for the CS Club Discord Bot commands"""

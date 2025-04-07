@@ -128,9 +128,9 @@ celerybeat.pid
 *.sage.py
 
 # Environments
+.virtualenv/
 .env
 .venv
-.virtualenv/
 env/
 venv/
 ENV/
@@ -178,6 +178,14 @@ cython_debug/
 # Mac OS Metadata
 .DS_Store
 
+# Nox
+.nox
+
+# Nox Cache
+.nox/
+
+# Ruff
+.ruff_cache/
+
 # Images for CONTRIBUTING.md
 images/*
-

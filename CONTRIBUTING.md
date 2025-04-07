@@ -27,8 +27,6 @@ If black returns a code formatting error, you can run `nox -s format` to
 automatically update the code formatting to conform to the style. However,
 if `ruff` returns any error, you will have to resolve these issues by manually updating your code.
 
-## Code Review Guidelines
-
 When you want to contribute to the Discord Bot Project, you will need to create a new branch where you will be staging your changes.
 
 ### Creating a new branch

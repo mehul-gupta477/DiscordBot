@@ -131,6 +131,7 @@ celerybeat.pid
 .virtualenv/
 .env
 .venv
+.virtualenv/
 env/
 venv/
 ENV/
@@ -187,4 +188,5 @@ cython_debug/
 # Ruff
 .ruff_cache/
 
-
+# Images for CONTRIBUTING.md
+images/*

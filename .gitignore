@@ -130,6 +130,7 @@ celerybeat.pid
 # Environments
 .env
 .venv
+.virtualenv/
 env/
 venv/
 ENV/
@@ -176,3 +177,7 @@ cython_debug/
 
 # Mac OS Metadata
 .DS_Store
+
+# Images for CONTRIBUTING.md
+images/*
+

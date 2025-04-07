@@ -17,6 +17,7 @@ def tests(session: nox.Session) -> None:
         "-s",
         "tests",
         "-p",
+        # We use *_test.py pattern for our tests
         "*_test.py",
     )
 

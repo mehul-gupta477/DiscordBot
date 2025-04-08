@@ -5,7 +5,7 @@
 First read the overall project contributing guidelines. These are all
 included in the ReadMe file of this repo:
 
-<https://github.com/Team-Mission-Blue/MissionBlueAPI/blob/6d8f8f29bfd135fc6769003ca8d0125980390508/README.md>
+<https://github.com/innovateorange/DiscordBot/blob/ec161ab7b4d38fab5db17f62c353e9d673e6fbde/README.md>
 
 ## Contributing to Discord Bot Project
 

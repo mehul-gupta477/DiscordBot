@@ -40,7 +40,7 @@ git checkout -b <new_branch_name>
 > [!TIP]
 > Note that this command creates a branch base on the branch that you are currently in, so please make sure that you are on the main branch when you are making a new branch.
 >
-> You can see which branch you are on by using the git status command:
+> You can see which branch you are on by using the git branch command:
 >
 > ```bash
 > git branch
@@ -72,7 +72,7 @@ For first-time commits to branch:
 git push -u # This command creates an upstream version of your local branch 
 ```
 >[!NOTE]
-> The -u flag is important to track the inital tracking history of the branch itself. 
+> The -u flag is important to track the initial tracking history of the branch itself. You're basically telling git: "Hey, from now on, whenever I'm on this branch, I want to link it to this branch on GitHub." Almost like saving contact information on your phone
 
 For subsequent commits to branch:
 

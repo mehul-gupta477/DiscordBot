@@ -43,7 +43,7 @@ git checkout -b <new_branch_name>
 > You can see which branch you are on by using the git status command:
 >
 > ```bash
-> git status
+> git branch
 > ```
 
 Once you are ready to push your code to the branch that you created, you have to stage the changes.
@@ -71,6 +71,8 @@ For first-time commits to branch:
 ```bash
 git push -u # This command creates an upstream version of your local branch 
 ```
+>[!NOTE]
+> The -u flag is important to track the inital tracking history of the branch itself. 
 
 For subsequent commits to branch:
 

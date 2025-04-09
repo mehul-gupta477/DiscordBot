@@ -105,6 +105,10 @@ Once you do that you are ready for code review!
 
 Congrats you have made it to the part where you interact with people! Code review is an opportunity for other people to review your changes and offer you feedback. It's important to make sure that you keep an open minded in this process. Receiving feedback can be hard to begin with, but with respectful communicate it offers you a chance to mature as a software engineer.
 
+### CI/CD Jobs
+
+[CI/CD](https://github.com/resources/articles/devops/ci-cd) means Continuous Integration and Continuous Deployment and is a stands as our way of implementing defensive programming in our devolpement workflow.
+
 > This document will be updated based on the needs of the team
 >
 >-[Caleb](@Lementknight)

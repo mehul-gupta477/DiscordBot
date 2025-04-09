@@ -5,7 +5,7 @@
 First read the overall project contributing guidelines. These are all
 included in the ReadMe file of this repo:
 
-<https://github.com/Team-Mission-Blue/MissionBlueAPI/blob/6d8f8f29bfd135fc6769003ca8d0125980390508/README.md>
+<https://github.com/innovateorange/DiscordBot/blob/ec161ab7b4d38fab5db17f62c353e9d673e6fbde/README.md>
 
 ## Contributing to Discord Bot Project
 
@@ -40,10 +40,10 @@ git checkout -b <new_branch_name>
 > [!TIP]
 > Note that this command creates a branch base on the branch that you are currently in, so please make sure that you are on the main branch when you are making a new branch.
 >
-> You can see which branch you are on by using the git status command:
+> You can see which branch you are on by using the git branch command:
 >
 > ```bash
-> git status
+> git branch
 > ```
 
 Once you are ready to push your code to the branch that you created, you have to stage the changes.
@@ -71,6 +71,8 @@ For first-time commits to branch:
 ```bash
 git push -u # This command creates an upstream version of your local branch 
 ```
+>[!NOTE]
+> The -u flag is important to track the initial tracking history of the branch itself. You're basically telling git: "Hey, from now on, whenever I'm on this branch, I want to link it to this branch on GitHub." Almost like saving contact information on your phone
 
 For subsequent commits to branch:
 

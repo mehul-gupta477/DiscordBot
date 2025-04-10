@@ -1,3 +1,16 @@
 # CODEOWNERS
 
-@Lementknight @andewmark @alantomw
+# These owners will be the default owners for everything in
+# the repo. Unless a later match takes precedence,
+# they will be requested for review
+# when someone opens a pull request.
+@Lementknight @andewmark
+
+# Any code within the data-collections directory
+# is owned by the following
+/data-collections @andewmark
+
+# Any code within the data-processing directory
+# is owned by the folllwing
+/data-processing @alantomw
+

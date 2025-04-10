@@ -4,7 +4,7 @@
 # the repo. Unless a later match takes precedence,
 # they will be requested for review
 # when someone opens a pull request.
-@Lementknight @andewmark
+*   @Lementknight @andewmark
 
 # Any code within the data-collections directory
 # is owned by the following

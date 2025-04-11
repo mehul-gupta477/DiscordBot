@@ -109,24 +109,24 @@ Congrats you have made it to the part where you interact with people! Code revie
 
 ### CI/CD Jobs
 
-Time to get a bit more technical. CI/CD (Continuous Integration and Continuous Delivery/Development) Jobs are crucial to esnuring that our codebase reamins clean, reliable, and secure. These automated processes help catch formatting issues, typos, and code that doesn't follow our project's conventions before it makes it to our main branch. They also catch any vulnerabilities in our code early.
+Time to get a bit more technical. CI/CD (Continuous Integration and Continuous Delivery/Development) Jobs are crucial to ensuring that our codebase remains clean, reliable, and secure. These automated processes help catch formatting issues, typos, and code that doesn't follow our project's conventions before it makes it to our main branch. They also catch any vulnerabilities in our code early.
 
 In this project, we use three main CI/CD jobs to help uphold the principles of defensive software development:
 
 - `python-package.yml`  
-This workflow isntalls project dependencies, runs linting tools, and executes our unittests. It's our first line of defense against breaking changes and helps us make sure nothing sneaky slips through when new code is added.  
+This workflow installs project dependencies, runs linting tools, and executes our unit tests. It's our first line of defense against breaking changes and helps us make sure nothing sneaky slips through when new code is added.  
 
-  >![NOTE]This workflow runs everytime there is a new pull request that is attempting to push to main
+  >![NOTE]This workflow runs every time there is a new pull request that is attempting to push to main
 
 - `codeql.yml`  
-CodeQL analyzes the codebase for potential security vulnerabilities. It searches for code patterns that could lead to bugs or exploits and helps catch deeper issues that traditional testing might miss.  
+CodeQL analyzes the codebase for potential security vulnerabilities. It searches for code patterns that could lead to bugs or exploits and helps catch more significant issues that traditional testing might miss.
   
   >![NOTE]This workflow runs everytime there is a new pull request that is attempting to push to main
 
 - `dependabot.yml`  
-Dependabot automatically monitors our dependencies and opens pull requests when updates are available. This helps us stay current with library versions and patch known security issues before they become and issue.
+Dependabot automatically monitors our dependencies and opens pull requests when updates are available. This helps us stay current with library versions and patch known security issues before they become an issue.
 
-By contributing to this repo, you're also contributing to standard of quality. So, if the CI/CD workflows fails on your pull request don't worry; It's just part of the process to help you (and the rest of the team) write better, more secure code.
+By contributing to this repo, you're also contributing to the standard of quality. So, if the CI/CD workflow fails on your pull request, don't worry; it's just part of the process to help you (and the rest of the team) write better, more secure code.
 
 > This document will be updated based on the needs of the team
 >

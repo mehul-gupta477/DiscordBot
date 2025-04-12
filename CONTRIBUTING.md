@@ -107,10 +107,26 @@ Once you do that you are ready for code review!
 
 Congrats you have made it to the part where you interact with people! Code review is an opportunity for other people to review your changes and offer you feedback. It's important to make sure that you keep an open minded in this process. Receiving feedback can be hard to begin with, but with respectful communicate it offers you a chance to mature as a software engineer.
 
+Before you submit your code for review, please make sure that you have done the following:
+
+- [ ] You have run the tests and they all pass
+- [ ] You have run the linter and all errors are resolved
+- [ ] You have added tests for any new features
+- [ ] You have added documentation for any new features
+- [ ] You have added a description of the changes you made in the pull request
+
+Once you have ensured that you have done all of the above, you can convert your draft to a pull request for review. You can do this by pressing the `Create pull request` button:
+
+![image](images/pull_request_ex5.png)
+
 ### CI/CD Jobs
 
 [CI/CD](https://github.com/resources/articles/devops/ci-cd) means Continuous Integration and Continuous Deployment and is a stands as our way of implementing defensive programming in our devolpement workflow.
 
+> [!NOTE]
 > This document will be updated based on the needs of the team
 >
 >-[Caleb](@Lementknight)
+
+> [!NOTE]
+> Code review is a two way street. You should be open to receiving feedback, but you should also be open to giving feedback. If you see something that you think could be improved, please offer your feedback in a respectful manner.

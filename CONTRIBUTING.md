@@ -64,7 +64,7 @@ Since we currently don't have a hosting solution, you'll need to run the bot loc
 
 3. Run the bot:
    ```bash
-   python main.py
+   python bot.py
    ```
 
 The bot will start up and connect to Discord. You can test your changes by interacting with the bot on your Discord server. Make sure to test all the functionality you've modified or added to ensure everything works as expected.

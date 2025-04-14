@@ -65,10 +65,13 @@ async def resources(ctx):
         "- [LeetCode](https://leetcode.com/)"
     )
 
-
-
 if __name__ == "__main__":
-    # Probably not the best way to do this, but it works for now
-    bot.run(os.getenv("DISCORD_BOT_TOKEN"))
+    # Get the Discord token from environment variables
+    token = os.getenv("DISCORD_BOT_TOKEN")
+    if not token:
+        print("Error: DISCORD_BOT_TOKEN environment variable not set.")
+        print("Please create a .env file with your Discord bot token")
+        exit(1)
+    bot.run(token)
 # to run the bot, run the command: python Bot.py in the folder containing the file. 
 # make sure you have the discord.py library installed. 

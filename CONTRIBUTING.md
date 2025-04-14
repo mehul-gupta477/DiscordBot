@@ -71,6 +71,7 @@ For first-time commits to branch:
 ```bash
 git push -u # This command creates an upstream version of your local branch 
 ```
+
 >[!NOTE]
 > The -u flag is important to track the initial tracking history of the branch itself. You're basically telling git: "Hey, from now on, whenever I'm on this branch, I want to link it to this branch on GitHub." Almost like saving contact information on your phone
 
@@ -95,29 +96,27 @@ Click the dropdown menu of the `Create pull request` button:
 
 ![image](images/pull_request_ex3.png)
 
-And then create a draft pull request. Now you can see if your changes pass the [CI/CD](https://github.com/innovateorange/DiscordBot/actions) check.
+And then create a draft pull request. Now you can see if your changes pass the [CI/CD](https://github.com/innovateorange/DiscordBot/actions) checks. From here you can work on your changes until it is ready for review.
 
-Once your changes pass the checks and you have successfully implemented your changes, you can convert your draft pull request to pull request. You can do this by pressing the `Ready for review` button:
+Before you submit your code for review, please make sure that you have done the following:
 
-![image](images/pull_request_ex4.png)
+- [ ] Ensure that your code passes all of the [CI/CD](https://github.com/innovateorange/DiscordBot/actions) checks
+- [ ] You have added tests for any new features
+- [ ] You have added documentation for any new features
+- [ ] You have added a description of the changes you made in the pull request
+
+> [!NOTE]
+> If your pull request is missing any of the above, it will be converted back to a draft and will not be reviewed until the above conditions are met. This is to ensure we are following best practices for industry-ready code.
+
+Once you have ensured that you have done all of the above, you can convert your draft to a pull request for review. You can do this by pressing the `Ready for review` button:
+
+![image](images/pull_request_ex5.png)
 
 Once you do that you are ready for code review!
 
 ### Code Review
 
-Congrats you have made it to the part where you interact with people! Code review is an opportunity for other people to review your changes and offer you feedback. It's important to make sure that you keep an open minded in this process. Receiving feedback can be hard to begin with, but with respectful communicate it offers you a chance to mature as a software engineer.
-
-Before you submit your code for review, please make sure that you have done the following:
-
-- [ ] You have run the tests and they all pass
-- [ ] You have run the linter and all errors are resolved
-- [ ] You have added tests for any new features
-- [ ] You have added documentation for any new features
-- [ ] You have added a description of the changes you made in the pull request
-
-Once you have ensured that you have done all of the above, you can convert your draft to a pull request for review. You can do this by pressing the `Create pull request` button:
-
-![image](images/pull_request_ex5.png)
+Congrats you have made it to the part where you interact with people! Code review is an opportunity for other people to review your changes and offer you feedback. It's important to make sure that you keep an open minded in this process. Receiving feedback can be hard to begin with, but with respectful communication it will help you gains the skills of a mature software engineer.
 
 ### CI/CD Jobs
 

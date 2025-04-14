@@ -23,7 +23,8 @@ by running `nox` which will run `black` and `ruff` to check the local
 code formatting and lint. You will need to have [nox](https://github.com/wntrblm/nox)
 installed to run this command. You can do this with `pip install -U nox`.
 
-If black returns a code formatting error, you can run `nox -s format` to
+>[!NOTE]
+>If black returns a code formatting error, you can run `nox -s format` to
 automatically update the code formatting to conform to the style. However,
 if `ruff` returns any error, you will have to resolve these issues by manually updating your code.
 
@@ -98,6 +99,7 @@ For first-time commits to branch:
 ```bash
 git push -u # This command creates an upstream version of your local branch 
 ```
+
 >[!NOTE]
 > The -u flag is important to track the initial tracking history of the branch itself. You're basically telling git: "Hey, from now on, whenever I'm on this branch, I want to link it to this branch on GitHub." Almost like saving contact information on your phone
 
@@ -110,7 +112,9 @@ git push # Pushes changes to upstream
 
 ### Creating a Pull Request Draft
 
-Once you do that you can create a draft pull request on GitHub. You can do this by visting the Pull Request tab within the project repo. There should be a prompt that looks similar to this:
+Once you have established a upstream tracking for your the branch, navigate to the GitHub repository's `Pull requests` section. You should see a button that says `Compare & pull request`.
+
+It should look similar to this:
 
 ![image](images/pull_request_ex1.png)
 
@@ -122,22 +126,45 @@ Click the dropdown menu of the `Create pull request` button:
 
 ![image](images/pull_request_ex3.png)
 
-And then create a draft pull request. Now you can see if your changes pass the [CI/CD](https://github.com/innovateorange/DiscordBot/actions) check.
+And then create a draft pull request. Now you can see if your changes pass the [CI/CD](https://github.com/innovateorange/DiscordBot/actions) checks. From here you can work on your changes until it is ready for review.
 
-Once your changes pass the checks and you have successfully implemented your changes, you can convert your draft pull request to pull request. You can do this by pressing the `Ready for review` button:
+Before submitting your code for review, please ensure that you have completed the following:
 
-![image](images/pull_request_ex4.png)
+- [ ] Ensure that your code passes all of the [CI/CD](https://github.com/innovateorange/DiscordBot/actions) checks
+- [ ] You have added tests for any new features
+- [ ] You have added documentation for any new features
+- [ ] You have added a description of the changes you made in the pull request
 
-Once you do that you are ready for code review!
+> [!NOTE]
+> If your pull request is missing any of the above, it will be converted back to a draft and will not be reviewed until the above conditions are met. This is to ensure we are following best practices for industry-ready code.
+
+Once you have ensured that you have done all of the above, you can convert your draft to a pull request for review. You can do this by pressing the `Ready for review` button:
+
+![image](images/pull_request_ex5.png)
+
+Once you do that, you are ready for code review!
 
 ### Code Review
 
-Congrats you have made it to the part where you interact with people! Code review is an opportunity for other people to review your changes and offer you feedback. It's important to make sure that you keep an open minded in this process. Receiving feedback can be hard to begin with, but with respectful communicate it offers you a chance to mature as a software engineer.
+Congrats you have made it to the part where you interact with people! Code review is an opportunity for other people to review your changes and offer you feedback. It's important to make sure that you keep an open-minded in this process. Receiving feedback can be challenging initially, but with respectful communication it will help you gain the skills of a mature software engineer.
+
+When it comes to code review, there are a few things that you should keep in mind:
+
+- [ ] Be respectful and kind to your reviewers
+- [ ] Be open to feedback and suggestions
+- [ ] Be open to revising your code based on feedback.
+- [ ] Be willing to ask questions if you don't understand something
+- [ ] Be willing to offer feedback to others
+- [ ] Be willing to help others if they are struggling with something
+- [ ] Be willing to learn from others
+- [ ] Be willing to share your knowledge with others
+
+> [!NOTE]
+> Code review is a two-way street. You should be open to receiving feedback, but you should also be open to giving feedback. If you see something that you think could be improved, please provide feedback respectfully. We want to make sure that we are creating a positive and inclusive environment for everyone.
 
 ### CI/CD Jobs
 
-Time to get a bit more technical. CI/CD (Continuous Integration and Continuous Delivery/Development) Jobs are crucial to ensuring that our codebase remains clean, reliable, and secure. These automated processes help catch formatting issues, typos, and code that doesn't follow our project's conventions before it makes it to our main branch. They also catch any vulnerabilities in our code early.
-
+Time to get a bit more technical. [CI/CD](https://github.com/resources/articles/devops/ci-cd) means Continuous Integration and Continuous Deployment and serves as our way of implementing defensive programming in our development workflow. (Continuous Integration and Continuous Delivery/Development) Jobs are crucial to ensuring that our codebase remains clean, reliable, and secure. These automated processes help catch formatting issues, typos, and code that doesn't follow our project's conventions before it makes it to our main branch. They also catch any vulnerabilities in our code early.
 In this project, we use three main CI/CD jobs to help uphold the principles of defensive software development:
 
 - `python-package.yml`  

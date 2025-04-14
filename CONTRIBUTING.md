@@ -46,7 +46,7 @@ git checkout -b <new_branch_name>
 > git branch
 > ```
 
-Please test your code! Here are instructions to testing the bot.
+Please test your code! Here are instructions for testing the bot.
 
 ### Testing the Bot Locally
 
@@ -67,7 +67,7 @@ Since we currently don't have a hosting solution, you'll need to run the bot loc
    python main.py
    ```
 
-The bot will start up and connect to Discord. You can test your changes by interacting with the bot in your Discord server. Make sure to test all the functionality you've modified or added to ensure everything works as expected.
+The bot will start up and connect to Discord. You can test your changes by interacting with the bot on your Discord server. Make sure to test all the functionality you've modified or added to ensure everything works as expected.
 
 > [!NOTE]
 > Keep our bot token secure and never commit it to the repository. The `.env` file is already in the `.gitignore` to prevent accidental commits.

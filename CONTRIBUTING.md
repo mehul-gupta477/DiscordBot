@@ -137,8 +137,7 @@ We want to make sure that we are creating a positive and inclusive environment f
 
 ### CI/CD Jobs
 
-Time to get a bit more technical. [CI/CD](https://github.com/resources/articles/devops/ci-cd) means Continuous Integration and Continuous Deployment and is a stands as our way of implementing defensive programming in our devolpement workflow. (Continuous Integration and Continuous Delivery/Development) Jobs are crucial to ensuring that our codebase remains clean, reliable, and secure. These automated processes help catch formatting issues, typos, and code that doesn't follow our project's conventions before it makes it to our main branch. They also catch any vulnerabilities in our code early.
-
+Time to get a bit more technical. [CI/CD](https://github.com/resources/articles/devops/ci-cd) means Continuous Integration and Continuous Deployment and serves as our way of implementing defensive programming in our development workflow. (Continuous Integration and Continuous Delivery/Development) Jobs are crucial to ensuring that our codebase remains clean, reliable, and secure. These automated processes help catch formatting issues, typos, and code that doesn't follow our project's conventions before it makes it to our main branch. They also catch any vulnerabilities in our code early.
 In this project, we use three main CI/CD jobs to help uphold the principles of defensive software development:
 
 - `python-package.yml`  

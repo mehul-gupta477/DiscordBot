@@ -23,7 +23,8 @@ by running `nox` which will run `black` and `ruff` to check the local
 code formatting and lint. You will need to have [nox](https://github.com/wntrblm/nox)
 installed to run this command. You can do this with `pip install -U nox`.
 
-If black returns a code formatting error, you can run `nox -s format` to
+>[!NOTE]
+>If black returns a code formatting error, you can run `nox -s format` to
 automatically update the code formatting to conform to the style. However,
 if `ruff` returns any error, you will have to resolve these issues by manually updating your code.
 
@@ -84,7 +85,9 @@ git push # Pushes changes to upstream
 
 ### Creating a Pull Request Draft
 
-Once you do that you can create a draft pull request on GitHub. You can do this by visting the Pull Request tab within the project repo. There should be a prompt that looks similar to this:
+Once you have established a upstream tracking for your the branch, navigate to the GitHub repository's `Pull requests` section. You should see a button that says `Compare & pull request`.
+
+It should look similar to this:
 
 ![image](images/pull_request_ex1.png)
 

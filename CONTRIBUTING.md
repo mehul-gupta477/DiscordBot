@@ -98,7 +98,7 @@ Click the dropdown menu of the `Create pull request` button:
 
 And then create a draft pull request. Now you can see if your changes pass the [CI/CD](https://github.com/innovateorange/DiscordBot/actions) checks. From here you can work on your changes until it is ready for review.
 
-Before you submit your code for review, please make sure that you have done the following:
+Before submitting your code for review, please ensure that you have completed the following:
 
 - [ ] Ensure that your code passes all of the [CI/CD](https://github.com/innovateorange/DiscordBot/actions) checks
 - [ ] You have added tests for any new features
@@ -112,18 +112,17 @@ Once you have ensured that you have done all of the above, you can convert your 
 
 ![image](images/pull_request_ex5.png)
 
-Once you do that you are ready for code review!
+Once you do that, you are ready for code review!
 
 ### Code Review
 
-Congrats you have made it to the part where you interact with people! Code review is an opportunity for other people to review your changes and offer you feedback. It's important to make sure that you keep an open minded in this process. Receiving feedback can be hard to begin with, but with respectful communication it will help you gain the skills of a mature software engineer.
-
+Congrats you have made it to the part where you interact with people! Code review is an opportunity for other people to review your changes and offer you feedback. It's important to make sure that you keep an open-minded in this process. Receiving feedback can be challenging initially, but with respectful communication it will help you gain the skills of a mature software engineer.
 
 When it comes to code review, there are a few things that you should keep in mind:
 
 - [ ] Be respectful and kind to your reviewers
 - [ ] Be open to feedback and suggestions
-- [ ] Be willing to make changes to your code based on feedback
+- [ ] Be open to revising your code based on feedback.
 - [ ] Be willing to ask questions if you don't understand something
 - [ ] Be willing to offer feedback to others
 - [ ] Be willing to help others if they are struggling with something
@@ -131,9 +130,7 @@ When it comes to code review, there are a few things that you should keep in min
 - [ ] Be willing to share your knowledge with others
 
 > [!NOTE]
-> Code review is a two way street. You should be open to receiving feedback, but you should also be open to giving feedback. If you see something that you think could be improved, please offer your feedback in a respectful manner.
-
-We want to make sure that we are creating a positive and inclusive environment for everyone. If you see something that you think could be improved, please offer your feedback in a respectful manner.
+> Code review is a two-way street. You should be open to receiving feedback, but you should also be open to giving feedback. If you see something that you think could be improved, please provide feedback respectfully. We want to make sure that we are creating a positive and inclusive environment for everyone.
 
 ### CI/CD Jobs
 

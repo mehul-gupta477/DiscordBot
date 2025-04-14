@@ -46,6 +46,33 @@ git checkout -b <new_branch_name>
 > git branch
 > ```
 
+Please test your code! Here are instructions to testing the bot.
+
+### Testing the Bot Locally
+
+Since we currently don't have a hosting solution, you'll need to run the bot locally to test your changes. Here's how to do it:
+
+1. Make sure you have all the required dependencies installed:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. Create a `.env` file in the root directory with your bot token (you can find this on our BitWarden):
+   ```
+   DISCORD_TOKEN=your_bot_token_here
+   ```
+
+3. Run the bot:
+   ```bash
+   python main.py
+   ```
+
+The bot will start up and connect to Discord. You can test your changes by interacting with the bot in your Discord server. Make sure to test all the functionality you've modified or added to ensure everything works as expected.
+
+> [!NOTE]
+> Keep our bot token secure and never commit it to the repository. The `.env` file is already in the `.gitignore` to prevent accidental commits.
+
+
 Once you are ready to push your code to the branch that you created, you have to stage the changes.
 
 ### Staging your changes

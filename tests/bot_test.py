@@ -5,6 +5,7 @@
 import unittest
 from unittest.mock import AsyncMock, MagicMock, patch
 from bot import bot, run_bot  # Import the bot instance directly
+import discord
 
 
 class TestCSClubBot(unittest.IsolatedAsyncioTestCase):
@@ -63,11 +64,23 @@ class TestCSClubBot(unittest.IsolatedAsyncioTestCase):
         "os.getenv", side_effect=lambda key: "" if key == "DISCORD_BOT_TOKEN" else None
     )
     @patch("bot.load_dotenv", return_value=True)
-    def test_env_with_token(self, mock_load_dotenv, mock_getenv):
+    def test_env_with_empty_token(self, mock_load_dotenv, mock_getenv):
         """Test if .env is found but DISCORD_BOT_TOKEN is empty"""
         with self.assertRaises(AssertionError) as cm:
             run_bot()
         self.assertIn("DISCORD_BOT_TOKEN can not be empty", str(cm.exception))
+
+    @patch("bot.bot.run")
+    @patch(
+        "os.getenv",
+        side_effect=discord.LoginFailure("invalid_token"),
+    )
+    @patch("bot.load_dotenv", return_value=True)
+    def test_env_with_invalid_token(self, mock_load_dotenv, mock_getenv, mock_bot_run):
+        """Test if .env is found and DISCORD_BOT_TOKEN is invalid"""
+        with self.assertRaises(discord.LoginFailure) as cm:
+            run_bot()
+        self.assertIn("invalid_token", str(cm.exception))
 
     @patch("bot.bot.run")
     @patch(
@@ -83,4 +96,4 @@ class TestCSClubBot(unittest.IsolatedAsyncioTestCase):
 
 if __name__ == "__main__":
     # Run the tests when the file is executed directly
-    unittest.main()
+    unittest.main(verbosity=2)

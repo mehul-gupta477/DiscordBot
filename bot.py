@@ -74,7 +74,11 @@ def run_bot():
     if load_dotenv():
         token = os.getenv("DISCORD_BOT_TOKEN")
         assert token != "", "DISCORD_BOT_TOKEN can not be empty"
-        bot.run(token)
+        try:
+            bot.run(token)
+        except discord.LoginFailure:
+            print("Invalid token provided. Please check your .env file.")
+            sys.exit(1)
     else:
         print("environment file does not found")
         sys.exit(1)

@@ -37,14 +37,13 @@ jobs:
           cache: 'pip'
       - name: Cache pip dependencies
         uses: actions/cache@v4
-        continue-on-error: true
+        # continue-on-error: true
         with:
           path: |
             ~/.cache/pip
             ~/.cache/nox
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}-${{ hashFiles('**/pyproject.toml') }}-${{ hashFiles('**/noxfile.py') }}
           restore-keys: |
-            ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
             ${{ runner.os }}-pip-
       - name: Debug cache setup
         run: |

@@ -32,25 +32,25 @@ if `ruff` returns any error, you will have to resolve these issues by manually u
 
 This is where contributions begin within our project.
 
-We use custom issue templates to streamline how you report bugs, suggest new features, or track tasks. When creating a new issue, click **"New Issue"** amd select the appropriate template:
+We use custom issue templates to streamline how you report bugs, suggest new features, or track tasks. When creating a new issue, click **"New Issue"** and select the appropriate template:
 
 - **Bug Report**
 
   Use this template if something isn't working as expected. You'll be prompted to
   - Describe what happened and what you expected.
-  - Outline the steps to reporduce the issue.
-  - Optionally attatch screenshots or logs.
+  - Outline the steps to reproduce the issue.
+  - Optionally attach screenshots or logs.
 - **Feature Request**
 
-  Use this when suggesting anew idea or improvement. You'll be asked to:
+  Use this when suggesting a new idea or improvement. You'll be asked to:
   - Describe the feature and its purpose.
   - Explain the motivation or problem it solves.
   - Suggest possible alternatives or solutions.
 
 > [!NOTE] 
-> For all other issue types (i.e. documentation, research, workflows), please fill out a blank issue to the best of your ability stating all information needed in order to resolve the task.
+> For all other issue types (e.g., documentation, research, workflows), please fill out a blank issue stating the information needed to resolve the task.
 
-> These templates ensure that issues are organized, and easier for maintainers to address. Please fill them out thoroughly!
+> These templates ensure that issues are organized and easier for maintainers to address. Please fill them out thoroughly!
 
 ### Creating a new branch
 

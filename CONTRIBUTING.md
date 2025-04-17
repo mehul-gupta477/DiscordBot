@@ -32,7 +32,13 @@ if `ruff` returns any error, you will have to resolve these issues by manually u
 
 This is where contributions begin within our project.
 
-We use custom issue templates to streamline how you report bugs, suggest new features, or track tasks. When creating a new issue, click **"New Issue"** and select the appropriate template:
+We use custom issue templates to streamline how you report bugs, suggest new features, or track tasks. To create an issue within the repository:
+1. Navigate to the main page of the repository.
+2. Under the repository named, click **Issues**.
+![image](https://github.com/user-attachments/assets/de42d43f-b0ea-4e4d-a5c9-b5bafaa30cec)
+3. click **New Issue**
+![image](https://cdn.discordapp.com/attachments/280059731249201164/1362294261743091774/Screenshot_2025-04-17_011024.png?ex=6801dee6&is=68008d66&hm=f75358fbe9364f0603011d762c8aca450227d431f1e3133ddf5f60cf54feccc2&)
+5. Choose an issue template that is relevent to the task you are creating based on the following:
 
 - **Bug Report**
 

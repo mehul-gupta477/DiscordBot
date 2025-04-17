@@ -34,11 +34,12 @@ This is where contributions begin within our project.
 
 We use custom issue templates to streamline how you report bugs, suggest new features, or track tasks. To create an issue within the repository:
 1. Navigate to the main page of the repository.
-2. Under the repository named, click **Issues**.
-![image](https://github.com/user-attachments/assets/de42d43f-b0ea-4e4d-a5c9-b5bafaa30cec)
-3. click **New Issue**
-![image](https://cdn.discordapp.com/attachments/280059731249201164/1362294261743091774/Screenshot_2025-04-17_011024.png?ex=6801dee6&is=68008d66&hm=f75358fbe9364f0603011d762c8aca450227d431f1e3133ddf5f60cf54feccc2&)
-5. Choose an issue template that is relevent to the task you are creating based on the following:
+2. Under the repository name, click **Issues**.
+![Screenshot of Issues tab](https://github.com/user-attachments/assets/de42d43f-b0ea-4e4d-a5c9-b5bafaa30cec)
+3. Click **New Issue**
+![Screenshot of New Issue button](https://cdn.discordapp.com/attachments/280059731249201164/1362294261743091774/Screenshot_2025-04-17_011024.png?ex=6801dee6&is=68008d66&hm=f75358fbe9364f0603011d762c8aca450227d431f1e3133ddf5f60cf54feccc2&)
+4. Choose an issue template that is relevant to the task you are creating based on the following:
+![Screenshot of Issue Templates](https://cdn.discordapp.com/attachments/280059731249201164/1362297577982136420/image.png?ex=6801e1fc&is=6800907c&hm=43d4fde8f4efb9f2c5938a6a46f568c3e4335fbf936b6513f9af51353f9bd45d&)
 
 - **Bug Report**
 
@@ -56,7 +57,7 @@ We use custom issue templates to streamline how you report bugs, suggest new fea
 > [!NOTE] 
 > For all other issue types (e.g., documentation, research, workflows), please fill out a blank issue stating the information needed to resolve the task.
 
-> These templates ensure that issues are organized and easier for maintainers to address. Please fill them out thoroughly!
+These templates ensure that issues are organized and easier for maintainers to address. Please fill them out thoroughly!
 
 ### Creating a new branch
 

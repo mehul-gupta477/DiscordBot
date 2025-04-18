@@ -8,8 +8,6 @@ on:
       - '**/*.py'
       - '**/*.pyi'
       - 'requirements.txt'
-      - 'setup.py'
-      - 'pyproject.toml'
       - 'noxfile.py'
   pull_request:
     branches: ["main", 'stable/*']
@@ -17,8 +15,6 @@ on:
       - '**/*.py'
       - '**/*.pyi'
       - 'requirements.txt'
-      - 'setup.py'
-      - 'pyproject.toml'
       - 'noxfile.py'
 jobs:
   build:

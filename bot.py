@@ -3,9 +3,8 @@
 import discord
 from discord.ext import commands
 import os
+import sys
 from dotenv import load_dotenv
-
-load_dotenv()
 
 # Set up Discord Intents to enable bot to receive message events
 intents = discord.Intents.default()
@@ -15,11 +14,13 @@ intents.message_content = True  # Required to read message content (needed for c
 # Initialize bot with command prefix '!' and specified intents
 bot = commands.Bot(command_prefix="!", intents=intents, help_command=None)
 
+
 # prints a message when the bot is ready in the terminal.
 @bot.event
 async def on_ready():
     """Event: Called when the bot logs in successfully."""
-    print(f'✅ Logged in as {bot.user}')
+    print(f"✅ Logged in as {bot.user}")
+
 
 # !help command placeholder
 @bot.command()
@@ -34,6 +35,7 @@ async def help(ctx):
     )
     await ctx.send(help_message)
 
+
 # !resume command placeholder
 @bot.command()
 async def resume(ctx):
@@ -41,6 +43,7 @@ async def resume(ctx):
     await ctx.send(
         "📄 Resume Resources: https://www.reddit.com/r/EngineeringResumes/wiki/index/"
     )
+
 
 # !events command placeholder
 @bot.command()
@@ -52,6 +55,7 @@ async def events(ctx):
         "- April 19: LeetCode Challenge Night\n"
         "- April 26: Final Meeting + Pizza 🍕"
     )
+
 
 # !resources command placeholder
 @bot.command()
@@ -66,9 +70,21 @@ async def resources(ctx):
     )
 
 
+def run_bot():
+    if load_dotenv():
+        token = os.getenv("DISCORD_BOT_TOKEN")
+        assert token != "", "DISCORD_BOT_TOKEN can not be empty"
+        try:
+            bot.run(token)
+        except discord.LoginFailure:
+            print("Invalid token provided. Please check your .env file.")
+            sys.exit(1)
+    else:
+        print("environment file does not found")
+        sys.exit(1)
+
 
 if __name__ == "__main__":
-    # Probably not the best way to do this, but it works for now
-    bot.run(os.getenv("DISCORD_BOT_TOKEN"))
-# to run the bot, run the command: python Bot.py in the folder containing the file. 
-# make sure you have the discord.py library installed. 
+    run_bot()
+# to run the bot, run the command: python bot.py in the folder containing the file.
+# make sure you have the discord.py library installed.

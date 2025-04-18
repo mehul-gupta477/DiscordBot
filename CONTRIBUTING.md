@@ -67,7 +67,7 @@ Working on Python projects, it's generally a good idea to use virtual environmen
     python -m pip install --upgrade pip
     pip install -r requirements.txt
     ```
-
+`
 **Deactivating (All Platforms):**
 
 When you're done working, deactivate the virtual environment by running:
@@ -109,7 +109,7 @@ Since we currently don't have a hosting solution, you'll need to run the bot loc
    ```
 
 2. Create a `.env` file in the root directory with your bot token (you can find this on our BitWarden):
-   ```
+   ```env
    DISCORD_TOKEN=your_bot_token_here
    ```
 

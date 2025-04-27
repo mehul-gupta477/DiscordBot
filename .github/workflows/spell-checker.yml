@@ -8,8 +8,13 @@ on:
 jobs:
   yaml-format:
     runs-on: ubuntu-latest
+jobs:
+  yaml-format:
+    runs-on: ubuntu-latest
     steps:
-      steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Check Spelling
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Check Spelling

@@ -1,11 +1,11 @@
 name: Spell Checker
 on:
+  workflow_dispatch:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
 
-jobs:
 jobs:
   spell-check:
     runs-on: ubuntu-latest
@@ -17,3 +17,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true
+        

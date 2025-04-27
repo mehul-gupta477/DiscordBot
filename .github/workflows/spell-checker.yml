@@ -6,7 +6,8 @@ on:
     branches: [ main ]
 
 jobs:
-  yaml-format:
+jobs:
+  spell-check:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository

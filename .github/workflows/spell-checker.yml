@@ -15,9 +15,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Check Spelling
-      - name: Checkout repository
-        uses: actions/checkout@v3
-      - name: Check Spelling
         uses: check-spelling/check-spelling@v0.0.24
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

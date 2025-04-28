@@ -57,7 +57,7 @@ async def events(ctx):
     )
 
 
-# !resources command placeholders
+# !resources command placeholderss
 @bot.command()
 async def resources(ctx):
     """Command: Sends recommended CS learning resources."""
@@ -86,5 +86,5 @@ def run_bot():
 
 if __name__ == "__main__":
     run_bot()
-# to run the bot, run the command: python bot.py in the folder containing the file.
+# to run the bot, run the command: python bot.py in the folder containing the file.s
 # make sure you have the discord.py library installed.

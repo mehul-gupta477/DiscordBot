@@ -57,7 +57,7 @@ async def events(ctx):
     )
 
 
-# !resources command placeholder
+# !resources command placeholders
 @bot.command()
 async def resources(ctx):
     """Command: Sends recommended CS learning resources."""

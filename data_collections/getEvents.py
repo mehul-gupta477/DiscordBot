@@ -67,7 +67,6 @@ def getEvents(url):
         }
 
         events.append(event)  # list of each event which is stored in a dictionary
-    print
     return events
 
 

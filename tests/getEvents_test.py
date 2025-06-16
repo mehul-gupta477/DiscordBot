@@ -1,5 +1,5 @@
 from data_collections.getEvents import getEvents
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 import unittest
 
 sample_return = {
@@ -15,8 +15,28 @@ sample_return = {
 
 
 class TestGetEvents(unittest.TestCase):
-    # Test that the method returns an empty list when the URL is invalid
+    """Test suite for the getEvents function"""
 
+    # Test that the function raises an error when the URL is malformed
+    @patch("feedparser.parse")
+    def test_malformed_url(self, mock_parse):
+        mock_parse.side_effect = Exception("Malformed URL")
+        with self.assertRaises(RuntimeError) as context:
+            getEvents("http://malformed-url")
+        self.assertIn("Failed to parse the RSS feed", str(context.exception))
+
+    # Test that the function raises an error when the RSS feed is malformed
+    @patch("feedparser.parse")
+    def test_malformed_rss_feed(self, mock_parse):
+        mock_data = MagicMock()
+        mock_data.bozo = True
+        mock_data.bozo_exception = "Malformed RSS feed"
+        mock_parse.return_value = mock_data
+        with self.assertRaises(RuntimeError) as context:
+            getEvents("http://malformed-rss-feed.com/rss")
+        self.assertIn("Malfored RSS feed", str(context.exception))
+
+    # Test that the function returns an empty list when no entries are found
     @patch("feedparser.parse")
     def test_invalid_url(self, mock_parse):
         mock_parse.return_value = {"entries": []}

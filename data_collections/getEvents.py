@@ -1,10 +1,10 @@
 import feedparser
-from dotenv import load_dotenv
 import re
 import datetime
 
 # Load environment variables from a .env file, most likely going to be used outside of this file
-#load_dotenv()
+# load_dotenv()
+
 
 def getEvents(url):
     """
@@ -22,11 +22,19 @@ def getEvents(url):
         - Location: The location of the event.
         - link: The link to the event details.
     """
+    try:
+        data = feedparser.parse(url)
+    except Exception as e:
+        raise RuntimeError(f"Failed to parse the RSS feed from {url}: {e}")
 
-    data = feedparser.parse(url)
+    if getattr(data, "bozo", False):
+        raise RuntimeError(
+            f"Malfored RSS feed {url!r}: {getattr(data, 'bozo_exception', '')}"
+        )
+
     events = []
 
-    for entry in data["entries"]:
+    for entry in data.get("entries", []):
         # Splits the title to remove the date in parentheses
         title = re.split(r"\s*\([^()]*\s*\d{4}", entry.get("title", ""))[0].strip()
         descrip = entry.get("description", "")
@@ -67,7 +75,6 @@ def getEvents(url):
         }
 
         events.append(event)  # list of each event which is stored in a dictionary
-    print
     return events
 
 

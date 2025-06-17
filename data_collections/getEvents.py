@@ -29,14 +29,14 @@ def getEvents(url):
 
     if getattr(data, "bozo", False):
         raise RuntimeError(
-            f"Malfored RSS feed {url!r}: {getattr(data, 'bozo_exception', '')}"
+            f"Malformed RSS feed {url!r}: {getattr(data, 'bozo_exception', '')}"
         )
 
     events = []
 
     for entry in data.get("entries", []):
         # Splits the title to remove the date in parentheses
-        title = re.split(r"\s*\([^()]*\s*\d{4}", entry.get("title", ""))[0].strip()
+        title = re.sub(r"\s*\([^()]*\d{4}\)\s*$", "", entry.get("title", "")).strip()
         descrip = entry.get("description", "")
         when = ""
         location = ""
@@ -71,7 +71,7 @@ def getEvents(url):
             "pubDate": entry.get("published", ""),
             "Location": location,
             "link": entry.get("link", ""),
-            "entryDate": datetime.datetime.now(),
+            "entryDate": datetime.datetime.now(tz=datetime.timezone.utc),
         }
 
         events.append(event)  # list of each event which is stored in a dictionary

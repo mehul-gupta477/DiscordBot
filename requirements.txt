@@ -3,5 +3,5 @@ nox==2025.5.1
 ruff==0.11.13
 black==25.1.0
 feedparser==6.0.11
-coverage==7.9.0
+coverage==7.9.1
 python-dotenv==1.1.0

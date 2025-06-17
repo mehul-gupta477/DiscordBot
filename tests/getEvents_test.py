@@ -28,13 +28,10 @@ class TestGetEvents(unittest.TestCase):
     # Test that the function raises an error when the RSS feed is malformed
     @patch("feedparser.parse")
     def test_malformed_rss_feed(self, mock_parse):
-        mock_data = MagicMock()
-        mock_data.bozo = True
-        mock_data.bozo_exception = "Malformed RSS feed"
-        mock_parse.return_value = mock_data
+        mock_parse.return_value = MagicMock(bozo=True, bozo_exception="Malformed feed")
         with self.assertRaises(RuntimeError) as context:
             getEvents("http://malformed-rss-feed.com/rss")
-        self.assertIn("Malfored RSS feed", str(context.exception))
+        self.assertIn("Malformed RSS feed", str(context.exception))
 
     # Test that the function returns an empty list when no entries are found
     @patch("feedparser.parse")

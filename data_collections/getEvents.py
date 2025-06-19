@@ -2,9 +2,6 @@ import feedparser
 import re
 import datetime
 
-# Load environment variables from a .env file, most likely going to be used outside of this file
-# load_dotenv()
-
 
 def getEvents(url):
     """

@@ -76,17 +76,3 @@ def getEvents(url):
 
         events.append(event)  # list of each event which is stored in a dictionary
     return events
-
-
-# Temporary code to test the function
-# Remove and place in correct function call area when integrating into production
-# Most likely going to be ran by a cron job or similar scheduler
-# if __name__ == "__main__":
-#     # Load the URL from environment variables and call the function
-#     try:
-#         url = os.getenv("url")
-#         if not url:
-#             raise ValueError("URL not found in environment variables.")
-#     except ValueError as e:
-#         print(f"Error: {e}")
-#     getEvents(url)

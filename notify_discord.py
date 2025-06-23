@@ -22,16 +22,20 @@ def post_to_discord(message: str):
     response.raise_for_status()
 
 
+def generate_developer_list(assignees):
+    return [
+        f"<@{user_map[user['login']]}>"
+        for user in assignees
+        if user["login"] in user_map
+    ]
+
+
 def notify_assignment(obj):
     title = obj.get("title", "Untitled")
     url = obj.get("html_url", "")
     assignees = obj.get("assignees", [])
 
-    mentions = [
-        f"<@{user_map[user['login']]}>"
-        for user in assignees
-        if user["login"] in user_map
-    ]
+    mentions = generate_developer_list(assignees)
 
     if mentions:
         message = (
@@ -47,11 +51,7 @@ def notify_review_request(pr_obj):
     url = pr_obj.get("html_url", "")
     reviewers = pr_obj.get("requested_reviewers", [])
 
-    mentions = [
-        f"<@{user_map[user['login']]}>"
-        for user in reviewers
-        if user["login"] in user_map
-    ]
+    mentions = generate_developer_list(reviewers)
     if mentions:
         message = (
             f"🔍 **Review Requested**\n"
@@ -59,6 +59,7 @@ def notify_review_request(pr_obj):
             f"👤 Reviewers: {', '.join(mentions)}"
         )
         post_to_discord(message)
+
 
 
 # Notify review state changes to the assignee

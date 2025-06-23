@@ -14,6 +14,8 @@ with open("user_map.json", "r") as f:
     user_map = json.load(f)
 
 webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
+if not webhook_url:
+    raise ValueError("DISCORD_WEBHOOK_URL environment variable is missing or empty.")
 
 
 def post_to_discord(message: str):

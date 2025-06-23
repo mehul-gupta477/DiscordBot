@@ -7,10 +7,8 @@ import re
 event_name = os.getenv("GITHUB_EVENT_NAME")
 with open(os.getenv("GITHUB_EVENT_PATH"), "r") as f:
     event = json.load(f)
-event_action = event.get("action")
 
-with open(os.getenv("GITHUB_EVENT_PATH"), "r") as f:
-    event = json.load(f)
+event_action = event.get("action")
 
 with open("user_map.json", "r") as f:
     user_map = json.load(f)

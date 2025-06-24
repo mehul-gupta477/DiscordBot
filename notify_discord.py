@@ -5,7 +5,14 @@ import re
 
 # Load GitHub context and event payload
 event_name = os.getenv("GITHUB_EVENT_NAME")
-with open(os.getenv("GITHUB_EVENT_PATH"), "r") as f:
+if not event_name:
+    raise ValueError("GITHUB_EVENT_NAME environment variable is not set")
+
+event_path = os.getenv("GITHUB_EVENT_PATH")
+if not event_path:
+    raise ValueError("GITHUB_EVENT_PATH environment variable is not set")
+
+with open(event_path, "r") as f:
     event = json.load(f)
 
 event_action = event.get("action")
@@ -19,6 +26,8 @@ if not webhook_url:
 
 
 def post_to_discord(message: str):
+    if not webhook_url:
+        raise ValueError("DISCORD_WEBHOOK_URL environment variable is not set")
     payload = {"content": message}
     response = requests.post(webhook_url, json=payload)
     response.raise_for_status()

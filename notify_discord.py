@@ -72,7 +72,6 @@ def notify_review_request(pr_obj):
         post_to_discord(message)
 
 
-
 # Notify review state changes to the assignee
 def notify_review_state_change(pr_obj, state: str):
     title = pr_obj.get("title", "Untitled")

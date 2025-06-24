@@ -137,7 +137,7 @@ class TestNotifyDiscord(unittest.TestCase):
                 import notify_discord
 
             self.assertIn(
-                "DISCORD_WEBHOOK_URL environment variable is missing or empty",
+                "DISCORD_WEBHOOK_URL environment variable is missing or empty.",
                 str(context.exception),
             )
 

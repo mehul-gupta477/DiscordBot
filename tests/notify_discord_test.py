@@ -9,6 +9,10 @@ class TestNotifyDiscord(unittest.TestCase):
         # Remove the module if it was already imported to ensure clean import
         if "notify_discord" in sys.modules:
             del sys.modules["notify_discord"]
+    
+    def tearDown(self):
+        # Ensure notify_discord is removed after each test
+        sys.modules.pop("notify_discord", None)
 
     @patch("requests.post")
     def test_successful_post_to_discord(self, mock_post):

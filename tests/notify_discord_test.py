@@ -71,7 +71,7 @@ class TestNotifyDiscord(unittest.TestCase):
 
             # Test that ValueError is raised when event name is missing
             with self.assertRaises(ValueError) as context:
-                pass
+                import notify_discord
 
             self.assertIn(
                 "GITHUB_EVENT_NAME environment variable is not set",
@@ -96,7 +96,7 @@ class TestNotifyDiscord(unittest.TestCase):
 
             # Test that ValueError is raised when event path is missing
             with self.assertRaises(ValueError) as context:
-                pass
+                import notify_discord
 
             self.assertIn(
                 "GITHUB_EVENT_PATH environment variable is not set",
@@ -130,7 +130,7 @@ class TestNotifyDiscord(unittest.TestCase):
 
             # Test that ValueError is raised during module import
             with self.assertRaises(ValueError) as context:
-                pass
+                import notify_discord
 
             self.assertIn(
                 "DISCORD_WEBHOOK_URL environment variable is missing or empty",

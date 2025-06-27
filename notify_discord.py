@@ -159,3 +159,6 @@ def main():
         comment_body = event["comment"]["body"]
         context_obj = event.get("issue") or event.get("pull_request", {})
         notify_comment_mention(comment_body, context_obj, user_map, webhook_url)
+
+if __name__ == "__main__":
+    main()

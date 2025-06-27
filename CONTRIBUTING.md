@@ -264,9 +264,9 @@ Dependabot automatically monitors our dependencies and opens pull requests when 
 ### Updating the Discord Notifier
 
 > [!NOTE]
-Only the Project Manager is able update the contributers within the Discord Notifier as they will be the only ones with access to this file.
+Only the Project Manager is able to update the contributors within the Discord Notifier, as they will be the only ones with access to this file.
 
-Our project uses discord webhooks & github workflows to enable us with discord notifications directly from Github! We have three files (one being secret) in order to accomplish this. They are as follows:
+Our project uses discord webhooks & github workflows to enable us with discord notifications directly from Github! We have three files (one being secret) to accomplish this. They are as follows:
 - `discord_notify.yml`    
 GitHub Workflow file that tells Github what events to look for to run the `notify_discord.py` script
 - `notify_discord.py`    
@@ -276,12 +276,12 @@ JSON file that contains the mapping of each contributer's GitHub username to the
 
 The only file that should ever be updated is the `user_map.json` file, that being when a new member would join the project.
 
-Before we begin let's decode our user_map.json base64 string by running the following command in your terminal:
-```
+Before we begin, let's decode our user_map.json base64 string by running the following command in your terminal:
+```bash
 echo "STRING-GOES-HERE" | base64 -d
 ```
 
-From here you can create a temporary file (I use user_map.json) and copy what was outputted on the terminal into that file. That way you can now modify the file!
+From here you can create a temporary file (I use user_map.json) and copy what was outputted on the terminal into that file. That way, you can now modify the file!
 
 Now you'll have to grab both the contributer's GitHub Username and DiscordID.
 
@@ -291,12 +291,12 @@ To grab the contributer's DiscordID, do the following:
 3. Click "Copy User ID"
 
 Now that you have the contributer's DiscordID, map their GitHub username to their DiscordID with the JSON's structure:
-```
+```json
 "GitHub_Username": <DiscordID>
 ```
 
 Now let's encode that that file by running the following command in your terminal:
-```
+```bash
 cat user_map.json | base64
 ```
 

@@ -89,7 +89,6 @@ def notify_review_state_change(pr_obj, state: str, user_map, webhook_url):
     title = pr_obj.get("title", "Untitled")
     url = pr_obj.get("html_url", "")
     assignee = pr_obj.get("assignee", {})
-
     mentioned_assignee = f"<@{user_map[assignee['login']]}>"
 
     message = (

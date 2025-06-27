@@ -1,5 +1,6 @@
 import unittest
 import sys
+import notify_discord
 from unittest.mock import patch, mock_open, MagicMock
 
 
@@ -46,7 +47,7 @@ class TestNotifyDiscord(unittest.TestCase):
             import notify_discord
 
             # Test the function
-            notify_discord.post_to_discord("Test Message")
+            notify_discord.post_to_discord("Test Message", "https://fake.webhook.url")
 
             # Verify the request was made
             mock_post.assert_called_once_with(
@@ -55,23 +56,14 @@ class TestNotifyDiscord(unittest.TestCase):
 
     def test_missing_github_event_name(self):
         # Mock environment variables without event name
-        with patch("os.getenv") as mock_getenv, patch(
-            "builtins.open", mock_open(read_data='{"user1": "123456789"}')
-        ):
+        with patch("os.getenv") as mock_getenv:
+            mock_getenv.side_effect = lambda k: {
+                "GITHUB_EVENT_NAME": None,
+                "GITHUB_EVENT_PATH": "dummy_path",
+            }.get(k)
 
-            def getenv_side_effect(key):
-                env_vars = {
-                    "GITHUB_EVENT_NAME": None,
-                    "GITHUB_EVENT_PATH": "event.json",
-                    "DISCORD_WEBHOOK_URL": "https://fake.webhook.url",
-                }
-                return env_vars.get(key)
-
-            mock_getenv.side_effect = getenv_side_effect
-
-            # Test that ValueError is raised when event name is missing
             with self.assertRaises(ValueError) as context:
-                import notify_discord
+                notify_discord.load_event_context()
 
             self.assertIn(
                 "GITHUB_EVENT_NAME environment variable is not set",
@@ -80,23 +72,14 @@ class TestNotifyDiscord(unittest.TestCase):
 
     def test_missing_github_event_path(self):
         # Mock environment variables without event path
-        with patch("os.getenv") as mock_getenv, patch(
-            "builtins.open", mock_open(read_data='{"user1": "123456789"}')
-        ):
+        with patch("os.getenv") as mock_getenv:
+            mock_getenv.side_effect = lambda k: {
+                "GITHUB_EVENT_NAME": "dummy_name",
+                "GITHUB_EVENT_PATH": None,
+            }.get(k)
 
-            def getenv_side_effect(key):
-                env_vars = {
-                    "GITHUB_EVENT_NAME": "issues",
-                    "GITHUB_EVENT_PATH": None,
-                    "DISCORD_WEBHOOK_URL": "https://fake.webhook.url",
-                }
-                return env_vars.get(key)
-
-            mock_getenv.side_effect = getenv_side_effect
-
-            # Test that ValueError is raised when event path is missing
             with self.assertRaises(ValueError) as context:
-                import notify_discord
+                notify_discord.load_event_context()
 
             self.assertIn(
                 "GITHUB_EVENT_PATH environment variable is not set",
@@ -105,77 +88,144 @@ class TestNotifyDiscord(unittest.TestCase):
 
     def test_missing_discord_webhook_url(self):
         # Mock environment variables without webhook URL
-        with patch("os.getenv") as mock_getenv, patch(
-            "builtins.open", mock_open()
-        ) as mock_file:
-
-            def getenv_side_effect(key):
-                env_vars = {
-                    "GITHUB_EVENT_NAME": "issues",
-                    "GITHUB_EVENT_PATH": "event.json",
-                    "DISCORD_WEBHOOK_URL": None,
-                }
-                return env_vars.get(key)
-
-            mock_getenv.side_effect = getenv_side_effect
-
-            # Mock event.json and user_map.json files
-            event_data = '{"action": "opened", "issue": {"title": "Test Issue", "html_url": "https://github.com/test", "assignees": []}}'
-            user_map_data = '{"user1": "123456789"}'
-
-            mock_file.side_effect = [
-                mock_open(read_data=event_data).return_value,
-                mock_open(read_data=user_map_data).return_value,
-            ]
-
-            # Test that ValueError is raised during module import
+        with patch("os.getenv", return_value=None):
             with self.assertRaises(ValueError) as context:
-                import notify_discord
-
+                notify_discord.load_webhook_url()
             self.assertIn(
-                "DISCORD_WEBHOOK_URL environment variable is missing or empty",
+                "DISCORD_WEBHOOK_URL environment variable is missing or empty.",
                 str(context.exception),
             )
 
-    @patch("requests.post")
-    def test_post_to_discord_function_with_missing_webhook(self, mock_post):
-        # Test the actual function behavior when webhook_url is None
+    def test_valid_context_load(self):
+        mock_event_json = '{"action": "opened", "issue": {"title": "Test Issue"}}'
+
         with patch("os.getenv") as mock_getenv, patch(
-            "builtins.open", mock_open()
-        ) as mock_file:
+            "builtins.open", mock_open(read_data=mock_event_json)
+        ):
 
-            def getenv_side_effect(key):
-                env_vars = {
-                    "GITHUB_EVENT_NAME": "issues",
-                    "GITHUB_EVENT_PATH": "event.json",
-                    "DISCORD_WEBHOOK_URL": "https://fake.webhook.url",  # Set valid URL for import
-                }
-                return env_vars.get(key)
+            mock_getenv.side_effect = lambda k: {
+                "GITHUB_EVENT_NAME": "issues",
+                "GITHUB_EVENT_PATH": "event.json",
+            }.get(k)
 
-            mock_getenv.side_effect = getenv_side_effect
+            event_name, action, event = notify_discord.load_event_context()
+            self.assertEqual(event_name, "issues")
+            self.assertEqual(action, "opened")
+            self.assertIn("issue", event)
 
-            # Mock event.json and user_map.json files
-            event_data = '{"action": "opened", "issue": {"title": "Test Issue", "html_url": "https://github.com/test", "assignees": []}}'
-            user_map_data = '{"user1": "123456789"}'
+    def test_generate_developer_list(self):
+        assignees = [{"login": "andewmark"}, {"login": "lementknight"}]
+        user_map = {"andewmark": 123, "lementknight": 456}
+        expected = ["<@123>", "<@456>"]
 
-            mock_file.side_effect = [
-                mock_open(read_data=event_data).return_value,
-                mock_open(read_data=user_map_data).return_value,
-            ]
+        result = notify_discord.generate_developer_list(assignees, user_map)
+        self.assertEqual(result, expected)
 
-            # Import the module
-            import notify_discord
+    def test_notify_assignment(self):
+        obj = {
+            "title": "some_title",
+            "html_url": "https://fake.html",
+            "assignees": [{"login": "andewmark"}],
+        }
+        user_map = {"andewmark": 123}
+        webhook_url = "https://fake.webhook"
 
-            # Now manually test the function with a None webhook_url by patching the module's webhook_url
-            with patch.object(notify_discord, "webhook_url", None):
-                with self.assertRaises(ValueError) as context:
-                    notify_discord.post_to_discord("Test Message")
+        expected = (
+            "📌 **Assignment Notice**\n"
+            "🔗 [some_title](https://fake.html)\n"
+            "👤 Assigned to: <@123>"
+        )
+        expected_payload = {"content": expected}
 
-                self.assertIn(
-                    "DISCORD_WEBHOOK_URL environment variable is not set",
-                    str(context.exception),
-                )
-                mock_post.assert_not_called()
+        with patch("notify_discord.requests.post") as mock_post:
+            notify_discord.notify_assignment(obj, user_map, webhook_url)
+
+            mock_post.assert_called_once_with(webhook_url, json=expected_payload)
+
+    def test_notify_review_request(self):
+        obj = {
+            "title": "some_title",
+            "html_url": "https://fake.html",
+            "requested_reviewers": [{"login": "andewmark"}],
+        }
+        user_map = {"andewmark": 123}
+        webhook_url = "https://fake.webhook"
+
+        expected = (
+            "🔍 **Review Requested**\n"
+            "🔗 [some_title](https://fake.html)\n"
+            "👤 Reviewers: <@123>"
+        )
+        expected_payload = {"content": expected}
+
+        with patch("notify_discord.requests.post") as mock_post:
+            notify_discord.notify_review_request(obj, user_map, webhook_url)
+
+            mock_post.assert_called_once_with(webhook_url, json=expected_payload)
+
+    def test_review_state_change(self):
+        obj = {
+            "title": "some_title",
+            "html_url": "https://fake.html",
+            "assignee": {"login": "andewmark"},
+        }
+        user_map = {"andewmark": 123}
+        webhook_url = "https://fake.webhook"
+        state = "approved"
+
+        expected = (
+            "🔔 **PR Review State Change**\n"
+            "🔗 [some_title](https://fake.html)\n"
+            "🔄 State: approved\n"
+            "👤 Assigned to: <@123>"
+        )
+        expected_payload = {"content": expected}
+
+        with patch("notify_discord.requests.post") as mock_post:
+            notify_discord.notify_review_state_change(obj, state, user_map, webhook_url)
+
+            mock_post.assert_called_once_with(webhook_url, json=expected_payload)
+
+    def test_notify_comment_mention(self):
+        comment_body = "Hi @andewmark hello!"
+        obj = {"title": "some_title", "html_url": "https://fake.html"}
+        user_map = {"andewmark": 123}
+        webhook_url = "https://fake.html"
+
+        expected = (
+            "💬 **Mention in Comment**\n"
+            "🔗 [some_title](https://fake.html)\n"
+            "👤 Mentioned: <@123>\n"
+            '📝 "Hi @andewmark hello!"'
+        )
+        expected_payload = {"content": expected}
+
+        with patch("notify_discord.requests.post") as mock_post:
+            notify_discord.notify_comment_mention(
+                comment_body, obj, user_map, webhook_url
+            )
+
+            mock_post.assert_called_once_with(webhook_url, json=expected_payload)
+
+    def test_load_user_map(self):
+        user_map_data = '{"user1": "123456789"}'
+        with patch("builtins.open", mock_open(read_data=user_map_data)) as mock_file:
+            result = notify_discord.load_user_map()
+            assert result == {"user1": "123456789"}
+            mock_file.assert_called_once_with("user_map.json", "r")
+
+    def test_load_webhook_url(self):
+        with patch("os.getenv", return_value="https://fake.webhook"):
+            webhook_url = notify_discord.load_webhook_url()
+            self.assertEqual("https://fake.webhook", webhook_url)
+
+    def test_missing_webhook_post_to_discord(self):
+        with self.assertRaises(ValueError) as context:
+            notify_discord.post_to_discord("hello word", webhook_url=None)
+        self.assertIn(
+            "DISCORD_WEBHOOK_URL environment variable is not set",
+            str(context.exception),
+        )
 
 
 if __name__ == "__main__":

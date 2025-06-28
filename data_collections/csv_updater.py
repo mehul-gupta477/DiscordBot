@@ -30,6 +30,7 @@ def items_to_csv(data: list[dict], path_to_file: str):
         except Exception as e:
             raise RuntimeError(f"Failed to save data to CSV: {e}") from e
 
+
 if __name__ == "__main__":
     load_dotenv("../.env")
     url = os.getenv("EVENTS_RSS_URL")

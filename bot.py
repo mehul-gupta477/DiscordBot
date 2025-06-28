@@ -7,7 +7,7 @@ import sys
 from dotenv import load_dotenv
 
 # Set up Discord Intents to enable bot to receive message events
-intents = discord.Intents.default()
+intents: discord.Intents = discord.Intents.default()
 intents.messages = True
 intents.message_content = True  # Required to read message content (needed for commands)
 intents.members = True  # Privileged intent
@@ -25,10 +25,10 @@ async def on_ready():
 
 # Welcome message when a new member joins the server (requires privileged intent)
 @bot.event
-async def on_member_join(member):
+async def on_member_join(member: discord.Member) -> None:
     """Event: Called when a new member joins the server."""
     # Try to find a welcome channel (common names: welcome, general, etc.)
-    welcome_channel = None
+    welcome_channel: discord.TextChannel | None = None
 
     # Look for common welcome channel names
     for channel in member.guild.text_channels:
@@ -44,7 +44,7 @@ async def on_member_join(member):
             welcome_channel = member.guild.text_channels[0]
 
     # Find networking channel for clickable link
-    networking_channel = None
+    networking_channel: discord.TextChannel | None = None
     for channel in member.guild.text_channels:
         if channel.name.lower() == "networking":
             networking_channel = channel
@@ -82,7 +82,7 @@ async def on_member_join(member):
 
 # !help command placeholder
 @bot.command()
-async def help(ctx):
+async def help(ctx) -> None:
     """Command: Lists all available bot commands."""
     help_message = (
         "**🤖 BugBot Commands:**\n"
@@ -95,7 +95,7 @@ async def help(ctx):
 
 # !resume command placeholder
 @bot.command()
-async def resume(ctx):
+async def resume(ctx) -> None:
     """Command: Sends a link to resume resources."""
     await ctx.send(
         "📄 Resume Resources: https://www.reddit.com/r/EngineeringResumes/wiki/index/"
@@ -104,7 +104,7 @@ async def resume(ctx):
 
 # !events command placeholder
 @bot.command()
-async def events(ctx):
+async def events(ctx) -> None:
     """Command: Sends a list of upcoming events."""
     await ctx.send(
         "📅 Upcoming Events:\n"
@@ -116,7 +116,7 @@ async def events(ctx):
 
 # !resources command placeholder
 @bot.command()
-async def resources(ctx):
+async def resources(ctx) -> None:
     """Command: Sends recommended CS learning resources."""
     await ctx.send(
         "📚 CS Learning Resources:\n"
@@ -127,7 +127,7 @@ async def resources(ctx):
     )
 
 
-def run_bot():
+def run_bot() -> None:
     if load_dotenv():
         token = os.getenv("DISCORD_BOT_TOKEN")
         assert token, "DISCORD_BOT_TOKEN can not be empty or None"

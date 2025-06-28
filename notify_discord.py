@@ -4,7 +4,6 @@ import requests
 import re
 
 
-# Load GitHub context and event payload\
 def load_event_context():
     """
     Load the GitHub event name, action, and event payload from environment variables and file.
@@ -135,7 +134,6 @@ def notify_review_request(pr_obj, user_map, webhook_url):
         post_to_discord(message, webhook_url)
 
 
-# Notify review state changes to the assignee
 def notify_review_state_change(pr_obj, state: str, user_map, webhook_url):
     """
     Sends a Discord notification about a pull request review state change, mentioning the assigned user.

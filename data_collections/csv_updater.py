@@ -26,7 +26,7 @@ def items_to_csv(data: list[dict], path_to_file: str):
                 raise ValueError("path_to_csv not found")
             # Future Implementation Documented below
             # append data from running
-            # remove the duplicates 
+            # remove the duplicates
             data_frame = pd.DataFrame(data)
             data_frame.to_csv(path_to_file, index=False)
             print(f"Items Successfully saved to {path_to_file}")

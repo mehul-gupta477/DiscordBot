@@ -9,14 +9,16 @@ def items_to_csv(data: list[dict], path_to_file: str):
     Save items to a csv file
     """
     if data:
-        if not os.path.isfile(path_to_file):
-            raise ValueError("path_to_csv not found")
-        data_frame = pd.DataFrame(data)
-        data_frame.to_csv(path_to_file, index=False)
-        print(f"Items Successfully saved to {path_to_file}")
+        try:
+            # Ensure directory exists
+            os.makedirs(os.path.dirname(path_to_file), exist_ok=True)
+            data_frame = pd.DataFrame(data)
+            data_frame.to_csv(path_to_file, index=False)
+            print(f"Items Successfully saved to {path_to_file}")
+        except Exception as e:
+            raise RuntimeError(f"Failed to save data to CSV: {e}")
     else:
         print("No Items to Save")
-
 if __name__ == "__main__":
     load_dotenv("../.env")
     url = os.getenv("EVENTS_RSS_URL")

@@ -6,7 +6,19 @@ from dotenv import load_dotenv
 
 def items_to_csv(data: list[dict], path_to_file: str):
     """
-    Save items to a csv file
+    Save a list of dictionaries to a CSV file.
+
+    Args:
+        data (list[dict]): List of dictionaries containing the data to save
+        path_to_file (str): Path where the CSV file should be saved
+
+    Raises:
+        RuntimeError: If there's an error during CSV creation or saving
+
+    Example:
+        >>> events = [{'title': 'Event 1', 'date': '2024-01-01'}]
+        >>> items_to_csv(events, 'runningCSV.csv')
+        Items Successfully saved to runningCSV.csv
     """
     if data:
         try:

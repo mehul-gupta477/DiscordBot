@@ -101,3 +101,4 @@ class TestGetEvents(unittest.TestCase):
         mock_parse.return_value = sample_return
         result = getEvents("http://valid-url.com/rss")
         self.assertIn("entryDate", result[0])
+        

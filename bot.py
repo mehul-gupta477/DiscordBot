@@ -41,16 +41,26 @@ async def on_member_join(member):
     if not welcome_channel:
         welcome_channel = member.guild.system_channel or member.guild.text_channels[0]
     
+    # Find networking channel for clickable link
+    networking_channel = None
+    for channel in member.guild.text_channels:
+        if channel.name.lower() == 'networking':
+            networking_channel = channel
+            break
+    
+    # Create networking channel mention or fallback text
+    networking_mention = f"<#{networking_channel.id}>" if networking_channel else "#networking"
+    
     # Create welcome message
     welcome_message = (
         f"🎉 Welcome to **{member.guild.name}**, {member.mention}!\n\n"
-        f"We're excited to have you here! 🤖\n\n"
+        f"We're excited to have you here! \n"
         f"**Get started with BugBot:**\n"
         f"• Type `!help` to see all available commands\n"
-        f"• Use `!events` to check upcoming club events\n"
+        f"• Use `!events` to check upcoming events\n"
         f"• Get resume help with `!resume`\n"
         f"• Find learning resources with `!resources`\n\n"
-        f"Feel free to introduce yourself and ask questions! 💬"
+        f"Feel free to introduce yourself in {networking_mention} and ask questions! 💬"
     )
     
     try:

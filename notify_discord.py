@@ -149,6 +149,11 @@ def notify_review_state_change(pr_obj, state: str, user_map, webhook_url):
     title = pr_obj.get("title", "Untitled")
     url = pr_obj.get("html_url", "")
     assignee = pr_obj.get("assignee", {})
+
+    # Skip notification if there’s no valid assignee or the login isn’t in our map
+    if not assignee or assignee.get("login") not in user_map:
+        return
+
     mentioned_assignee = f"<@{user_map[assignee['login']]}>"
 
     message = (
@@ -228,3 +233,6 @@ def main():
         comment_body = event["comment"]["body"]
         context_obj = event.get("issue") or event.get("pull_request", {})
         notify_comment_mention(comment_body, context_obj, user_map, webhook_url)
+
+if __name__ == "__main__":
+    main()

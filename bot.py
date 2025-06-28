@@ -4,12 +4,14 @@ import discord
 from discord.ext import commands
 import os
 import sys
+from typing import Optional
 from dotenv import load_dotenv
 
 # Set up Discord Intents to enable bot to receive message events
 intents = discord.Intents.default()
 intents.messages = True
 intents.message_content = True  # Required to read message content (needed for commands)
+intents.members = True  # Privileged intent 
 
 # Initialize bot with command prefix '!' and specified intents
 bot = commands.Bot(command_prefix="!", intents=intents, help_command=None)
@@ -22,13 +24,59 @@ async def on_ready():
     print(f"✅ Logged in as {bot.user}")
 
 
+# Welcome message when a new member joins the server (requires privileged intent)
+@bot.event
+async def on_member_join(member):
+    """Event: Called when a new member joins the server."""
+    # Try to find a welcome channel (common names: welcome, general, etc.)
+    welcome_channel = None
+    
+    # Look for common welcome channel names
+    for channel in member.guild.text_channels:
+        if channel.name.lower() in ['welcome', 'general', 'introductions', 'lobby']:
+            welcome_channel = channel
+            break
+    
+    # If no specific welcome channel found, use the first available text channel
+    if not welcome_channel:
+        welcome_channel = member.guild.system_channel or member.guild.text_channels[0]
+    
+    # Create welcome message
+    welcome_message = (
+        f"🎉 Welcome to **{member.guild.name}**, {member.mention}!\n\n"
+        f"We're excited to have you here! 🤖\n\n"
+        f"**Get started with BugBot:**\n"
+        f"• Type `!help` to see all available commands\n"
+        f"• Use `!events` to check upcoming club events\n"
+        f"• Get resume help with `!resume`\n"
+        f"• Find learning resources with `!resources`\n\n"
+        f"Feel free to introduce yourself and ask questions! 💬"
+    )
+    
+    try:
+        if welcome_channel:
+            await welcome_channel.send(welcome_message)
+            print(f"📨 Welcome message sent for {member.display_name} in #{welcome_channel.name}")
+        else:
+            # Fallback: send a DM if no suitable channel is found
+            await member.send(
+                f"🎉 Welcome to **{member.guild.name}**!\n\n"
+                f"I'm BugBot! Type `!help` in any channel to see what I can do. 🤖"
+            )
+            print(f"📨 Welcome DM sent to {member.display_name}")
+    except discord.Forbidden:
+        # Bot doesn't have permissions to send messages in the channel or to the user
+        print(f"❌ Could not send welcome message for {member.display_name} - missing permissions")
+    except Exception as e:
+        print(f"❌ Error sending welcome message for {member.display_name}: {e}")
+
+
 # !help command placeholder
 @bot.command()
 async def help(ctx):
     """Command: Lists all available bot commands."""
     help_message = (
-        "**🤖 CuseBot Commands:**\n"
-        "`!help` – Show this help message\n"
+        "**🤖 BugBot Commands:**\n"
         "`!resume` – Link to engineering resume resources\n"
         "`!events` – See upcoming club events\n"
         "`!resources` – Get recommended CS learning materials\n"
@@ -73,7 +121,7 @@ async def resources(ctx):
 def run_bot():
     if load_dotenv():
         token = os.getenv("DISCORD_BOT_TOKEN")
-        assert token != "", "DISCORD_BOT_TOKEN can not be empty"
+        assert token, "DISCORD_BOT_TOKEN can not be empty or None"
         try:
             bot.run(token)
         except discord.LoginFailure:

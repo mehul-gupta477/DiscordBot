@@ -53,14 +53,7 @@ async def on_member_join(member):
     
     # Create welcome message
     welcome_message = (
-        f"🎉 Welcome to **{member.guild.name}**, {member.mention}!\n\n"
-        f"We're excited to have you here! \n"
-        f"**Get started with BugBot:**\n"
-        f"• Type `!help` to see all available commands\n"
-        f"• Use `!events` to check upcoming events\n"
-        f"• Get resume help with `!resume`\n"
-        f"• Find learning resources with `!resources`\n\n"
-        f"Feel free to introduce yourself in {networking_mention} and ask questions! 💬"
+        f"Welcome to **{member.guild.name}**, {member.mention}! Feel free to introduce yourself in {networking_mention}"
     )
     
     try:

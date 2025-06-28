@@ -1,4 +1,4 @@
-from getEvents import getEvents
+from data_collections.getEvents import getEvents
 import os
 import pandas as pd
 from dotenv import load_dotenv
@@ -24,6 +24,9 @@ def items_to_csv(data: list[dict], path_to_file: str):
         try:
             if not os.path.isfile(path_to_file):
                 raise ValueError("path_to_csv not found")
+            # Future Implementation Documented below
+            # append data from running
+            # remove the duplicates 
             data_frame = pd.DataFrame(data)
             data_frame.to_csv(path_to_file, index=False)
             print(f"Items Successfully saved to {path_to_file}")
@@ -36,6 +39,6 @@ if __name__ == "__main__":
     url = os.getenv("EVENTS_RSS_URL")
     if not url:
         raise ValueError("EVENTS_RSS_URL variable not set")
-    
+
     data = getEvents(url)
     items_to_csv(data, "data_collections/runningCSV.csv")

@@ -4,14 +4,13 @@ import discord
 from discord.ext import commands
 import os
 import sys
-from typing import Optional
 from dotenv import load_dotenv
 
 # Set up Discord Intents to enable bot to receive message events
 intents = discord.Intents.default()
 intents.messages = True
 intents.message_content = True  # Required to read message content (needed for commands)
-intents.members = True  # Privileged intent 
+intents.members = True  # Privileged intent
 
 # Initialize bot with command prefix '!' and specified intents
 bot = commands.Bot(command_prefix="!", intents=intents, help_command=None)
@@ -30,36 +29,41 @@ async def on_member_join(member):
     """Event: Called when a new member joins the server."""
     # Try to find a welcome channel (common names: welcome, general, etc.)
     welcome_channel = None
-    
+
     # Look for common welcome channel names
     for channel in member.guild.text_channels:
-        if channel.name.lower() in ['welcome', 'general', 'introductions', 'lobby']:
+        if channel.name.lower() in ["welcome", "general", "introductions", "lobby"]:
             welcome_channel = channel
             break
-    
+
     # If no specific welcome channel found, use the first available text channel
     if not welcome_channel:
-        welcome_channel = member.guild.system_channel or member.guild.text_channels[0]
-    
+        if member.guild.system_channel:
+            welcome_channel = member.guild.system_channel
+        elif member.guild.text_channels:
+            welcome_channel = member.guild.text_channels[0]
+
     # Find networking channel for clickable link
     networking_channel = None
     for channel in member.guild.text_channels:
-        if channel.name.lower() == 'networking':
+        if channel.name.lower() == "networking":
             networking_channel = channel
             break
-    
+
     # Create networking channel mention or fallback text
-    networking_mention = f"<#{networking_channel.id}>" if networking_channel else "#networking"
-    
-    # Create welcome message
-    welcome_message = (
-        f"Welcome to **{member.guild.name}**, {member.mention}! Feel free to introduce yourself in {networking_mention}"
+    networking_mention = (
+        f"<#{networking_channel.id}>" if networking_channel else "#networking"
     )
-    
+
+    # Create welcome message
+    welcome_message = f"Welcome to **{member.guild.name}**, {member.mention}! Feel free to introduce yourself in {networking_mention}"
+
     try:
         if welcome_channel:
             await welcome_channel.send(welcome_message)
-            print(f"📨 Welcome message sent for {member.display_name} in #{welcome_channel.name}")
+            print(
+                f"📨 Welcome message sent for {member.display_name} in #{welcome_channel.name}"
+            )
         else:
             # Fallback: send a DM if no suitable channel is found
             await member.send(
@@ -69,7 +73,9 @@ async def on_member_join(member):
             print(f"📨 Welcome DM sent to {member.display_name}")
     except discord.Forbidden:
         # Bot doesn't have permissions to send messages in the channel or to the user
-        print(f"❌ Could not send welcome message for {member.display_name} - missing permissions")
+        print(
+            f"❌ Could not send welcome message for {member.display_name} - missing permissions"
+        )
     except Exception as e:
         print(f"❌ Error sending welcome message for {member.display_name}: {e}")
 

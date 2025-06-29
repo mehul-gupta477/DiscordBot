@@ -4,6 +4,7 @@ import pandas as pd
 import csv
 from dotenv import load_dotenv
 
+
 def extract_entries_from_csv(path: str):
     """
     Extract entries from `runningCSV.csv` and return a list of dict.
@@ -15,9 +16,10 @@ def extract_entries_from_csv(path: str):
             entries_from_csv.append(row)
     return entries_from_csv
 
-def removeDuplicates(data: list[dict]):
+
+def remove_duplicates(data: list[dict]):
     """
-    Remove Duplicate entries from `runnningCSV.csv`.
+    Remove Duplicate entries from `runningCSV.csv`.
 
     Args:
         data (list[dict]): List of dictionaries containing possible duplicate entries
@@ -27,12 +29,14 @@ def removeDuplicates(data: list[dict]):
     """
     entry_links = set()
     unique_data = []
-    
+
     for entry in data:
-        if entry["link"] not in entry_links:
+        link = entry.get("link")
+        if link and entry["link"] not in entry_links:
             entry_links.add(entry["link"])
             unique_data.append(entry)
     return unique_data
+
 
 def items_to_csv(data: list[dict], path_to_file: str):
     """
@@ -55,7 +59,7 @@ def items_to_csv(data: list[dict], path_to_file: str):
             if not os.path.isfile(path_to_file):
                 raise ValueError("path_to_csv not found")
             data += extract_entries_from_csv(path_to_file)
-            data = removeDuplicates(data)
+            data = remove_duplicates(data)
             data_frame = pd.DataFrame(data)
             data_frame.to_csv(path_to_file, index=False)
             print(f"Items Successfully saved to {path_to_file}")

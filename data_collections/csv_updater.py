@@ -8,6 +8,12 @@ from dotenv import load_dotenv
 def extract_entries_from_csv(path: str) -> list[dict]:
     """
     Extract entries from a CSV file and return a list of dictionaries.
+
+    Args:
+        path str: path to CSV file
+
+    Returns:
+        list[dict]: a list of dictionaries based on the incoming CSV file
     """
     entries_from_csv = []
     try:

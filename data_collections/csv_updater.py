@@ -5,27 +5,32 @@ import csv
 from dotenv import load_dotenv
 
 
-def extract_entries_from_csv(path: str):
+def extract_entries_from_csv(path: str) -> list[dict]:
     """
-    Extract entries from `runningCSV.csv` and return a list of dict.
+    Extract entries from a CSV file and return a list of dictionaries.
     """
     entries_from_csv = []
-    with open(path) as file:
-        csv_file = csv.DictReader(file)
-        for row in csv_file:
-            entries_from_csv.append(row)
+    try: 
+        with open(path) as file:
+            csv_file = csv.DictReader(file)
+            for row in csv_file:
+                entries_from_csv.append(row)
+    except FileNotFoundError:
+        return [] 
+    except Exception as e:
+        raise RuntimeError(f"Failed to read CSV file: {e}") from e
     return entries_from_csv
 
 
-def remove_duplicates(data: list[dict]):
+def remove_duplicates(data: list[dict]) -> list[dict]:
     """
-    Remove Duplicate entries from `runningCSV.csv`.
+    Remove duplicate entries based on the "link" key.
 
     Args:
-        data (list[dict]): List of dictionaries containing possible duplicate entries
+        data list[dict]: List of dictionaries containing possible duplicate entries
 
     Returns:
-        (list[dict]): List of dictionaries with duplicates removed
+        list[dict]: List of dictionaries with duplicates removed
     """
     entry_links = set()
     unique_data = []

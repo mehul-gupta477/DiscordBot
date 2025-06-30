@@ -10,13 +10,11 @@ def extract_entries_from_csv(path: str) -> list[dict]:
     Extract entries from a CSV file and return a list of dictionaries.
     """
     entries_from_csv = []
-    try: 
+    try:
         with open(path) as file:
             csv_file = csv.DictReader(file)
             for row in csv_file:
                 entries_from_csv.append(row)
-    except FileNotFoundError:
-        return [] 
     except Exception as e:
         raise RuntimeError(f"Failed to read CSV file: {e}") from e
     return entries_from_csv

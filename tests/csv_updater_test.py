@@ -17,7 +17,7 @@ Event,test_Title,test_Description,test_whenDate,test_pubDate,test_Location,test_
 class TestExtractFromCSV(unittest.TestCase):
     """Testing suite for the extract_entries_from_csv() method"""
 
-    def test_mssing_path(self):
+    def test_missing_path(self):
         path = ""
         with self.assertRaises(RuntimeError) as context:
             extract_entries_from_csv(path)
@@ -25,8 +25,8 @@ class TestExtractFromCSV(unittest.TestCase):
 
     def test_no_data_in_csv(self):
         path = "test.csv"
-        FAKE_CSV = """"""
-        with patch("builtins.open", mock_open(read_data=FAKE_CSV)):
+        empty_csv = """"""
+        with patch("builtins.open", mock_open(read_data=empty_csv)):
             result = extract_entries_from_csv(path)
         self.assertEqual(result, [])
 
@@ -150,20 +150,16 @@ class TestItemsToCSV(unittest.TestCase):
         mock_data = []
         dummy_path = "test.csv"
 
-        with open(dummy_path, "w") as f:
-            f.write("")
-
-        with patch("pandas.DataFrame.to_csv") as mocked_csv:
-            items_to_csv(mock_data, dummy_path)
+        with patch("pandas.DataFrame.to_csv") as mocked_csv, \
+            patch("os.path.isfile", return_value=True):
+                items_to_csv(mock_data, dummy_path)
 
         mocked_csv.assert_not_called()
-
-        os.remove(dummy_path)
 
     @patch("data_collections.csv_updater.remove_duplicates")
     @patch("data_collections.csv_updater.extract_entries_from_csv")
     @patch("data_collections.csv_updater.os.path.isfile")
-    def test_succesful_items_to_csv_with_prior_data(
+    def test_successful_items_to_csv_with_prior_data(
         self, mock_isfile, mock_extract_entries, mock_remove_duplicates
     ):
 
@@ -215,7 +211,7 @@ class TestItemsToCSV(unittest.TestCase):
     @patch("data_collections.csv_updater.remove_duplicates")
     @patch("data_collections.csv_updater.extract_entries_from_csv")
     @patch("data_collections.csv_updater.os.path.isfile")
-    def test_succesful_items_to_csv_with_no_prior_data(
+    def test_successful_items_to_csv_with_no_prior_data(
         self, mock_isfile, mock_extract_entries, mock_remove_duplicates
     ):
 
@@ -259,7 +255,7 @@ class TestItemsToCSV(unittest.TestCase):
     @patch("data_collections.csv_updater.remove_duplicates")
     @patch("data_collections.csv_updater.extract_entries_from_csv")
     @patch("data_collections.csv_updater.os.path.isfile")
-    def test_succesful_items_to_csv_with_prior_data_duplicates(
+    def test_successful_items_to_csv_with_prior_data_duplicates(
         self, mock_isfile, mock_extract_entries, mock_remove_duplicates
     ):
 

@@ -139,7 +139,7 @@ class TestItemsToCSV(unittest.TestCase):
     def test_no_path_to_file(self):
         mock_data = [{"title": "Event 1", "date": "2024-01-01"}]
         non_existent_path = "non_existent_file.csv"
-        with patch("os.path.isfile", return_value=False) as mock_isfile:
+        with patch("os.path.isfile", return_value=False):
 
             with self.assertRaises(RuntimeError) as context:
                 items_to_csv(mock_data, non_existent_path)

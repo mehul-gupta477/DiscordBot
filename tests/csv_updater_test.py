@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import patch, mock_open
 import os
 import pandas as pd
+import tempfile
 from data_collections.csv_updater import (
     items_to_csv,
     extract_entries_from_csv,
@@ -150,9 +151,11 @@ class TestItemsToCSV(unittest.TestCase):
         mock_data = []
         dummy_path = "test.csv"
 
-        with patch("pandas.DataFrame.to_csv") as mocked_csv, \
-            patch("os.path.isfile", return_value=True):
-                items_to_csv(mock_data, dummy_path)
+        with ( 
+            patch("pandas.DataFrame.to_csv") as mocked_csv, 
+            patch("os.path.isfile", return_value=True)
+        ):
+            items_to_csv(mock_data, dummy_path)
 
         mocked_csv.assert_not_called()
 
@@ -195,18 +198,19 @@ class TestItemsToCSV(unittest.TestCase):
 
         expected_data = prior_csv_data + incoming_data
 
-        dummy_path = "test.csv"
-        expected_df = pd.DataFrame(expected_data)
+        with tempfile.TemporaryDirectory() as temp_dir:
+            dummy_path = os.path.join(temp_dir, "test.csv")
+            expected_df = pd.DataFrame(expected_data)
 
-        items_to_csv(incoming_data, dummy_path)
+            items_to_csv(incoming_data, dummy_path)
 
-        result_df = pd.read_csv(dummy_path)
-        pd.testing.assert_frame_equal(
-            expected_df.sort_values(list(expected_df.columns)).reset_index(drop=True),
-            result_df.sort_values(list(expected_df.columns)).reset_index(drop=True),
-        )
-
-        os.remove(dummy_path)
+            result_df = pd.read_csv(dummy_path)
+            pd.testing.assert_frame_equal(
+                expected_df.sort_values(list(expected_df.columns)).reset_index(
+                    drop=True
+                ),
+                result_df.sort_values(list(expected_df.columns)).reset_index(drop=True),
+            )
 
     @patch("data_collections.csv_updater.remove_duplicates")
     @patch("data_collections.csv_updater.extract_entries_from_csv")
@@ -242,15 +246,13 @@ class TestItemsToCSV(unittest.TestCase):
             },
         ]
 
-        dummy_path = "test.csv"
-        expected = pd.DataFrame(data)
+        with tempfile.TemporaryDirectory() as temp_dir:
+            dummy_path = os.path.join(temp_dir, "test.csv")
+            expected = pd.DataFrame(data)
+            items_to_csv(data, dummy_path)
 
-        items_to_csv(data, dummy_path)
-
-        result = pd.read_csv(dummy_path)
-        pd.testing.assert_frame_equal(expected, result)
-
-        os.remove(dummy_path)
+            result = pd.read_csv(dummy_path)
+            pd.testing.assert_frame_equal(expected, result)
 
     @patch("data_collections.csv_updater.remove_duplicates")
     @patch("data_collections.csv_updater.extract_entries_from_csv")
@@ -291,17 +293,18 @@ class TestItemsToCSV(unittest.TestCase):
 
         combined_data = prior_csv_data + incoming_data
 
-        dummy_path = "test.csv"
-
         expected_data = remove_duplicates(combined_data)
-        expected_df = pd.DataFrame(expected_data)
 
-        items_to_csv(incoming_data, dummy_path)
+        with tempfile.TemporaryDirectory() as temp_dir:
+            dummy_path = os.path.join(temp_dir, "test.csv")
+            expected_df = pd.DataFrame(expected_data)
 
-        result_df = pd.read_csv(dummy_path)
-        pd.testing.assert_frame_equal(
-            expected_df.sort_values(list(expected_df.columns)).reset_index(drop=True),
-            result_df.sort_values(list(expected_df.columns)).reset_index(drop=True),
-        )
+            items_to_csv(incoming_data, dummy_path)
 
-        os.remove(dummy_path)
+            result_df = pd.read_csv(dummy_path)
+            pd.testing.assert_frame_equal(
+                expected_df.sort_values(list(expected_df.columns)).reset_index(
+                    drop=True
+                ),
+                result_df.sort_values(list(expected_df.columns)).reset_index(drop=True),
+            )

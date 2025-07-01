@@ -18,6 +18,7 @@ def getEvents(url):
         - pubDate: The publication date of the event.
         - Location: The location of the event.
         - link: The link to the event details.
+        - entryDate: Date that the entry entered the our `runningCSV.csv`
     """
     try:
         data = feedparser.parse(url)

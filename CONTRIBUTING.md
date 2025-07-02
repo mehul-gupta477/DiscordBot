@@ -183,23 +183,32 @@ If your tests fail, then it can be due to three main reasons:
 > [!TIP]
 > When you run the tests, you will see a HTML coverage report generated in the `htmlcov` directory. Open the `index.html` file in your web browser to view the coverage report. This report will show you which lines of code are covered by tests and which lines are not. You can use this report to identify areas of your code that need more testing.
 
-Please test your code! Here are instructions for testing the bot.
+Here's what it looks like when you open the `index.html` file in your web browser:
+
+![Coverage Report](images/coverage-screenshot-1.png)
+![Coverage Report](images/coverage-screenshot-2.png)
+![Coverage Report](images/coverage-screenshot-3.png)
+
+Great you've seen the coverage report and have identified areas for improvement! Here are instructions for testing the bot.
 
 ### Testing the Bot Locally
 
 Since we currently don't have a hosting solution, you'll need to run the bot locally to test your changes. Here's how to do it:
 
 1. Make sure you have all the required dependencies installed:
+
    ```bash
    pip install -r requirements.txt
    ```
 
 2. Create a `.env` file in the root directory with your bot token (you can find this on our BitWarden):
+
    ```env
    DISCORD_TOKEN=your_bot_token_here
    ```
 
 3. Run the bot:
+
    ```bash
    python bot.py
    ```

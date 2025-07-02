@@ -18,6 +18,7 @@ def getEvents(url):
         - pubDate: The publication date of the event.
         - Location: The location of the event.
         - link: The link to the event details.
+        - entryDate: Date that the entry entered the our `runningCSV.csv`
     """
     try:
         data = feedparser.parse(url)
@@ -33,7 +34,7 @@ def getEvents(url):
 
     for entry in data.get("entries", []):
         # Splits the title to remove the date in parentheses
-        title = re.sub(r"\s*\([^()]*\d{4}\)\s*$", "", entry.get("title", "")).strip()
+        title = re.sub(r"\s*\([^)]+\)\s*$", "", entry.get("title", "")).strip()
         descrip = entry.get("description", "")
         when = ""
         location = ""

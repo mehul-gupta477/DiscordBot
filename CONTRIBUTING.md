@@ -182,6 +182,7 @@ If your tests fail, then it can be due to three main reasons:
 
 > [!TIP]
 > When you run the tests, you will see a HTML coverage report generated in the `htmlcov` directory. Open the `index.html` file in your web browser to view the coverage report. This report will show you which lines of code are covered by tests and which lines are not. You can use this report to identify areas of your code that need more testing.
+>
 >Here's what it looks like when you open the `index.html` file in your web browser:
 >![Coverage Report](images/coverage-screenshot-1.png)
 >![Coverage Report](images/coverage-screenshot-2.png)

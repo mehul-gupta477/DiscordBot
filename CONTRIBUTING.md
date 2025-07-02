@@ -128,6 +128,61 @@ git checkout -b <new_branch_name>
 > git branch
 > ```
 
+
+### Testing Your Code
+Once you have made changes to the code, it's essential to test your modifications to ensure they work as expected. The Discord Bot Project uses `unittest` for testing. Here's how to run the tests:
+
+1. Use the following command to run all tests:
+
+   ```bash
+   nox -s tests
+   ```
+
+A successful run will look something like this:
+
+```bash
+nox > Running session tests
+nox > Creating virtual environment (virtualenv) using python3.13 in .nox/tests
+nox > python -m pip install -r requirements.txt
+nox > python -m pip install 'coverage[toml]'
+nox > coverage run -m unittest discover -s tests -p '*_test.py'
+nox > coverage report --fail-under=90
+----------------------------------------------------------------------
+Ran 30 tests in 0.029s
+
+OK
+Invalid token provided. Please check your .env file.
+environment file does not found
+Name                            Stmts   Miss  Cover
+---------------------------------------------------
+bot.py                             38      2    95%
+data_collections/__init__.py        0      0   100%
+data_collections/getEvents.py      30      4    87%
+tests/bot_test.py                  50      1    98%
+tests/getEvents_test.py            54      0   100%
+tests/notify_discord_test.py      110      3    97%
+---------------------------------------------------
+TOTAL                             282     10    96%
+Wrote XML report to coverage.xml
+Wrote HTML report to htmlcov/index.html
+
+```
+
+> [!NOTE]
+> We used nox to run our tests so if you want to understand what nox is doing, you can check out the [`noxfile.py`](https://github.com/innovateorange/DiscordBot/blob/1ca27875bd65239f4a7a8d9da645363908a99c2e/noxfile.py) in the root directory of the project. It contains all the commands that nox will run when you execute it.
+
+If your tests fail, then it can be due to three main reasons:
+
+- Syntax errors
+  - This means that there is a syntax error in your code that is preventing the tests from running. You can fix this by checking the error message and fixing the syntax error in your code.
+- Logic errors
+  - This means that there is a logic error in your code that is causing the tests to fail. You can fix this by checking the error message and fixing the logic error in your code.
+- Lack of coverage
+  - This means that your code does not have enough test coverage. You can fix this by adding more tests to your code. The coverage report will show you which lines of code are not covered by tests.
+
+> [!TIP]
+> When you run the tests, you will see a HTML coverage report generated in the `htmlcov` directory. Open the `index.html` file in your web browser to view the coverage report. This report will show you which lines of code are covered by tests and which lines are not. You can use this report to identify areas of your code that need more testing.
+
 Please test your code! Here are instructions for testing the bot.
 
 ### Testing the Bot Locally

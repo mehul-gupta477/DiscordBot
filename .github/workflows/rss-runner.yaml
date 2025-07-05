@@ -31,3 +31,12 @@ jobs:
           source .virtualenv/bin/activate
           python -m data_collections.mainRSSRunner
 
+      - name: Commit changes
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git add .
+          git commit -m 'Update runningCSV.csv'
+      - name: Check for changes
+        run: |
+          git diff --exit-code

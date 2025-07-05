@@ -29,5 +29,5 @@ jobs:
           EVENTS_RSS_URL: ${{ secrets.EVENTS_RSS_URL }}
         run: |
           source .virtualenv/bin/activate
-          python data_collections/mainRSSRunner.py
+          python -m data_collections.mainRSSRunner
 

@@ -151,9 +151,9 @@ class TestItemsToCSV(unittest.TestCase):
         mock_data = []
         dummy_path = "test.csv"
 
-        with ( 
-            patch("pandas.DataFrame.to_csv") as mocked_csv, 
-            patch("os.path.isfile", return_value=True)
+        with (
+            patch("pandas.DataFrame.to_csv") as mocked_csv,
+            patch("os.path.isfile", return_value=True),
         ):
             items_to_csv(mock_data, dummy_path)
 

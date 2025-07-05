@@ -1,4 +1,4 @@
-from data_collections.getEvents import getEvents
+from getEvents import getEvents
 import os
 import pandas as pd
 import csv

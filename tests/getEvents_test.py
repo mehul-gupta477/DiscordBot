@@ -1,4 +1,4 @@
-from data_collections.getEvents import getEvents
+from data_collections.events import getEvents
 from unittest.mock import MagicMock, patch
 import unittest
 

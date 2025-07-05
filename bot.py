@@ -30,7 +30,7 @@ async def on_ready():
 async def on_member_join(member: discord.Member) -> None:
     """
     Sends a welcome message when a new member joins the server.
-    
+
     Attempts to post the welcome message in a suitable channel (e.g., "welcome", "general", "introductions", or "lobby"), falling back to the system channel or the first available text channel if necessary. If no appropriate channel is found, sends a direct message to the new member. The welcome message includes a mention of the "networking" channel if it exists.
     """
     # Try to find a welcome channel (common names: welcome, general, etc.)
@@ -144,7 +144,7 @@ async def resources(ctx) -> None:
 def run_bot() -> None:
     """
     Loads environment variables, retrieves the Discord bot token, and starts the bot.
-    
+
     Exits the program with an error message if the environment file is missing or the token is invalid.
     """
     if load_dotenv():

@@ -1,0 +1,42 @@
+name: Events RSS Feed Cron Job
+
+on:
+  schedule:
+    - cron: "45 3 * * *"
+  workflow_dispatch:
+  
+jobs:
+  run-RSS-Runner:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Create virtual environment and Install dependencies
+        run: |
+          chmod +x setup.sh
+          ./setup.sh
+      
+      - name: Update runningCSV.csv with Events 
+        env:
+          TASK_TYPE: "EVENTS"
+          EVENTS_RSS_URL: ${{ secrets.EVENTS_RSS_URL }}
+        run: |
+          source .virtualenv/bin/activate
+          python -m data_collections.mainRSSRunner
+
+      - name: Commit changes
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git add .
+          git commit -m 'Update runningCSV.csv'
+      - name: Check for changes
+        run: |
+          git diff --exit-code

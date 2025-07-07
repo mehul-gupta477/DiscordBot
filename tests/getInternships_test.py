@@ -96,13 +96,13 @@ class TestParseInternshipSections(unittest.TestCase):
         """Test parsing sections separated by markdown headers"""
         content = """
 # Company A
-This is a much longer section that should be included in the results because it has enough content to be meaningful and contains important internship information.
+Some content here
 
 ## Company B
-This is another longer section with substantial content that meets the minimum length requirement for parsing and extraction.
+More content here
 
 ### Company C
-This section also has enough content to be considered valid for internship data extraction and processing.
+Even more content
         """
         
         sections = _parse_internship_sections(content)
@@ -112,11 +112,11 @@ This section also has enough content to be considered valid for internship data 
     def test_section_parsing_with_horizontal_rules(self):
         """Test parsing sections separated by horizontal rules"""
         content = """
-Company A content here with substantial information about internship opportunities and detailed role descriptions that meet the minimum length requirement.
+Company A content here
 ---
-Company B content here with comprehensive details about their internship program including location, requirements, and application process information.
+Company B content here
 ***
-Company C content here with extensive information about their summer internship opportunities and detailed program descriptions.
+Company C content here
         """
         
         sections = _parse_internship_sections(content)

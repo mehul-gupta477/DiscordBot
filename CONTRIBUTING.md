@@ -109,6 +109,30 @@ deactivate
 
 This setup ensures that your development environment is isolated and consistent with the project's requirements.
 
+### Branch Naming Conventions
+
+Before creating a new branch please read over this section to follow the repository's branch naming conventions.
+
+Having branch naming conventions provides clarity, and makes it easier to locate specific branchs on current issues that are being worked on.
+
+>[!NOTE]
+All documentation of this section was referred from [Medium](https://medium.com/@abhay.pixolo/naming-conventions-for-git-branches-a-cheatsheet-8549feca2534)
+
+**Basic Rules**:    
+1. **Lowecase and Hypen-seperated**: Stick to lowercase for branch names and use hyphens to seperate words. For instance, `feature/new-login` or `bugfix/header-styling`
+2. **Alphanumeric Characters**: Use only alphanumeric characters (a-z, A-Z, 0–9) and hyphens. Avoid punctuation, spaces, underscores, or any non-alphanumeric character.
+3. **No Continuous Hyphens**: Do not use continuous hyphens. `feature--new-login` can be confusing and hard to read.
+4. **No Trailing Hyphens**: Do not end your branch name with a hyphen. For example, `feature-new-login-` is not a good practice.
+5. **Descriptive**: The name should be descriptive and concise, ideally reflecting the work done on the branch.
+
+**Branch Prefixes**:
+Using branch names helps to quickly identify the purpose of the branches. Here are some common types of branches with their corresponding prefixes:
+1. **Feature Branches**: These branches are used for developing new features. Use the prefix feature/. For instance, feature/login-system.
+2. **Bugfix Branches**: These branches are used to fix bugs in the code. Use the prefix bugfix/. For example, bugfix/header-styling.
+3. **Hotfix Branches**: These branches are made directly from the production branch to fix critical bugs in the production environment. Use the prefix hotfix/. For instance, hotfix/critical-security-issue.
+4. **Release Branches**: These branches are used to prepare for a new production release. They allow for last-minute dotting of i’s and crossing t’s. Use the prefix release/. For example, release/v1.0.1.
+5. **Documentation Branches**: These branches are used to write, update, or fix documentation eg. the README.md file. Use the prefix docs/. For instance, docs/api-endpoints.
+
 ### Creating a new branch
 
 When you want to contribute to the Discord Bot Project, you will need to create a new branch where you will be staging your changes.

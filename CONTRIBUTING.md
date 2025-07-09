@@ -115,8 +115,8 @@ Before creating a new branch, please review this section to follow the repositor
 
 Consistent branch naming provides clarity and makes it easier to locate specific branches related to ongoing work.
 
->[!NOTE]
-All documentation of this section was referred from [Medium](https://medium.com/@abhay.pixolo/naming-conventions-for-git-branches-a-cheatsheet-8549feca2534)
+> [!NOTE]
+> All documentation for this section was adapted from [Medium](https://medium.com/@abhay.pixolo/naming-conventions-for-git-branches-a-cheatsheet-8549feca2534)
 
 **Basic Rules**:    
 1. **Lowercase and Hyphen-separated**: Stick to lowercase for branch names and use hyphens to separate words—for example, `feature/new-login` or `bugfix/header-styling`.

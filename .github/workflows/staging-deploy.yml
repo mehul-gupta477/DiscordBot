@@ -28,6 +28,6 @@ jobs:
                 cat <<EOT > .env
                     DISCORD_BOT_TOKEN=${{ secrets.DISCORD_BOT_TOKEN }}
                 EOT
-                git pull origin main
+                git pull origin stage
                 sudo systemctl restart discordbot.service
             EOF

@@ -25,7 +25,7 @@ jobs:
                 cd /home/github-actions/DiscordBot-staging
 
                 cat <<EOT > .env
-                    DISCORD_BOT_TOKEN=${{ secrets.DISCORD_BOT_TOKEN }}
+            DISCORD_BOT_TOKEN=${{ secrets.DISCORD_BOT_TOKEN }}
                 EOT
                 git pull origin stage
                 sudo systemctl restart discordbot.service

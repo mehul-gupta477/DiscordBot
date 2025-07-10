@@ -192,7 +192,7 @@ If your tests fail, then it can be due to three main reasons:
 >![Coverage Report](images/coverage-screenshot-3.png)
 
 > **Warning:**
-> If your `index.html` file doesn't contain every python file in the project barring `notify_discord.py`, then you you can run the following command to generate a new coverage report:
+> If your `index.html` file doesn't contain every python file in the project barring `notify_discord.py`, then you can run the following command to generate a new coverage report:
 >
 > ```bash
 > coverage html

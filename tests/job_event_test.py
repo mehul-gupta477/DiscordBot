@@ -11,7 +11,6 @@ from data_processing.job_event import (     # noqa: E501
     format_jobs_message,
     get_jobs,
 )
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 class TestJobEventFunctions(unittest.TestCase):
     """
     Tests for paste_jobs_command

@@ -7,19 +7,14 @@ from data_collections.csv_updater import extract_entries_from_csv
 def paste_jobs_command(command_args: str) -> Dict[str, Any]:
     """
     Parses the jobs command arguments to extract search filters 
-        from both flag notation and bracket notation.
+        from flag notation
 
     Args:
         command_args (str): The arguments string with format options:
-                           Flag notation: "[search_term] [flags]"
+                           Flag notation: "[flags] [search terms]"
                            Examples: "software -c google -l remote"
                                    "-c microsoft internship"
                                    "python -t internship -s summer"
-
-                           Bracket notation: "[role] [type] [season] [company] [location]"
-                           Examples: "[software engineer] [internship] [summer] [google] [remote]"
-                                   "[python developer] [] [] [microsoft] []"
-
     Returns:
         dict: Dictionary containing parsed parameters
     """
@@ -120,8 +115,8 @@ def format_jobs_message(returned_jobs: List[Dict[str, Any]],
                 filter_desc.append(f"search: {value}")
             else:
                 filter_desc.append(f"{key}: {value}")
-    filter_text = f" (Filters: {', '.join(filter_desc)})"
-    message = f"💼 **Found {len(returned_jobs)} job(s){filter_text}:**\n\n"
+    filter_text = f" (Filters:{', '.join(filter_desc)})"
+    message = f"💼 **Found {len(returned_jobs)} job(s):{filter_text}:**\n\n"
     display_jobs = returned_jobs[:10]
 
     for current_job in display_jobs:

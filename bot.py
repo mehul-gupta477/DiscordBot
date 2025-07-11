@@ -69,13 +69,13 @@ async def on_member_join(member: discord.Member) -> None:
     )
 
     # Create welcome message
-    welcome_message = f"Welcome to **{member.guild.name}**, {member.mention}! Feel free to introduce yourself in {networking_mention}" # noqa: E501
+    welcome_message = f"Welcome to **{member.guild.name}**, {member.mention}! Feel free to introduce yourself in {networking_mention}"  # noqa: E501
 
     try:
         if welcome_channel:
             await welcome_channel.send(welcome_message)
             print(
-                f"📨 Welcome message sent for {member.display_name} in #{welcome_channel.name}" # noqa: E501
+                f"📨 Welcome message sent for {member.display_name} in #{welcome_channel.name}"  # noqa: E501
             )
         else:
             # Fallback: send a DM if no suitable channel is found
@@ -87,7 +87,7 @@ async def on_member_join(member: discord.Member) -> None:
     except discord.Forbidden:
         # Bot doesn't have permissions to send messages in the channel or to the user
         print(
-            f"❌ Could not send welcome message for {member.display_name} - missing permissions" # noqa: E501
+            f"❌ Could not send welcome message for {member.display_name} - missing permissions"  # noqa: E501
         )
     except Exception as e:
         print(f"❌ Error sending welcome message for {member.display_name}: {e}")
@@ -97,7 +97,7 @@ async def on_member_join(member: discord.Member) -> None:
 @bot.command()
 async def help(ctx) -> None:
     """
-    Sends a message listing all available bot commands and their 
+    Sends a message listing all available bot commands and their
     descriptions in the current channel.
     """
     help_message = (
@@ -124,7 +124,7 @@ async def resume(ctx) -> None:
 @bot.command()
 async def events(ctx) -> None:
     """
-    Sends a message listing upcoming club events and their dates in 
+    Sends a message listing upcoming club events and their dates in
     response to the `!events` command.
     """
     await ctx.send(
@@ -139,7 +139,7 @@ async def events(ctx) -> None:
 @bot.command()
 async def resources(ctx) -> None:
     """
-    Sends a list of recommended computer science learning resources 
+    Sends a list of recommended computer science learning resources
     to the channel in response to the `!resources` command.
     """
     await ctx.send(
@@ -153,10 +153,10 @@ async def resources(ctx) -> None:
 
 def run_bot() -> None:
     """
-    Loads environment variables, retrieves the Discord bot token, 
+    Loads environment variables, retrieves the Discord bot token,
     and starts the bot.
 
-    Exits the program with an error message if the environment file 
+    Exits the program with an error message if the environment file
     is missing or the token is invalid.
     """
     if load_dotenv():

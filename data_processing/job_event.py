@@ -83,8 +83,7 @@ def format_jobs_message(returned_jobs: list[dict[str, Any]],
     filter_text = f" (Filters: {current_filters.strip()})" if current_filters else ""
     message = f"💼 **Found {len(returned_jobs)} job(s):{filter_text}**\n\n"
     display_jobs = returned_jobs[:10]
-    running_count = 0
-    for current_job in display_jobs:
+    for running_count, current_job in enumerate(display_jobs):
         if running_count > 10:
             break
         title = current_job.get("Title", "Untitled Position")
@@ -110,7 +109,6 @@ def format_jobs_message(returned_jobs: list[dict[str, Any]],
         if link:
             job_text += f"🔗 [Apply Here]({link})\n"
         message += job_text + "\n"
-        running_count += 1
     if len(returned_jobs) > 10:
         message += f"... and {len(returned_jobs) - 10} more jobs. Use more specific filters to narrow results." # noqa: E501
     return message

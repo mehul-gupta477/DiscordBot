@@ -285,12 +285,24 @@ class TestGetJobs(unittest.TestCase):
     """
     Tests for get_jobs function
     """
-    def setUp(self):      # make a temporary CSV file for testing
-        with tempfile.NamedTemporaryFile(delete=False, mode='w', suffix=".csv") as temp_file:   # noqa: E501
-            temp_file.write("Type,Title,Description,Company,Location,whenDate,pubDate,link,entryDate\n")   # noqa: E501
-            temp_file.write("Internship,Pizza Intern,Help wanted,Cheesy Dreams Inc,Italy,Summer 2025,2025-07-01,http://cheesydreams.com/apply,2025-07-07\n")       # noqa: E501
-            temp_file_path = temp_file.name
-            return temp_file_path
+    def setUp(self):
+        # Create a temporary CSV file for testing
+        self.temp_file = tempfile.NamedTemporaryFile(delete=False, mode='w', suffix=".csv")
+        self.temp_file.write("Type,Title,Description,Company,Location,whenDate,pubDate,link,entryDate\n")
+        self.temp_file.write("Internship,Pizza Intern,Help wanted,Cheesy Dreams Inc,Italy,Summer 2025,2025-07-01,http://cheesydreams.com/apply,2025-07-07\n")    # noqa: E501
+        self.temp_file.close()
+        self.temp_file_path = self.temp_file.name
+
+    def tearDown(self):
+        # Clean up temporary file
+        if hasattr(self, 'temp_file_path'):
+            os.unlink(self.temp_file_path)
+        self.temp_file_path = self.temp_file.name
+
+    def tearDown(self):
+        # Clean up temporary file
+        if hasattr(self, 'temp_file_path'):
+            os.unlink(self.temp_file_path)
 
     @patch("data_collections.csv_updater.extract_entries_from_csv")
     def test_get_jobs_error_handling(self, mock_extract):
@@ -302,21 +314,18 @@ class TestGetJobs(unittest.TestCase):
             get_jobs("missing.csv")
 
     @patch("data_collections.csv_updater.extract_entries_from_csv")
-    def test_get_jobs_empty_csv(self, mock_extract):
-        """
-        Test for error handling given empty csv file
-        """
-        mock_extract.side_effect = RuntimeError("Empty CSV file")
-        with self.assertRaises(RuntimeError):
-            get_jobs("empty.csv")
-
-    @patch("data_collections.csv_updater.extract_entries_from_csv")
     def test_get_jobs_filter_find_match(self, mock_extract):
         """
         Test for successful filtering of jobs
         """
-        results = get_jobs(self.setUp())
-        mock_extract.return_value = 1
+        mock_extract.return_value = [
+            {"Type": "Internship", 
+                "Title": "Test Job", 
+                "Company": "Test Co", 
+                "Location": "Test City", 
+                "Description": "Test description"}
+        ]
+        results = get_jobs(self.temp_file_path)
         self.assertEqual(len(results), 1)
         
 

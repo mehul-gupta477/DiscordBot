@@ -51,7 +51,6 @@ def filter_jobs(all_jobs: list[dict[str, Any]],
                 current_job.get("Title", ""),
                 current_job.get("Company", ""),
                 current_job.get("Description", ""),
-                current_job.get("Company", ""),
                 current_job.get("Location", ""),
                 current_job.get("whenDate", ""),
                 current_job.get("pubDate", ""),
@@ -62,8 +61,6 @@ def filter_jobs(all_jobs: list[dict[str, Any]],
                     include_job = True
         if include_job:
             filtered_jobs.append(current_job)
-        else:
-            continue
     return filtered_jobs
 
 def format_jobs_message(returned_jobs: list[dict[str, Any]],
@@ -83,9 +80,7 @@ def format_jobs_message(returned_jobs: list[dict[str, Any]],
     filter_text = f" (Filters: {current_filters.strip()})" if current_filters else ""
     message = f"💼 **Found {len(returned_jobs)} job(s):{filter_text}**\n\n"
     display_jobs = returned_jobs[:10]
-    for running_count, current_job in enumerate(display_jobs):
-        if running_count > 10:
-            break
+    for current_job in display_jobs:
         title = current_job.get("Title", "Untitled Position")
         job_type = current_job.get("Type", "")
         company_name = current_job.get("Company", "")
@@ -118,9 +113,7 @@ def get_jobs(csv_file_path: str) -> list[dict[str, Any]]:
     Reads job data from CSV file and filters based on command parameters.
 
     Args:
-        csv_file_path (str): Path to the CSV file containing job data
-        command_args (str): Command arguments for filtering 
-                                (e.g., "software -c google -l remote") 
+        csv_file_path (str): Path to the CSV file containing job data 
 
     Returns:
         list: List of job dictionaries matching the criteria
@@ -142,6 +135,4 @@ def get_jobs(csv_file_path: str) -> list[dict[str, Any]]:
             if specific_keyword in job_type:
                 filtered_jobs.append(current_job)
                 break
-            else:
-                continue
     return filtered_jobs

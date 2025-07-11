@@ -3,6 +3,7 @@
 import unittest
 from unittest.mock import patch
 import sys
+import tempfile
 import os
 from data_processing.job_event import (     # noqa: E501
     paste_jobs_command,
@@ -270,7 +271,6 @@ class TestJobEventFunctions(unittest.TestCase):
         jobs = [self.sample_jobs[0]]
         filters = "pizza"
         result = format_jobs_message(jobs, filters)
-
         self.assertIn("(Filters: pizza)", result)
 
     def test_format_jobs_message_limit_display(self):
@@ -286,53 +286,12 @@ class TestGetJobs(unittest.TestCase):
     """
     Tests for get_jobs function
     """
-    def setUp(self):
-        self.sample_jobs = [
-            {
-                "Type": "Internship",
-                "Title": "Pizza Quality Assurance Intern",
-                "Description": "Help us ensure our pizza reaches peak deliciousness.", # noqa: E501
-                "Company": "Cheesy Dreams Inc",
-                "Location": "Napoli, Italy",
-                "whenDate": "Summer 2025",
-                "pubDate": "2025-07-01",
-                "link": "http://cheesydreams.com/apply",
-                "entryDate": "2025-07-07",
-            },
-            {
-                "Type": "Full-time",
-                "Title": "Senior Cat Behavior Analyst",
-                "Description": "Decode the mysterious ways of felines.",
-                "Company": "Whiskers & Co",
-                "Location": "Remote",
-                "whenDate": "",
-                "pubDate": "2025-06-28",
-                "link": "http://whiskersco.com/careers",
-                "entryDate": "2025-07-06",
-            },
-            {
-                "Type": "Part-time",
-                "Title": "Professional Bubble Wrap Popper",
-                "Description": "Join our stress-relief team.",
-                "Company": "Pop Culture Studios",
-                "Location": "San Francisco, CA",
-                "whenDate": "Fall 2025",
-                "pubDate": "2025-07-05",
-                "link": "http://popculture.com/jobs",
-                "entryDate": "2025-07-05",
-            },
-            {
-                "Type": "Event",
-                "Title": "Company Picnic",
-                "Description": "Annual company gathering",
-                "Company": "Fun Corp",
-                "Location": "Park",
-                "whenDate": "2025-08-01",
-                "pubDate": "2025-07-01",
-                "link": "http://funcorp.com/picnic",
-                "entryDate": "2025-07-01",
-            },
-        ]
+    def setUp(self):      # make a temporary CSV file for testing
+        with tempfile.NamedTemporaryFile(delete=False, mode='w', suffix=".csv") as temp_file:   # noqa: E501
+            temp_file.write("Type,Title,Description,Company,Location,whenDate,pubDate,link,entryDate\n")   # noqa: E501
+            temp_file.write("Internship,Pizza Quality Assurance Intern,Help us ensure our pizza reaches peak deliciousness,Cheesy Dreams Inc,Napoli, Italy,Summer 2025,2025-07-01,http://cheesydreams.com/apply,2025-07-07\n")  # noqa: E501
+            temp_file_path = temp_file.name
+            return temp_file_path
 
     @patch("data_collections.csv_updater.extract_entries_from_csv")
     def test_get_jobs_error_handling(self, mock_extract):
@@ -352,6 +311,15 @@ class TestGetJobs(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             get_jobs("empty.csv")
 
+    @patch("data_collections.csv_updater.extract_entries_from_csv")
+    def test_get_jobs_filter_find_match(self, mock_extract):
+        """
+        Test for successful filtering of jobs
+        """
+        results = get_jobs(self.setUp())
+        mock_extract.return_value = 1
+        self.assertEqual(len(results), 1)
+        
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,7 +1,7 @@
 """Referenced from bot.py and filters and returns
 jobs that match the inputted criteria.
 """
-from typing import list, dict, Any
+from typing import Any
 from data_collections.csv_updater import extract_entries_from_csv  # pylint: disable=E0401
 
 def paste_jobs_command(command_args: str) -> str:

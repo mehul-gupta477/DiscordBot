@@ -28,5 +28,5 @@ jobs:
                     chmod 600 .env
 
                     git pull origin stage
-                    sudo systemctl restart discordbot.service
+                    sudo systemctl restart discordbot-staging.service
                 EOF

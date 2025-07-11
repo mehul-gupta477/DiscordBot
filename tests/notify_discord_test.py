@@ -36,7 +36,7 @@ class TestNotifyDiscord(unittest.TestCase):
             mock_getenv.side_effect = getenv_side_effect
 
             # Mock event.json and user_map.json files
-            event_data = '{"action": "opened", "issue": {"title": "Test Issue", "html_url": "https://github.com/test", "assignees": []}}' # noqa: E501
+            event_data = '{"action": "opened", "issue": {"title": "Test Issue", "html_url": "https://github.com/test", "assignees": []}}'  # noqa: E501
             user_map_data = '{"user1": "123456789"}'
 
             mock_file.side_effect = [

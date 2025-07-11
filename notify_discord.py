@@ -7,12 +7,12 @@ import requests
 
 def load_event_context():
     """
-    Load the GitHub event name, action, and 
+    Load the GitHub event name, action, and
     event payload from environment variables and file.
 
     Returns:
-        tuple: 
-            A tuple containing the event name (str), 
+        tuple:
+            A tuple containing the event name (str),
             event action (str or None), and the event payload (dict).
 
     Raises:
@@ -34,7 +34,7 @@ def load_event_context():
 
 def load_user_map():
     """
-    Load the mapping of GitHub usernames to 
+    Load the mapping of GitHub usernames to
     Discord user IDs from the 'user_map.json' file.
 
     Returns:
@@ -82,7 +82,7 @@ def post_to_discord(message: str, webhook_url: str):
 
 def generate_developer_list(assignees, user_map):
     """
-    Convert a list of GitHub user objects to 
+    Convert a list of GitHub user objects to
     Discord mention strings using a user mapping.
 
     Parameters:
@@ -101,11 +101,11 @@ def generate_developer_list(assignees, user_map):
 
 def notify_assignment(obj, user_map, webhook_url):
     """
-    Sends a Discord notification when an issue 
+    Sends a Discord notification when an issue
     or pull request is assigned to one or more users.
 
-    The notification includes the title, URL, 
-    and Discord mentions of the assigned users 
+    The notification includes the title, URL,
+    and Discord mentions of the assigned users
     if they are present in the user map.
     """
     title = obj.get("title", "Untitled")
@@ -127,8 +127,8 @@ def notify_review_request(pr_obj, user_map, webhook_url):
     """
     Sends a Discord notification when a pull request review is requested.
 
-    The notification includes the pull request title, 
-    URL, and mentions the requested reviewers 
+    The notification includes the pull request title,
+    URL, and mentions the requested reviewers
     if they are mapped to Discord users.
     """
     title = pr_obj.get("title", "Untitled")
@@ -147,18 +147,18 @@ def notify_review_request(pr_obj, user_map, webhook_url):
 
 def notify_review_state_change(pr_obj, state: str, user_map, webhook_url):
     """
-    Sends a Discord notification about a pull request, 
+    Sends a Discord notification about a pull request,
     review state change, mentioning the assigned user.
 
     Parameters:
-        pr_obj (dict): 
-            The pull request object containing details such as 
+        pr_obj (dict):
+            The pull request object containing details such as
             title, URL, and assignee.
-        state (str): 
+        state (str):
             The new review state (e.g., "approved", "changes_requested").
-        user_map (dict): 
+        user_map (dict):
             Mapping of GitHub usernames to Discord user IDs.
-        webhook_url (str): 
+        webhook_url (str):
             The Discord webhook URL for posting the notification.
     """
     title = pr_obj.get("title", "Untitled")
@@ -182,15 +182,15 @@ def notify_review_state_change(pr_obj, state: str, user_map, webhook_url):
 
 def notify_comment_mention(comment_body: str, context_obj, user_map, webhook_url):
     """
-    Detects GitHub username mentions in a comment and 
+    Detects GitHub username mentions in a comment and
     sends a Discord notification for users found in the user map.
 
     Parameters:
         comment_body (str): The text of the comment to scan for @mentions.
         context_obj: The issue or pull request object providing context for the comment.
 
-    Sends a formatted message to Discord mentioning the 
-    corresponding users if any GitHub usernames in the 
+    Sends a formatted message to Discord mentioning the
+    corresponding users if any GitHub usernames in the
     comment match entries in the user map.
     """
     mentioned_users = re.findall(r"@(\w+)", comment_body)
@@ -202,7 +202,7 @@ def notify_comment_mention(comment_body: str, context_obj, user_map, webhook_url
     if mentions:
         message = (
             f"💬 **Mention in Comment**\n"
-            f"🔗 [{context_obj.get('title', 'Untitled')}]({context_obj.get('html_url', '')})\n" # noqa: E501
+            f"🔗 [{context_obj.get('title', 'Untitled')}]({context_obj.get('html_url', '')})\n"  # noqa: E501
             f"👤 Mentioned: {', '.join(mentions)}\n"
             f'📝 "{comment_body.strip()}"'
         )
@@ -212,7 +212,7 @@ def notify_comment_mention(comment_body: str, context_obj, user_map, webhook_url
 def main():
     """
     Handles GitHub webhook events and sends corresponding notifications to Discord.
-    Determines the event type and action, loads configuration and user mapping, 
+    Determines the event type and action, loads configuration and user mapping,
     and dispatches notifications for issue assignments, pull request review requests,
     pull request review state changes, and user mentions in comments.
 

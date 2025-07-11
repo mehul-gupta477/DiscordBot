@@ -30,4 +30,3 @@ jobs:
                     git pull origin stage
                     sudo systemctl restart discordbot.service
                 EOF
-              shell: bash

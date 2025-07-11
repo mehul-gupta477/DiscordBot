@@ -352,7 +352,6 @@ Once you have ensured that you have done all of the above, you can convert your 
 Once you do that, you are ready for code review!
 
 ### Validating Changes in Staging
-### Validating Changes in Staging
 
 Once your changes have passed local testing and are ready for broader validation, they should be tested in the **Staging** environment. The Discord Bot is deployed on our GCP LM, and the staging bot mirrors the production setup as closely as possible.
 

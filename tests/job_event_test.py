@@ -289,7 +289,7 @@ class TestGetJobs(unittest.TestCase):
     def setUp(self):      # make a temporary CSV file for testing
         with tempfile.NamedTemporaryFile(delete=False, mode='w', suffix=".csv") as temp_file:   # noqa: E501
             temp_file.write("Type,Title,Description,Company,Location,whenDate,pubDate,link,entryDate\n")   # noqa: E501
-            temp_file.write("Internship,Pizza Quality Assurance Intern,Help us ensure our pizza reaches peak deliciousness,Cheesy Dreams Inc,Napoli, Italy,Summer 2025,2025-07-01,http://cheesydreams.com/apply,2025-07-07\n")  # noqa: E501
+            temp_file.write("Internship,Pizza Quality Assurance Intern,Help us ensure our pizza reaches peak deliciousness,Cheesy Dreams Inc,Napoli, Italy,Summer 2025,2025-07-01,http://cheesydreams.com/apply,2025-07-07\n")       # noqa: E501
             temp_file_path = temp_file.name
             return temp_file_path
 

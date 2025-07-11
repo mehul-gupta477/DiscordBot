@@ -2,6 +2,7 @@ name: Document Formatter
 on:
   push:
     branches: ["main", "stage", "stable/*"]
+    paths: ['**/*.yml', '**/*.yaml']
   pull_request:
     branches: ["main", "stage", "stable/*"]
 

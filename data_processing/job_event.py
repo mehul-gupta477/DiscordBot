@@ -299,5 +299,5 @@ def getJobs(csv_file_path: str, command_args: str = "") -> List[Dict[str, Any]]:
         return jobs
 
     except Exception as e:
-        print(f"❌ Error loading or filtering jobs from CSV: {e}")
+        print(f"Error loading or filtering jobs from CSV: {e}")
         return []

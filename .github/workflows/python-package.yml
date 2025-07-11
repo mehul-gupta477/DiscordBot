@@ -11,7 +11,7 @@ on:
       - 'requirements.txt'
       - 'noxfile.py'
   pull_request:
-    branches: ["main", "stage", "feature/*", "hotfix/*", "bugfix/*", "release/*", "stable/*"]
+    branches: ["main", "stage", "release/*", "stable/*"]
     paths:
       - '**/*.py'
       - '**/*.pyi'

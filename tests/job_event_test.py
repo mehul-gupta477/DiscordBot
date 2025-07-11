@@ -287,7 +287,7 @@ class TestGetJobs(unittest.TestCase):
     """
     def setUp(self):
         # Create a temporary CSV file for testing
-        self.temp_file = tempfile.NamedTemporaryFile(delete=False, mode='w', suffix=".csv")
+        self.temp_file = tempfile.NamedTemporaryFile(delete=False, mode='w', suffix=".csv", encoding="utf8")   # noqa: SIM115
         self.temp_file.write("Type,Title,Description,Company,Location,whenDate,pubDate,link,entryDate\n")
         self.temp_file.write("Internship,Pizza Intern,Help wanted,Cheesy Dreams Inc,Italy,Summer 2025,2025-07-01,http://cheesydreams.com/apply,2025-07-07\n")    # noqa: E501
         self.temp_file.close()
@@ -298,11 +298,6 @@ class TestGetJobs(unittest.TestCase):
         if hasattr(self, 'temp_file_path'):
             os.unlink(self.temp_file_path)
         self.temp_file_path = self.temp_file.name
-
-    def tearDown(self):
-        # Clean up temporary file
-        if hasattr(self, 'temp_file_path'):
-            os.unlink(self.temp_file_path)
 
     @patch("data_collections.csv_updater.extract_entries_from_csv")
     def test_get_jobs_error_handling(self, mock_extract):

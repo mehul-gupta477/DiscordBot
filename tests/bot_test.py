@@ -242,7 +242,7 @@ class TestCSClubBot(unittest.IsolatedAsyncioTestCase):
         await asyncio.sleep(0)
 
         mock_print.assert_any_call(
-            f"❌ Could not send welcome message for {mock_member.display_name} - missing permissions"
+            f"Could not send welcome message for {mock_member.display_name} - missing permissions"
         )
 
     @patch("builtins.print")
@@ -263,7 +263,7 @@ class TestCSClubBot(unittest.IsolatedAsyncioTestCase):
         await asyncio.sleep(0)
 
         mock_print.assert_any_call(
-            f"❌ Error sending welcome message for {mock_member.display_name}: Test error"
+            f"Error sending welcome message for {mock_member.display_name}: Test error"
         )
 
 

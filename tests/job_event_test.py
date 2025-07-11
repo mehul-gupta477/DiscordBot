@@ -379,8 +379,7 @@ class TestGetJobs(unittest.TestCase):
         ]
 
     @patch("data_collections.csv_updater.extract_entries_from_csv")
-    @patch("data_collections.csv_updater.remove_duplicates")
-    def test_getJobs_error_handling(self, mock_remove_duplicates, mock_extract):
+    def test_getJobs_error_handling(self, mock_extract):
         """error handling in getJobs"""
         mock_extract.side_effect = Exception("CSV file not found")
 
@@ -389,11 +388,9 @@ class TestGetJobs(unittest.TestCase):
         self.assertEqual(result, [])
 
     @patch("data_collections.csv_updater.extract_entries_from_csv")
-    @patch("data_collections.csv_updater.remove_duplicates")
-    def test_getJobs_empty_csv(self, mock_remove_duplicates, mock_extract):
+    def test_getJobs_empty_csv(self, mock_extract):
         """empty CSV file"""
         mock_extract.return_value = []
-        mock_remove_duplicates.return_value = []
 
         result = getJobs("empty.csv")
 

@@ -10,7 +10,6 @@ reviews:
   auto_apply_labels: true
   poem: true
   review_status: true
-  path_filters: ["**/**"]
   auto_review:
     enabled: true
     drafts: false

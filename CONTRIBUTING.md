@@ -143,17 +143,41 @@ You can do this by running the git checkout command:
 git checkout -b <new_branch_name>
 ```
 
-> [!TIP]
-> Note that this command creates a branch base on the branch that you are currently in, so please make sure that you are on the main branch when you are making a new branch.
+> [!CAUTION]
+> Note that this command creates a branch base on the branch that you are currently in, so please make sure that you are on the `stage` branch when you are making a new branch. If you checkout from any other branch other than `stage`, our codebase is at risk of failing deployment. More on this in the next section
 >
 > You can see which branch you are on by using the git branch command:
 >
 > ```bash
 > git branch
 > ```
+>
+> If you are on a different branch other than stage when creating your feature branch, ensure you run the following commands
+> ```bash
+> git checkout stage
+> git pull
+> git checkout -b <new_branch_name>
 
+### Migrating Environments
+We now have deployment environments to ensure that we are not deploying unfinished or buggy code to development! Our branch merges are directly tied to the environments your code will run in. Here’s how it works:
 
-### Testing Your Code
+```
+[Branch]
+feature branch -> stage -> release branch -> main
+
+[Environments]
+Development -> Staging -> Production
+```
+
+- **feature branch**: Code here is considered part of the **Development** environment. This is where you work on new features or fixes.
+- **stage**: When you merge your feature branch into `stage`, your code moves to the **Staging** environment. This is for testing and validation before release.
+- **release branch**: Merging from `stage` to a `release branch` prepares your code for deployment to **Production**.
+- **main**: Once your release branch is merged into `main`, your code is officially live in the **Production** environment.
+
+**Summary:**  
+Each branch merge advances your code to the next environment in the pipeline.
+
+### Testing Your Code With Unittests
 Once you have made changes to the code, it's essential to test your modifications to ensure they work as expected. The Discord Bot Project uses `unittest` for testing. Here's how to run the tests:
 
 1. Use the following command to run all tests:
@@ -224,35 +248,40 @@ If your tests fail, then it can be due to three main reasons:
 
 Great you've seen the coverage report and have identified areas for improvement! Here are instructions for testing the bot.
 
-### Testing the Bot Locally
+### Validating Changes to the Bot Locally
 
-Since we currently don't have a hosting solution, you'll need to run the bot locally to test your changes. Here's how to do it:
+**Validate in Development BEFORE pushing to stage**
 
-1. Make sure you have all the required dependencies installed:
+We use separate Discord bots for each environment:  
+- **Development Bot** (`Bug [Development]`)
+- **Staging Bot** (`Bug [Staging]`)
+- **Production Bot** (`Bug [Production]`)
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+When testing changes make sure you are using the correct `DISCORD_BOT_TOKEN` for the **Development** environment. There will be multiple development bot tokens and bots available so several contributors can test their code simultaneously. 
 
-2. Create a `.env` file in the root directory with your bot token (you can find this on our BitWarden):
+Here's how to validate your changes locally:
 
-   ```env
-   DISCORD_TOKEN=your_bot_token_here
-   ```
+1. Install dependencies:
+  ```bash
+  pip install -r requirements.txt
+  ```
+
+2. Create a `.env` file in the root directory with your **development** bot token (see BitWarden for credentials):
+  ```env
+  DISCORD_TOKEN=your_development_bot_token_here
+  ```
 
 3. Run the bot:
+  ```bash
+  python bot.py
+  ```
 
-   ```bash
-   python bot.py
-   ```
-
-The bot will start up and connect to Discord. You can test your changes by interacting with the bot on your Discord server. Make sure to test all the functionality you've modified or added to ensure everything works as expected.
+The bot will connect to Discord using the development token. Test all modified or new functionality in the **Development** environment before pushing to `stage`.
 
 > [!NOTE]
-> Keep our bot token secure and never commit it to the repository. The `.env` file is already in the `.gitignore` to prevent accidental commits.
+> Never commit your bot token to the repository. The `.env` file is included in `.gitignore` for security.
 
-
-Once you are ready to push your code to the branch that you created, you have to stage the changes.
+Once you are ready to push your code to the branch you created, stage your changes as described below.
 
 ### Staging your changes
 
@@ -321,6 +350,52 @@ Once you have ensured that you have done all of the above, you can convert your 
 ![image](images/pull_request_ex5.png)
 
 Once you do that, you are ready for code review!
+
+### Validating Changes in Staging
+### Validating Changes in Staging
+
+Once your changes have passed local testing and are ready for broader validation, they should be tested in the **Staging** environment. The Discord Bot is deployed on our GCP LM, and the staging bot mirrors the production setup as closely as possible.
+
+>[!WARNING]  
+> After your code is merged into the `stage` branch, you should **not** run the bot locally. All testing at this point must be performed using the staging bot instance.
+
+#### How to Test in Staging
+
+1. **Push your branch to `stage`:**  
+  Merge your feature branch into the `stage` branch following the standard workflow.
+
+2. **Deployment:**  
+  The bot will be automatically deployed to the Staging environment via our CI/CD pipeline.
+
+3. **Testing:**  
+  - Interact with the staging bot (`Bug [Staging]`) in Discord.
+  - Validate all new features, bug fixes, and changes in the staging environment.
+  - Confirm that your changes work as expected and do not introduce regressions.
+
+4. **Reporting Issues:**  
+  If you encounter any problems, create an issue in the repository and assign it the appropriate template.
+
+> [!NOTE]
+> The staging bot uses a separate Discord token and configuration from development and production. Ensure you are testing with the correct bot in the correct environment.
+
+**Summary:**  
+All code merged into `stage` must be tested exclusively through the staging bot. This ensures that your changes are validated in an environment that closely matches production, reducing the risk of deployment issues.
+
+### Validating Changes in Production
+
+Once your changes have passed all tests and reviews in the staging environment, they are ready to be considered for deployment to production. The process for migrating changes to production is managed by the project managers, who handle release branches by copying the `stage` branch and removing any unsuccessful commits before deploying.
+
+- **Deployment:**  
+  Project managers will create the release branch by copying the current `stage` branch and removing any commits that did not pass validation. After this, the production bot will be automatically deployed via our CI/CD pipeline.
+
+- **Testing:**  
+  Interact with the production bot (`Bug [Production]`) in Discord to verify that all new features, bug fixes, and updates are functioning as expected in the live environment.
+
+- **Monitoring:**  
+  Closely monitor the bot for any unexpected behavior or issues. If problems arise, report them immediately using the appropriate issue template.
+
+> [!NOTE]
+> Only thoroughly tested and reviewed code should be deployed to production. This ensures stability and reliability for all users.
 
 ### Code Review
 

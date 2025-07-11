@@ -5,8 +5,12 @@ from discord.ext import commands
 import os
 import sys
 from dotenv import load_dotenv
-from data_processing.job_event import get_jobs, paste_jobs_command, format_jobs_message
-
+from data_processing.job_event import (
+                                        get_jobs, 
+                                        paste_jobs_command, 
+                                        format_jobs_message,
+                                        filter_jobs
+                                    )
 # Set up Discord Intents to enable bot to receive message events
 intents: discord.Intents = discord.Intents.default()
 intents.messages = True
@@ -165,13 +169,14 @@ async def jobs(ctx, *, args: str = "") -> None:
     """
     csv_file_path = "data_collections/runningCSV.csv"
     try:
-        filtered_jobs = get_jobs(csv_file_path, args)
+        all_jobs = get_jobs(csv_file_path)
     except OSError:
         await ctx.send(
             "Sorry, there was an error searching for jobs. Please try again later."
         )
     else:
         filters = paste_jobs_command(args)
+        filtered_jobs = filter_jobs(all_jobs, filters)
         message = format_jobs_message(filtered_jobs, filters)
         await ctx.send(message)
 

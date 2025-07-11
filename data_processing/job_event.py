@@ -1,9 +1,8 @@
 """Referenced from bot.py and filters and returns
 jobs that match the inputted criteria.
 """
-from typing import List, Dict, Any
-import sys
-from data_collections.csv_updater import extract_entries_from_csv
+from typing import list, dict, Any
+from data_collections.csv_updater import extract_entries_from_csv  # pylint: disable=E0401
 
 def paste_jobs_command(command_args: str) -> str:
     """
@@ -30,8 +29,8 @@ def paste_jobs_command(command_args: str) -> str:
             pasted_params += term + " "
     return pasted_params.strip()
 
-def filter_jobs(all_jobs: List[Dict[str, Any]],
-                    current_filters: str) -> List[Dict[str, Any]]:
+def filter_jobs(all_jobs: list[dict[str, Any]],
+                    current_filters: str) -> list[dict[str, Any]]:
     """
     Filters jobs based on provided criteria including general search and specific flags.
 
@@ -67,8 +66,8 @@ def filter_jobs(all_jobs: List[Dict[str, Any]],
             continue
     return filtered_jobs
 
-def format_jobs_message(returned_jobs: List[Dict[str, Any]],
-                            current_filters: str = None) -> str:
+def format_jobs_message(returned_jobs: list[dict[str, Any]],
+                            current_filters: str) -> str:
     """
     Formats job results into a Discord message.
 
@@ -81,14 +80,13 @@ def format_jobs_message(returned_jobs: List[Dict[str, Any]],
     """
     if not returned_jobs:
         return "💼 No jobs found matching your criteria."
-    if current_filters:
-        filter_text = f" (Filters: {current_filters.strip()})"
-    else:
-        filter_text = ""
+    filter_text = f" (Filters: {current_filters.strip()})" if current_filters else ""
     message = f"💼 **Found {len(returned_jobs)} job(s):{filter_text}**\n\n"
     display_jobs = returned_jobs[:10]
-
+    running_count = 0
     for current_job in display_jobs:
+        if running_count > 10:
+            break
         title = current_job.get("Title", "Untitled Position")
         job_type = current_job.get("Type", "")
         company_name = current_job.get("Company", "")
@@ -104,7 +102,7 @@ def format_jobs_message(returned_jobs: List[Dict[str, Any]],
         if location:
             job_text += f"📍 {location}\n"
         if when_date:
-            job_text += f"📅 {when_date}\n"
+            job_text += f"📅 Start Date: {when_date}\n"
         if pub_date:
             job_text += f"📅 Posted: {pub_date}\n"
         if description:
@@ -112,43 +110,40 @@ def format_jobs_message(returned_jobs: List[Dict[str, Any]],
         if link:
             job_text += f"🔗 [Apply Here]({link})\n"
         message += job_text + "\n"
+        running_count += 1
     if len(returned_jobs) > 10:
-        message += f"... and {len(returned_jobs) - 10} more jobs. Use more specific filters to narrow results." # pylint: disable=C0301
+        message += f"... and {len(returned_jobs) - 10} more jobs. Use more specific filters to narrow results." # noqa: E501
     return message
 
-def get_jobs(csv_file_path: str,
-                command_args: str = "") -> List[Dict[str, Any]]:
+def get_jobs(csv_file_path: str) -> list[dict[str, Any]]:
     """
     Reads job data from CSV file and filters based on command parameters.
 
     Args:
         csv_file_path (str): Path to the CSV file containing job data
-        command_args (str): Command arguments for filtering (e.g., "software -c google -l remote")
+        command_args (str): Command arguments for filtering 
+                                (e.g., "software -c google -l remote") 
 
     Returns:
         list: List of job dictionaries matching the criteria
     """
     try:
         jobs = extract_entries_from_csv(csv_file_path)
-    except RuntimeError as e:
+    except RuntimeError:
         print("Error loading or filtering jobs from CSV")
         raise
     filtered_jobs = []
     for current_job in jobs:
         job_type = current_job.get("Type", "").lower()
-        title = current_job.get("Title", "").lower()
         job_keywords = [
             "job",
             "internship",
             "intern", 
         ]
         for specific_keyword in job_keywords:
-            if specific_keyword in job_type or specific_keyword in title:
+            if specific_keyword in job_type:
                 filtered_jobs.append(current_job)
+                break
             else:
                 continue
-    jobs = filtered_jobs
-    if command_args.strip():
-        filters = paste_jobs_command(command_args)
-        jobs = filter_jobs(jobs, filters)
-    return jobs
+    return filtered_jobs

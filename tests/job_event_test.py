@@ -4,7 +4,7 @@ import unittest
 from unittest.mock import patch
 import sys
 import os
-from data_processing.job_event import (
+from data_processing.job_event import (     # noqa: E501
     paste_jobs_command,
     filter_jobs,
     format_jobs_message,
@@ -20,7 +20,7 @@ class TestJobEventFunctions(unittest.TestCase):
             {
                 "Type": "Internship",
                 "Title": "Pizza Quality Assurance Intern",
-                "Description": "Help us ensure our pizza reaches peak deliciousness. Must love cheese and have strong opinions about pineapple.",  # pylint: disable=C0301
+                "Description": "Help us ensure our pizza reaches peak deliciousness. Must love cheese and have strong opinions about pineapple.",  # noqa: E501
                 "Company": "Cheesy Dreams Inc",
                 "Location": "Napoli, Italy",
                 "whenDate": "Summer 2025",
@@ -31,7 +31,7 @@ class TestJobEventFunctions(unittest.TestCase):
             {
                 "Type": "Full-time",
                 "Title": "Senior Cat Behavior Analyst",
-                "Description": "Decode the mysterious ways of felines. Remote work encouraged (cats don't commute).",  # pylint: disable=C0301
+                "Description": "Decode the mysterious ways of felines. Remote work encouraged (cats don't commute).",  # noqa: E501
                 "Company": "Whiskers & Co",
                 "Location": "Remote",
                 "whenDate": "",
@@ -42,7 +42,7 @@ class TestJobEventFunctions(unittest.TestCase):
             {
                 "Type": "Part-time",
                 "Title": "Professional Bubble Wrap Popper",
-                "Description": "Join our stress-relief team. Must have excellent finger dexterity and appreciation for satisfying sounds.",  # pylint: disable=C0301
+                "Description": "Join our stress-relief team. Must have excellent finger dexterity and appreciation for satisfying sounds.",  # noqa: E501
                 "Company": "Pop Culture Studios",
                 "Location": "San Francisco, CA",
                 "whenDate": "Fall 2025",
@@ -53,7 +53,7 @@ class TestJobEventFunctions(unittest.TestCase):
             {
                 "Type": "Internship",
                 "Title": "Unicorn Grooming Specialist",
-                "Description": "Maintain the magical appearance of our unicorn fleet. Glitter allergy is a dealbreaker.",  # pylint: disable=C0301
+                "Description": "Maintain the magical appearance of our unicorn fleet. Glitter allergy is a dealbreaker.",  # noqa: E501
                 "Company": "Mythical Creatures Ltd",
                 "Location": "Portland, OR",
                 "whenDate": "Spring 2025",
@@ -64,7 +64,7 @@ class TestJobEventFunctions(unittest.TestCase):
             {
                 "Type": "Internship",
                 "Title": "Cloud Whisperer Intern",
-                "Description": "Interpret weather patterns and cloud formations. Must be comfortable working at high altitudes.",  # pylint: disable=C0301
+                "Description": "Interpret weather patterns and cloud formations. Must be comfortable working at high altitudes.",  # noqa: E501
                 "Company": "Sky High Analytics",
                 "Location": "Denver, CO",
                 "whenDate": "Summer 2025",
@@ -104,7 +104,7 @@ class TestJobEventFunctions(unittest.TestCase):
         """
         Test for longer flag names to return as filters
         """
-        command = "cloud --role whisperer --type internship --season summer --company sky --location denver"  # pylint: disable=C0301
+        command = "cloud --role whisperer --type internship --season summer --company sky --location denver"  # noqa: E501
         result = paste_jobs_command(command)
         expected = "cloud whisperer internship summer sky denver"
         self.assertEqual(result, expected)
@@ -220,17 +220,19 @@ class TestJobEventFunctions(unittest.TestCase):
 
     def test_format_jobs_message_empty_list(self):
         """
-        Test that given the input of no matching jobs, response will be printed
+        Test that given the input of no matching jobs, 
+            response will be printed
         """
-        result = format_jobs_message([])
+        result = format_jobs_message([], "")
         self.assertEqual(result, "💼 No jobs found matching your criteria.")
 
     def test_format_jobs_message_single_job(self):
         """
-        Test that given the input of a singular matching job, response will be printed
+        Test that given the input of a singular matching job, 
+            response will be printed
         """
         jobs = [self.sample_jobs[0]]
-        result = format_jobs_message(jobs)
+        result = format_jobs_message(jobs, "")
         self.assertIn("💼 **Found 1 job(s):**", result)
         self.assertIn("Pizza Quality Assurance Intern", result)
         self.assertIn("Cheesy Dreams Inc", result)
@@ -240,10 +242,11 @@ class TestJobEventFunctions(unittest.TestCase):
 
     def test_format_jobs_message_multiple_jobs(self):
         """
-        Test that given the input of multiple matching jobs, response will be printed
+        Test that given the input of multiple matching jobs, 
+            response will be printed
         """
         jobs = self.sample_jobs[:3]
-        result = format_jobs_message(jobs)
+        result = format_jobs_message(jobs, "")
         self.assertIn("💼 **Found 3 job(s):**", result)
         self.assertIn("Pizza Quality Assurance Intern", result)
         self.assertIn("Senior Cat Behavior Analyst", result)
@@ -251,7 +254,8 @@ class TestJobEventFunctions(unittest.TestCase):
 
     def test_format_jobs_message_with_filters(self):
         """
-        Test that given filters in command line, response will print the filters
+        Test that given filters in command line, 
+            response will print the filters
         """
         jobs = [self.sample_jobs[0]]
         filters = "cheesy internship"
@@ -260,7 +264,8 @@ class TestJobEventFunctions(unittest.TestCase):
 
     def test_format_jobs_message_with_general_search_filter(self):
         """
-        Test that given general search terms in command line, response will print the filters
+        Test that given general search terms in command line, 
+            response will print the filters 
         """
         jobs = [self.sample_jobs[0]]
         filters = "pizza"
@@ -273,7 +278,7 @@ class TestJobEventFunctions(unittest.TestCase):
         Test that the message is limitted to 10 jobs per !job event
         """
         many_jobs = self.sample_jobs * 3
-        result = format_jobs_message(many_jobs)
+        result = format_jobs_message(many_jobs, "")
         self.assertIn("💼 **Found 15 job(s):**", result)
         self.assertIn("... and 5 more jobs", result)
 
@@ -286,7 +291,7 @@ class TestGetJobs(unittest.TestCase):
             {
                 "Type": "Internship",
                 "Title": "Pizza Quality Assurance Intern",
-                "Description": "Help us ensure our pizza reaches peak deliciousness.",
+                "Description": "Help us ensure our pizza reaches peak deliciousness.", # noqa: E501
                 "Company": "Cheesy Dreams Inc",
                 "Location": "Napoli, Italy",
                 "whenDate": "Summer 2025",

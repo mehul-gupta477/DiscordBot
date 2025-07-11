@@ -1,9 +1,9 @@
 name: Document Formatter
 on:
   push:
-    branches: ["main", "stage", "feature/*", "hotfix/*", "bugfix/*", "release/*", 'stable/*']
+    branches: ["main", "stage", "feature/*", "hotfix/*", "bugfix/*", "release/*", "stable/*"]
   pull_request:
-    branches: ["main", "stage", "feature/*", "hotfix/*", "bugfix/*", "release/*", 'stable/*']
+    branches: ["main", "stage", "feature/*", "hotfix/*", "bugfix/*", "release/*", "stable/*"]
 
 jobs:
   yaml-format:

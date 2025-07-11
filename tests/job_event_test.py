@@ -287,7 +287,10 @@ class TestGetJobs(unittest.TestCase):
     """
     def setUp(self):
         # Create a temporary CSV file for testing
-        self.temp_file = tempfile.NamedTemporaryFile(delete=False, mode='w', suffix=".csv", encoding="utf8")   # noqa: SIM115
+        self.temp_file = tempfile.NamedTemporaryFile(delete=False,      # noqa: SIM115
+                                                        mode='w', 
+                                                        suffix=".csv", 
+                                                        encoding="utf8")
         self.temp_file.write("Type,Title,Description,Company,Location,whenDate,pubDate,link,entryDate\n")
         self.temp_file.write("Internship,Pizza Intern,Help wanted,Cheesy Dreams Inc,Italy,Summer 2025,2025-07-01,http://cheesydreams.com/apply,2025-07-07\n")    # noqa: E501
         self.temp_file.close()

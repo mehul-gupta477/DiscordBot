@@ -168,7 +168,7 @@ async def jobs(ctx, *, args: str = "") -> None:
         filtered_jobs = get_jobs(csv_file_path, args)
     except OSError:
         await ctx.send(
-            "❌ Sorry, there was an error searching for jobs. Please try again later."
+            "Sorry, there was an error searching for jobs. Please try again later."
         )
     else:
         filters = paste_jobs_command(args)

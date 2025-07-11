@@ -2,9 +2,10 @@
 jobs that match the inputted criteria.
 """
 from typing import List, Dict, Any
+import sys
 from data_collections.csv_updater import extract_entries_from_csv
 
-def paste_jobs_command(command_args: str) -> Dict[str, Any]:
+def paste_jobs_command(command_args: str) -> str:
     """
     Parses the jobs command arguments to extract search filters 
         from flag notation
@@ -16,49 +17,21 @@ def paste_jobs_command(command_args: str) -> Dict[str, Any]:
                                    "-c microsoft internship"
                                    "python -t internship -s summer"
     Returns:
-        dict: Dictionary containing parsed parameters
+        str: string containing parsed parameters
     """
-    pasted_params = {
-        "role": None,
-        "type": None,
-        "season": None,
-        "company": None,
-        "location": None,
-        "general_search": None,
-    }
+    pasted_params = ""
     if not command_args.strip():
         return pasted_params
-    full_inputs = command_args.split()
-    i = 0
-    general_search_terms = []
-    while i < len(full_inputs):
-        current_input = full_inputs[i]
-        if current_input.startswith("-"):
-            if current_input in ["-r", "--role"]:
-                pasted_params["role"] = full_inputs[i + 1]
-                i += 2
-            elif current_input in ["-t", "--type"]:
-                pasted_params["type"] = full_inputs[i + 1]
-                i += 2
-            elif current_input in ["-s", "--season"]:
-                pasted_params["season"] = full_inputs[i + 1]
-                i += 2
-            elif current_input in ["-c", "--company"]:
-                pasted_params["company"] = full_inputs[i + 1]
-                i += 2
-            elif current_input in ["-l", "--location"]:
-                pasted_params["location"] = full_inputs[i + 1]
-                i += 2
-            else:   # skip unknown flags
-                i += 1
+    current_input = command_args.split()
+    for term in current_input:
+        if term.startswith("-"):
+            pass
         else:
-            general_search_terms.append(current_input)      # input is a general search term
-            i += 1
-    pasted_params["general_search"] = " ".join(general_search_terms)
-    return pasted_params
+            pasted_params += term + " "
+    return pasted_params.strip()
 
 def filter_jobs(all_jobs: List[Dict[str, Any]],
-                    filters: Dict[str, Any]) -> List[Dict[str, Any]]:
+                    current_filters: str) -> List[Dict[str, Any]]:
     """
     Filters jobs based on provided criteria including general search and specific flags.
 
@@ -69,9 +42,12 @@ def filter_jobs(all_jobs: List[Dict[str, Any]],
     Returns:
         list: Filtered list of jobs
     """
+    if not current_filters:
+        return all_jobs
     filtered_jobs = []
     for current_job in all_jobs:
         include_job = False
+        search_terms = current_filters.split()
         searchable_fields = [
                 current_job.get("Title", ""),
                 current_job.get("Company", ""),
@@ -81,13 +57,10 @@ def filter_jobs(all_jobs: List[Dict[str, Any]],
                 current_job.get("whenDate", ""),
                 current_job.get("pubDate", ""),
             ]
-        if filters.get("general_search"):
-            general_search = filters["general_search"].lower()
+        for each_term in search_terms:
             for each_field in searchable_fields:
-                if general_search in each_field.lower():
+                if each_term.lower() in each_field.lower():
                     include_job = True
-                else:
-                    continue
         if include_job:
             filtered_jobs.append(current_job)
         else:
@@ -95,7 +68,7 @@ def filter_jobs(all_jobs: List[Dict[str, Any]],
     return filtered_jobs
 
 def format_jobs_message(returned_jobs: List[Dict[str, Any]],
-                            filters: Dict[str, Any] = None) -> str:
+                            current_filters: str = None) -> str:
     """
     Formats job results into a Discord message.
 
@@ -108,15 +81,11 @@ def format_jobs_message(returned_jobs: List[Dict[str, Any]],
     """
     if not returned_jobs:
         return "💼 No jobs found matching your criteria."
-    filter_desc = []
-    if filters:
-        for key, value in filters.items():
-            if key == "general_search":
-                filter_desc.append(f"search: {value}")
-            else:
-                filter_desc.append(f"{key}: {value}")
-    filter_text = f" (Filters:{', '.join(filter_desc)})"
-    message = f"💼 **Found {len(returned_jobs)} job(s):{filter_text}:**\n\n"
+    if current_filters:
+        filter_text = f" (Filters: {current_filters.strip()})"
+    else:
+        filter_text = ""
+    message = f"💼 **Found {len(returned_jobs)} job(s):{filter_text}**\n\n"
     display_jobs = returned_jobs[:10]
 
     for current_job in display_jobs:
@@ -143,8 +112,8 @@ def format_jobs_message(returned_jobs: List[Dict[str, Any]],
         if link:
             job_text += f"🔗 [Apply Here]({link})\n"
         message += job_text + "\n"
-    if len(display_jobs) > 10:
-        message += f"... and {len(display_jobs) - 10} more jobs. Use more specific filters to narrow results." # pylint: disable=C0301
+    if len(returned_jobs) > 10:
+        message += f"... and {len(returned_jobs) - 10} more jobs. Use more specific filters to narrow results." # pylint: disable=C0301
     return message
 
 def get_jobs(csv_file_path: str,
@@ -161,9 +130,9 @@ def get_jobs(csv_file_path: str,
     """
     try:
         jobs = extract_entries_from_csv(csv_file_path)
-    except OSError as e:
-        print(f" Error loading or filtering jobs from CSV: {e}")
-        return []
+    except RuntimeError as e:
+        print("Error loading or filtering jobs from CSV")
+        raise
     filtered_jobs = []
     for current_job in jobs:
         job_type = current_job.get("Type", "").lower()
@@ -174,7 +143,7 @@ def get_jobs(csv_file_path: str,
             "intern", 
         ]
         for specific_keyword in job_keywords:
-            if specific_keyword in job_type or title:
+            if specific_keyword in job_type or specific_keyword in title:
                 filtered_jobs.append(current_job)
             else:
                 continue

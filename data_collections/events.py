@@ -24,7 +24,7 @@ def getEvents(url):
     try:
         data = feedparser.parse(url)
     except Exception as e:
-        raise RuntimeError(f"Failed to parse the RSS feed from {url}:") from e
+        raise RuntimeError(f"Failed to parse the RSS feed from {url}: {e}") from e
 
     if getattr(data, "bozo", False):
         raise RuntimeError(

@@ -1,7 +1,8 @@
-import unittest
 import sys
+import unittest
+from unittest.mock import MagicMock, mock_open, patch
+
 import notify_discord
-from unittest.mock import patch, mock_open, MagicMock
 
 
 class TestNotifyDiscord(unittest.TestCase):
@@ -35,7 +36,7 @@ class TestNotifyDiscord(unittest.TestCase):
             mock_getenv.side_effect = getenv_side_effect
 
             # Mock event.json and user_map.json files
-            event_data = '{"action": "opened", "issue": {"title": "Test Issue", "html_url": "https://github.com/test", "assignees": []}}'
+            event_data = '{"action": "opened", "issue": {"title": "Test Issue", "html_url": "https://github.com/test", "assignees": []}}' # noqa: E501
             user_map_data = '{"user1": "123456789"}'
 
             mock_file.side_effect = [

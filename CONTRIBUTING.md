@@ -144,8 +144,9 @@ git checkout -b <new_branch_name>
 ```
 
 > [!CAUTION]
-> Note that this command creates a branch base on the branch that you are currently in, so please make sure that you are on the `stage` branch when you are making a new branch. If you checkout from any other branch other than `stage`, our codebase is at risk of failing deployment. More on this in the next section
->
+> Note that this command creates a branch based on the branch you are currently in, so ensure you are on the `stage` branch before creating a new branch. Checking out from any branch other than `stage` risks a failed deployment.
+
+> [!NOTE]
 > You can see which branch you are on by using the git branch command:
 >
 > ```bash
@@ -157,11 +158,12 @@ git checkout -b <new_branch_name>
 > git checkout stage
 > git pull
 > git checkout -b <new_branch_name>
+> ```
 
 ### Migrating Environments
 We now have deployment environments to ensure that we are not deploying unfinished or buggy code to development! Our branch merges are directly tied to the environments your code will run in. Here’s how it works:
 
-```
+```text
 [Branch]
 feature branch -> stage -> release branch -> main
 
@@ -250,7 +252,7 @@ Great you've seen the coverage report and have identified areas for improvement!
 
 ### Validating Changes to the Bot Locally
 
-**Validate in Development BEFORE pushing to stage**
+#### Validate in Development BEFORE pushing to stage
 
 We use separate Discord bots for each environment:  
 - **Development Bot** (`Bug [Development]`)
@@ -367,9 +369,9 @@ Once your changes have passed local testing and are ready for broader validation
   The bot will be automatically deployed to the Staging environment via our CI/CD pipeline.
 
 3. **Testing:**  
-  - Interact with the staging bot (`Bug [Staging]`) in Discord.
-  - Validate all new features, bug fixes, and changes in the staging environment.
-  - Confirm that your changes work as expected and do not introduce regressions.
+- Interact with the staging bot (`Bug [Staging]`) in Discord.
+- Validate all new features, bug fixes, and changes in the staging environment.
+- Confirm that your changes work as expected and do not introduce regressions.
 
 4. **Reporting Issues:**  
   If you encounter any problems, create an issue in the repository and assign it the appropriate template.

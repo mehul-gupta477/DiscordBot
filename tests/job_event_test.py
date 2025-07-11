@@ -1,6 +1,5 @@
 import unittest
-from unittest.mock import patch, AsyncMock, MagicMock, mock_open
-import asyncio
+from unittest.mock import patch
 import sys
 import os
 
@@ -10,7 +9,7 @@ from data_processing.job_event import (
     paste_jobs_command,
     filter_jobs,
     format_jobs_message,
-    getJobs
+    getJobs,
 )
 
 
@@ -73,7 +72,7 @@ class TestJobEventFunctions(unittest.TestCase):
                 "pubDate": "2025-07-03",
                 "link": "http://skyhigh.com/intern",
                 "entryDate": "2025-07-03",
-            }
+            },
         ]
 
     def test_paste_jobs_command_empty_args(self):
@@ -262,10 +261,7 @@ class TestJobEventFunctions(unittest.TestCase):
 
     def test_filter_jobs_multiple_filters(self):
         """multiple criteria"""
-        filters = {
-            "type": "Internship",
-            "season": "summer"
-        }
+        filters = {"type": "Internship", "season": "summer"}
         result = filter_jobs(self.sample_jobs, filters)
         self.assertEqual(len(result), 2)
         for job in result:
@@ -273,10 +269,7 @@ class TestJobEventFunctions(unittest.TestCase):
 
     def test_filter_jobs_complex_search(self):
         """role and location"""
-        filters = {
-            "role": "specialist",
-            "location": "portland"
-        }
+        filters = {"role": "specialist", "location": "portland"}
         result = filter_jobs(self.sample_jobs, filters)
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0]["Title"], "Unicorn Grooming Specialist")
@@ -290,7 +283,7 @@ class TestJobEventFunctions(unittest.TestCase):
         """single job return"""
         jobs = [self.sample_jobs[0]]
         result = format_jobs_message(jobs)
-        
+
         self.assertIn("💼 **Found 1 job(s):**", result)
         self.assertIn("Pizza Quality Assurance Intern", result)
         self.assertIn("Cheesy Dreams Inc", result)
@@ -302,7 +295,7 @@ class TestJobEventFunctions(unittest.TestCase):
         """multiple job return"""
         jobs = self.sample_jobs[:3]
         result = format_jobs_message(jobs)
-        
+
         self.assertIn("💼 **Found 3 job(s):**", result)
         self.assertIn("Pizza Quality Assurance Intern", result)
         self.assertIn("Senior Cat Behavior Analyst", result)
@@ -313,7 +306,7 @@ class TestJobEventFunctions(unittest.TestCase):
         jobs = [self.sample_jobs[0]]
         filters = {"company": "cheesy", "type": "internship"}
         result = format_jobs_message(jobs, filters)
-        
+
         self.assertIn("(Filters: company: cheesy, type: internship)", result)
 
     def test_format_jobs_message_with_general_search_filter(self):
@@ -321,7 +314,7 @@ class TestJobEventFunctions(unittest.TestCase):
         jobs = [self.sample_jobs[0]]
         filters = {"general_search": "pizza"}
         result = format_jobs_message(jobs, filters)
-        
+
         self.assertIn("(Filters: search: pizza)", result)
 
     def test_format_jobs_message_limit_display(self):
@@ -329,7 +322,7 @@ class TestJobEventFunctions(unittest.TestCase):
         # Create 15 jobs for testing
         many_jobs = self.sample_jobs * 3  # 15 jobs
         result = format_jobs_message(many_jobs)
-        
+
         self.assertIn("💼 **Found 15 job(s):**", result)
         self.assertIn("... and 5 more jobs", result)
 
@@ -340,7 +333,7 @@ class TestGetJobs(unittest.TestCase):
     def setUp(self):
         self.sample_jobs = [
             {
-                "Type": "Internship", 
+                "Type": "Internship",
                 "Title": "Pizza Quality Assurance Intern",
                 "Description": "Help us ensure our pizza reaches peak deliciousness.",
                 "Company": "Cheesy Dreams Inc",
@@ -351,7 +344,7 @@ class TestGetJobs(unittest.TestCase):
                 "entryDate": "2025-07-07",
             },
             {
-                "Type": "Full-time", 
+                "Type": "Full-time",
                 "Title": "Senior Cat Behavior Analyst",
                 "Description": "Decode the mysterious ways of felines.",
                 "Company": "Whiskers & Co",
@@ -362,7 +355,7 @@ class TestGetJobs(unittest.TestCase):
                 "entryDate": "2025-07-06",
             },
             {
-                "Type": "Part-time", 
+                "Type": "Part-time",
                 "Title": "Professional Bubble Wrap Popper",
                 "Description": "Join our stress-relief team.",
                 "Company": "Pop Culture Studios",
@@ -373,7 +366,7 @@ class TestGetJobs(unittest.TestCase):
                 "entryDate": "2025-07-05",
             },
             {
-                "Type": "Event", 
+                "Type": "Event",
                 "Title": "Company Picnic",
                 "Description": "Annual company gathering",
                 "Company": "Fun Corp",
@@ -382,7 +375,7 @@ class TestGetJobs(unittest.TestCase):
                 "pubDate": "2025-07-01",
                 "link": "http://funcorp.com/picnic",
                 "entryDate": "2025-07-01",
-            }
+            },
         ]
 
     @patch("data_collections.csv_updater.extract_entries_from_csv")
@@ -390,9 +383,9 @@ class TestGetJobs(unittest.TestCase):
     def test_getJobs_error_handling(self, mock_remove_duplicates, mock_extract):
         """error handling in getJobs"""
         mock_extract.side_effect = Exception("CSV file not found")
-        
+
         result = getJobs("error-handling.csv")
-        
+
         self.assertEqual(result, [])
 
     @patch("data_collections.csv_updater.extract_entries_from_csv")
@@ -401,10 +394,11 @@ class TestGetJobs(unittest.TestCase):
         """empty CSV file"""
         mock_extract.return_value = []
         mock_remove_duplicates.return_value = []
-        
+
         result = getJobs("empty.csv")
-        
+
         self.assertEqual(result, [])
+
 
 if __name__ == "__main__":
     unittest.main()

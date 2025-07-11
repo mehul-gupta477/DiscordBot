@@ -275,9 +275,20 @@ def getJobs(csv_file_path: str, command_args: str = "") -> List[Dict[str, Any]]:
         for job in jobs:
             job_type = job.get("Type", "").lower()
             # If no Type field or Type field contains job-related terms
-            if not job_type or any(term in job_type for term in ["Job", "Internship", "Full-time", "Part-time", "Co-op", "Coop", "Intern"]):
+            if not job_type or any(
+                term in job_type
+                for term in [
+                    "Job",
+                    "Internship",
+                    "Full-time",
+                    "Part-time",
+                    "Co-op",
+                    "Coop",
+                    "Intern",
+                ]
+            ):
                 filtered_jobs.append(job)
-        
+
         jobs = filtered_jobs
 
         # Apply filters if command_args provided

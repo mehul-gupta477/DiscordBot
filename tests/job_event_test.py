@@ -1,27 +1,26 @@
+""" Unittests for job_event.py
+"""
 import unittest
 from unittest.mock import patch
 import sys
 import os
-
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 from data_processing.job_event import (
     paste_jobs_command,
     filter_jobs,
     format_jobs_message,
-    getJobs,
+    get_jobs,
 )
-
-
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 class TestJobEventFunctions(unittest.TestCase):
-    """Test class for job_event.py functions"""
-
+    """
+    Tests for paste_jobs_command
+    """
     def setUp(self):
         self.sample_jobs = [
             {
                 "Type": "Internship",
                 "Title": "Pizza Quality Assurance Intern",
-                "Description": "Help us ensure our pizza reaches peak deliciousness. Must love cheese and have strong opinions about pineapple.",
+                "Description": "Help us ensure our pizza reaches peak deliciousness. Must love cheese and have strong opinions about pineapple.",  # pylint: disable=C0301
                 "Company": "Cheesy Dreams Inc",
                 "Location": "Napoli, Italy",
                 "whenDate": "Summer 2025",
@@ -32,7 +31,7 @@ class TestJobEventFunctions(unittest.TestCase):
             {
                 "Type": "Full-time",
                 "Title": "Senior Cat Behavior Analyst",
-                "Description": "Decode the mysterious ways of felines. Remote work encouraged (cats don't commute).",
+                "Description": "Decode the mysterious ways of felines. Remote work encouraged (cats don't commute).",  # pylint: disable=C0301
                 "Company": "Whiskers & Co",
                 "Location": "Remote",
                 "whenDate": "",
@@ -43,7 +42,7 @@ class TestJobEventFunctions(unittest.TestCase):
             {
                 "Type": "Part-time",
                 "Title": "Professional Bubble Wrap Popper",
-                "Description": "Join our stress-relief team. Must have excellent finger dexterity and appreciation for satisfying sounds.",
+                "Description": "Join our stress-relief team. Must have excellent finger dexterity and appreciation for satisfying sounds.",  # pylint: disable=C0301
                 "Company": "Pop Culture Studios",
                 "Location": "San Francisco, CA",
                 "whenDate": "Fall 2025",
@@ -52,9 +51,9 @@ class TestJobEventFunctions(unittest.TestCase):
                 "entryDate": "2025-07-05",
             },
             {
-                "Type": "Co-op",
+                "Type": "Internship",
                 "Title": "Unicorn Grooming Specialist",
-                "Description": "Maintain the magical appearance of our unicorn fleet. Glitter allergy is a dealbreaker.",
+                "Description": "Maintain the magical appearance of our unicorn fleet. Glitter allergy is a dealbreaker.",  # pylint: disable=C0301
                 "Company": "Mythical Creatures Ltd",
                 "Location": "Portland, OR",
                 "whenDate": "Spring 2025",
@@ -65,7 +64,7 @@ class TestJobEventFunctions(unittest.TestCase):
             {
                 "Type": "Internship",
                 "Title": "Cloud Whisperer Intern",
-                "Description": "Interpret weather patterns and cloud formations. Must be comfortable working at high altitudes.",
+                "Description": "Interpret weather patterns and cloud formations. Must be comfortable working at high altitudes.",  # pylint: disable=C0301
                 "Company": "Sky High Analytics",
                 "Location": "Denver, CO",
                 "whenDate": "Summer 2025",
@@ -76,169 +75,101 @@ class TestJobEventFunctions(unittest.TestCase):
         ]
 
     def test_paste_jobs_command_empty_args(self):
-        """empty command arguments"""
+        """
+        Test that no imputs in command line will return no filters
+        """
         result = paste_jobs_command("")
-        expected = {
-            "role": None,
-            "type": None,
-            "season": None,
-            "company": None,
-            "location": None,
-            "general_search": None,
-        }
-        self.assertEqual(result, expected)
-
-    def test_paste_jobs_command_whitespace_only(self):
-        """whitespace-only arguments"""
-        result = paste_jobs_command("   \t  \n  ")
-        expected = {
-            "role": None,
-            "type": None,
-            "season": None,
-            "company": None,
-            "location": None,
-            "general_search": None,
-        }
+        expected = ""
         self.assertEqual(result, expected)
 
     def test_paste_jobs_command_bracket_notation_full(self):
-        """bracket notation with all fields"""
-        command = "[pizza tester] [internship] [summer] [cheesy dreams] [italy]"
+        """
+        Test that inputs on command line return as filters
+        """
+        command = "-r tester -t internship -s summer -c cheese -l italy"
         result = paste_jobs_command(command)
-        expected = {
-            "role": "pizza tester",
-            "type": "internship",
-            "season": "summer",
-            "company": "cheesy dreams",
-            "location": "italy",
-            "general_search": None,
-        }
-        self.assertEqual(result, expected)
-
-    def test_paste_jobs_command_bracket_notation_partial(self):
-        """bracket notation with empty brackets"""
-        command = "[cat whisperer] [] [fall] [] [remote]"
-        result = paste_jobs_command(command)
-        expected = {
-            "role": "cat whisperer",
-            "type": None,
-            "season": "fall",
-            "company": None,
-            "location": "remote",
-            "general_search": None,
-        }
-        self.assertEqual(result, expected)
-
-    def test_paste_jobs_command_bracket_notation_spaces(self):
-        """bracket notation with spaces in values"""
-        command = "[bubble wrap popper] [part time] [fall season] [pop culture] [san francisco]"
-        result = paste_jobs_command(command)
-        expected = {
-            "role": "bubble wrap popper",
-            "type": "part time",
-            "season": "fall season",
-            "company": "pop culture",
-            "location": "san francisco",
-            "general_search": None,
-        }
+        expected = "tester internship summer cheese italy"
         self.assertEqual(result, expected)
 
     def test_paste_jobs_command_flag_notation_all_flags(self):
-        """flag notation with all flags"""
+        """
+        Test for more flags to return as filters
+        """
         command = "unicorn -r grooming -t internship -s spring -c mythical -l portland"
         result = paste_jobs_command(command)
-        expected = {
-            "role": "grooming",
-            "type": "internship",
-            "season": "spring",
-            "company": "mythical",
-            "location": "portland",
-            "general_search": "unicorn",
-        }
+        expected = "unicorn grooming internship spring mythical portland"
         self.assertEqual(result, expected)
 
     def test_paste_jobs_command_flag_notation_long_flags(self):
-        """flag notation with long flag names"""
-        command = "cloud --role whisperer --type internship --season summer --company sky --location denver"
+        """
+        Test for longer flag names to return as filters
+        """
+        command = "cloud --role whisperer --type internship --season summer --company sky --location denver"  # pylint: disable=C0301
         result = paste_jobs_command(command)
-        expected = {
-            "role": "whisperer",
-            "type": "internship",
-            "season": "summer",
-            "company": "sky",
-            "location": "denver",
-            "general_search": "cloud",
-        }
+        expected = "cloud whisperer internship summer sky denver"
         self.assertEqual(result, expected)
 
     def test_paste_jobs_command_flag_notation_general_search_only(self):
-        """only general search terms"""
+        """
+        Test for no flags, just command line inputs to return as filters
+        """
         command = "pizza quality assurance tester"
         result = paste_jobs_command(command)
-        expected = {
-            "role": None,
-            "type": None,
-            "season": None,
-            "company": None,
-            "location": None,
-            "general_search": "pizza quality assurance tester",
-        }
+        expected = "pizza quality assurance tester"
         self.assertEqual(result, expected)
 
     def test_paste_jobs_command_flag_notation_mixed_order(self):
-        """flags in RaNDoM order"""
-        command = "-c whiskers cat -l remote -t full-time behavior"
+        """
+        Test for flags in unexpected order to return as filters
+        """
+        command = "-c whiskers cat -l remote behavior"
         result = paste_jobs_command(command)
-        expected = {
-            "role": None,
-            "type": "full-time",
-            "season": None,
-            "company": "whiskers",
-            "location": "remote",
-            "general_search": "cat behavior",
-        }
+        expected = "whiskers cat remote behavior"
         self.assertEqual(result, expected)
 
     def test_filter_jobs_no_filters(self):
-        """no filters"""
-        filters = {}
+        """
+        Test that filter_jobs will return correct amount of jobs given no filters
+        """
+        filters = ""
         result = filter_jobs(self.sample_jobs, filters)
         self.assertEqual(len(result), 5)
         self.assertEqual(result, self.sample_jobs)
 
     def test_filter_jobs_general_search(self):
-        """general search"""
-        filters = {"general_search": "pizza"}
+        """
+        Test that general search terms will look through Title column of csv
+        """
+        filters = "pizza"
         result = filter_jobs(self.sample_jobs, filters)
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0]["Title"], "Pizza Quality Assurance Intern")
 
     def test_filter_jobs_general_search_description(self):
-        """matching in description"""
-        filters = {"general_search": "glitter"}
+        """
+        Test that general search terms will look through Company column of csv
+        """
+        filters = "glitter"
         result = filter_jobs(self.sample_jobs, filters)
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0]["Company"], "Mythical Creatures Ltd")
 
     def test_filter_jobs_role_filter(self):
-        """role"""
-        filters = {"role": "analyst"}
+        """
+        Test that role filters resulting from flags in command line will
+            look through Title column of csv
+        """
+        filters = "analyst"
         result = filter_jobs(self.sample_jobs, filters)
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0]["Title"], "Senior Cat Behavior Analyst")
 
-    def test_filter_jobs_type_filter(self):
-        """type"""
-        filters = {"type": "internship"}
-        result = filter_jobs(self.sample_jobs, filters)
-        self.assertEqual(len(result), 2)
-        titles = [job["Title"] for job in result]
-        self.assertIn("Pizza Quality Assurance Intern", titles)
-        self.assertIn("Cloud Whisperer Intern", titles)
-
     def test_filter_jobs_season_filter(self):
-        """season"""
-        filters = {"season": "summer"}
+        """
+        Test that season filters resulting from flags in command line will
+            look through Season column of csv
+        """
+        filters = "summer"
         result = filter_jobs(self.sample_jobs, filters)
         self.assertEqual(len(result), 2)
         titles = [job["Title"] for job in result]
@@ -246,44 +177,60 @@ class TestJobEventFunctions(unittest.TestCase):
         self.assertIn("Cloud Whisperer Intern", titles)
 
     def test_filter_jobs_company_filter(self):
-        """company"""
-        filters = {"company": "whiskers"}
+        """
+        Test that company filters resulting from flags in command line will
+            look through Company column of csv
+        """
+        filters = "whiskers"
         result = filter_jobs(self.sample_jobs, filters)
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0]["Company"], "Whiskers & Co")
 
     def test_filter_jobs_location_filter(self):
-        """location"""
-        filters = {"location": "remote"}
+        """
+        Test that location filters resulting from flags in command line will
+            look through Location column of csv
+        """
+        filters = "remote"
         result = filter_jobs(self.sample_jobs, filters)
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0]["Location"], "Remote")
 
     def test_filter_jobs_multiple_filters(self):
-        """multiple criteria"""
-        filters = {"type": "Internship", "season": "summer"}
+        """
+        Test that multiple filters from flags in command line will 
+            accurately look through respective columns of csv
+        """
+        filters = "Intern summer"
         result = filter_jobs(self.sample_jobs, filters)
         self.assertEqual(len(result), 2)
         for job in result:
             self.assertIn("Intern", job["Title"])
 
     def test_filter_jobs_complex_search(self):
-        """role and location"""
-        filters = {"role": "specialist", "location": "portland"}
+        """
+        Test that multiple filters from flags in command line will 
+            accurately look through respective columns of csv
+        """
+        filters = "whiskers portland"
         result = filter_jobs(self.sample_jobs, filters)
-        self.assertEqual(len(result), 1)
-        self.assertEqual(result[0]["Title"], "Unicorn Grooming Specialist")
+        self.assertEqual(len(result), 2)
+        self.assertEqual(result[0]["Company"], "Whiskers & Co")
+        self.assertEqual(result[1]["Title"], "Unicorn Grooming Specialist")
 
     def test_format_jobs_message_empty_list(self):
-        """empty job list"""
+        """
+        Test that given the input of no matching jobs, response will be printed
+        """
         result = format_jobs_message([])
         self.assertEqual(result, "💼 No jobs found matching your criteria.")
 
     def test_format_jobs_message_single_job(self):
-        """single job return"""
+        """
+        Test that given the input of a singular matching job, response will be printed
+        """
         jobs = [self.sample_jobs[0]]
         result = format_jobs_message(jobs)
-
         self.assertIn("💼 **Found 1 job(s):**", result)
         self.assertIn("Pizza Quality Assurance Intern", result)
         self.assertIn("Cheesy Dreams Inc", result)
@@ -292,44 +239,48 @@ class TestJobEventFunctions(unittest.TestCase):
         self.assertIn("http://cheesydreams.com/apply", result)
 
     def test_format_jobs_message_multiple_jobs(self):
-        """multiple job return"""
+        """
+        Test that given the input of multiple matching jobs, response will be printed
+        """
         jobs = self.sample_jobs[:3]
         result = format_jobs_message(jobs)
-
         self.assertIn("💼 **Found 3 job(s):**", result)
         self.assertIn("Pizza Quality Assurance Intern", result)
         self.assertIn("Senior Cat Behavior Analyst", result)
         self.assertIn("Professional Bubble Wrap Popper", result)
 
     def test_format_jobs_message_with_filters(self):
-        """filter description"""
+        """
+        Test that given filters in command line, response will print the filters
+        """
         jobs = [self.sample_jobs[0]]
-        filters = {"company": "cheesy", "type": "internship"}
+        filters = "cheesy internship"
         result = format_jobs_message(jobs, filters)
-
-        self.assertIn("(Filters: company: cheesy, type: internship)", result)
+        self.assertIn("(Filters: cheesy internship)", result)
 
     def test_format_jobs_message_with_general_search_filter(self):
-        """general search filter"""
+        """
+        Test that given general search terms in command line, response will print the filters
+        """
         jobs = [self.sample_jobs[0]]
-        filters = {"general_search": "pizza"}
+        filters = "pizza"
         result = format_jobs_message(jobs, filters)
 
-        self.assertIn("(Filters: search: pizza)", result)
+        self.assertIn("(Filters: pizza)", result)
 
     def test_format_jobs_message_limit_display(self):
-        """message limits display to first 10 jobs"""
-        # Create 15 jobs for testing
-        many_jobs = self.sample_jobs * 3  # 15 jobs
+        """
+        Test that the message is limitted to 10 jobs per !job event
+        """
+        many_jobs = self.sample_jobs * 3
         result = format_jobs_message(many_jobs)
-
         self.assertIn("💼 **Found 15 job(s):**", result)
         self.assertIn("... and 5 more jobs", result)
 
-
 class TestGetJobs(unittest.TestCase):
-    """Test class for getJobs function"""
-
+    """
+    Tests for get_jobs function
+    """
     def setUp(self):
         self.sample_jobs = [
             {
@@ -379,22 +330,22 @@ class TestGetJobs(unittest.TestCase):
         ]
 
     @patch("data_collections.csv_updater.extract_entries_from_csv")
-    def test_getJobs_error_handling(self, mock_extract):
-        """error handling in getJobs"""
-        mock_extract.side_effect = Exception("CSV file not found")
-
-        result = getJobs("error-handling.csv")
-
-        self.assertEqual(result, [])
+    def test_get_jobs_error_handling(self, mock_extract):
+        """
+        Test for error handling given not found csv file
+        """
+        mock_extract.side_effect = RuntimeError("No such file or directory")
+        with self.assertRaises(RuntimeError):
+            get_jobs("missing.csv")
 
     @patch("data_collections.csv_updater.extract_entries_from_csv")
-    def test_getJobs_empty_csv(self, mock_extract):
-        """empty CSV file"""
-        mock_extract.return_value = []
-
-        result = getJobs("empty.csv")
-
-        self.assertEqual(result, [])
+    def test_get_jobs_empty_csv(self, mock_extract):
+        """
+        Test for error handling given empty csv file
+        """
+        mock_extract.side_effect = RuntimeError("Empty CSV file")
+        with self.assertRaises(RuntimeError):
+            get_jobs("empty.csv")
 
 
 if __name__ == "__main__":

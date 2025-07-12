@@ -1,18 +1,21 @@
-""" Unittests for job_event.py
-"""
+"""Unittests for job_event.py"""
+
 import unittest
 from unittest.mock import patch
 import tempfile
-from data_processing.job_event import (     # noqa: E501
+from data_processing.job_event import (  # noqa: E501
     paste_jobs_command,
     filter_jobs,
     format_jobs_message,
     get_jobs,
 )
+
+
 class TestJobEventFunctions(unittest.TestCase):
     """
     Tests for paste_jobs_command
     """
+
     def setUp(self):
         self.sample_jobs = [
             {
@@ -196,7 +199,7 @@ class TestJobEventFunctions(unittest.TestCase):
 
     def test_filter_jobs_multiple_filters(self):
         """
-        Test that multiple filters from flags in command line will 
+        Test that multiple filters from flags in command line will
             accurately look through respective columns of csv
         """
         filters = "Intern summer"
@@ -207,7 +210,7 @@ class TestJobEventFunctions(unittest.TestCase):
 
     def test_filter_jobs_complex_search(self):
         """
-        Test that multiple filters from flags in command line will 
+        Test that multiple filters from flags in command line will
             accurately look through respective columns of csv
         """
         filters = "whiskers portland"
@@ -218,7 +221,7 @@ class TestJobEventFunctions(unittest.TestCase):
 
     def test_format_jobs_message_empty_list(self):
         """
-        Test that given the input of no matching jobs, 
+        Test that given the input of no matching jobs,
             response will be printed
         """
         result = format_jobs_message([], "")
@@ -226,7 +229,7 @@ class TestJobEventFunctions(unittest.TestCase):
 
     def test_format_jobs_message_single_job(self):
         """
-        Test that given the input of a singular matching job, 
+        Test that given the input of a singular matching job,
             response will be printed
         """
         jobs = [self.sample_jobs[0]]
@@ -240,7 +243,7 @@ class TestJobEventFunctions(unittest.TestCase):
 
     def test_format_jobs_message_multiple_jobs(self):
         """
-        Test that given the input of multiple matching jobs, 
+        Test that given the input of multiple matching jobs,
             response will be printed
         """
         jobs = self.sample_jobs[:3]
@@ -252,7 +255,7 @@ class TestJobEventFunctions(unittest.TestCase):
 
     def test_format_jobs_message_with_filters(self):
         """
-        Test that given filters in command line, 
+        Test that given filters in command line,
             response will print the filters
         """
         jobs = [self.sample_jobs[0]]
@@ -262,8 +265,8 @@ class TestJobEventFunctions(unittest.TestCase):
 
     def test_format_jobs_message_with_general_search_filter(self):
         """
-        Test that given general search terms in command line, 
-            response will print the filters 
+        Test that given general search terms in command line,
+            response will print the filters
         """
         jobs = [self.sample_jobs[0]]
         filters = "pizza"
@@ -279,16 +282,23 @@ class TestJobEventFunctions(unittest.TestCase):
         self.assertIn("💼 **Found 15 job(s):**", result)
         self.assertIn("... and 5 more jobs", result)
 
+
 class TestGetJobs(unittest.TestCase):
     """
     Tests for get_jobs function
     """
+
     def setUp(self):
         # Create a temporary CSV file for testing
-        with tempfile.NamedTemporaryFile(delete=False, mode='w', 
-                                         suffix=".csv", encoding="utf8") as temp_file:
-            temp_file.write("Type,Title,Description,Company,Location,whenDate,pubDate,link,entryDate\n")
-            temp_file.write("Internship,Pizza Intern,Help wanted,Cheesy Dreams Inc,Italy,Summer 2025,2025-07-01,http://cheesydreams.com/apply,2025-07-07\n")  # noqa: E501
+        with tempfile.NamedTemporaryFile(
+            delete=False, mode="w", suffix=".csv", encoding="utf8"
+        ) as temp_file:
+            temp_file.write(
+                "Type,Title,Description,Company,Location,whenDate,pubDate,link,entryDate\n"
+            )
+            temp_file.write(
+                "Internship,Pizza Intern,Help wanted,Cheesy Dreams Inc,Italy,Summer 2025,2025-07-01,http://cheesydreams.com/apply,2025-07-07\n"
+            )  # noqa: E501
             self.temp_file_path = temp_file.name
 
     @patch("data_collections.csv_updater.extract_entries_from_csv")
@@ -306,15 +316,17 @@ class TestGetJobs(unittest.TestCase):
         Test for successful filtering of jobs
         """
         mock_extract.return_value = [
-            {"Type": "Internship", 
-                "Title": "Test Job", 
-                "Company": "Test Co", 
-                "Location": "Test City", 
-                "Description": "Test description"}
+            {
+                "Type": "Internship",
+                "Title": "Test Job",
+                "Company": "Test Co",
+                "Location": "Test City",
+                "Description": "Test description",
+            }
         ]
         results = get_jobs(self.temp_file_path)
         self.assertEqual(len(results), 1)
-        
+
 
 if __name__ == "__main__":
     unittest.main()

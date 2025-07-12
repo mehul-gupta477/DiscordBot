@@ -7,11 +7,12 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 from data_processing.job_event import (
-                                        get_jobs, 
-                                        paste_jobs_command, 
-                                        format_jobs_message,
-                                        filter_jobs
-                                    )
+    get_jobs,
+    paste_jobs_command,
+    format_jobs_message,
+    filter_jobs,
+)
+
 # Set up Discord Intents to enable bot to receive message events
 intents: discord.Intents = discord.Intents.default()
 intents.messages = True

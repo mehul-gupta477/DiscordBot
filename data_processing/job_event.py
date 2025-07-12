@@ -1,17 +1,21 @@
 """Referenced from bot.py and filters and returns
 jobs that match the inputted criteria.
 """
+
 from typing import Any
-from data_collections.csv_updater import extract_entries_from_csv  # pylint: disable=E0401
+from data_collections.csv_updater import (
+    extract_entries_from_csv,
+)  # pylint: disable=E0401
+
 
 def paste_jobs_command(command_args: str) -> str:
     """
-    Parses the jobs command arguments to extract search filters 
+    Parses the jobs command arguments to extract search filters
         from flag notation
 
     Args:
         command_args (str): The arguments passed to the command,
-                                as a string.  
+                                as a string.
 
     Returns:
         str: string containing parsed parameters
@@ -27,8 +31,10 @@ def paste_jobs_command(command_args: str) -> str:
             pasted_params += term + " "
     return pasted_params.strip()
 
-def filter_jobs(all_jobs: list[dict[str, Any]],
-                    current_filters: str) -> list[dict[str, Any]]:
+
+def filter_jobs(
+    all_jobs: list[dict[str, Any]], current_filters: str
+) -> list[dict[str, Any]]:
     """
     Filters jobs based on provided criteria
 
@@ -46,13 +52,13 @@ def filter_jobs(all_jobs: list[dict[str, Any]],
         include_job = False
         search_terms = current_filters.split()
         searchable_fields = [
-                current_job.get("Title", ""),
-                current_job.get("Company", ""),
-                current_job.get("Description", ""),
-                current_job.get("Location", ""),
-                current_job.get("whenDate", ""),
-                current_job.get("pubDate", ""),
-            ]
+            current_job.get("Title", ""),
+            current_job.get("Company", ""),
+            current_job.get("Description", ""),
+            current_job.get("Location", ""),
+            current_job.get("whenDate", ""),
+            current_job.get("pubDate", ""),
+        ]
         for each_term in search_terms:
             for each_field in searchable_fields:
                 if each_term.lower() in each_field.lower():
@@ -61,8 +67,10 @@ def filter_jobs(all_jobs: list[dict[str, Any]],
             filtered_jobs.append(current_job)
     return filtered_jobs
 
-def format_jobs_message(returned_jobs: list[dict[str, Any]],
-                            current_filters: str) -> str:
+
+def format_jobs_message(
+    returned_jobs: list[dict[str, Any]], current_filters: str
+) -> str:
     """
     Formats job results into a Discord message.
 
@@ -103,15 +111,16 @@ def format_jobs_message(returned_jobs: list[dict[str, Any]],
             job_text += f"🔗 [Apply Here]({link})\n"
         message += job_text + "\n"
     if len(returned_jobs) > 10:
-        message += f"... and {len(returned_jobs) - 10} more jobs. Use more specific filters to narrow results." # noqa: E501
+        message += f"... and {len(returned_jobs) - 10} more jobs. Use more specific filters to narrow results."  # noqa: E501
     return message
+
 
 def get_jobs(csv_file_path: str) -> list[dict[str, Any]]:
     """
     Reads job data from CSV file and filters based on command parameters.
 
     Args:
-        csv_file_path (str): Path to the CSV file containing job data 
+        csv_file_path (str): Path to the CSV file containing job data
 
     Returns:
         list: List of job dictionaries matching the criteria
@@ -127,7 +136,7 @@ def get_jobs(csv_file_path: str) -> list[dict[str, Any]]:
         job_keywords = [
             "job",
             "internship",
-            "intern", 
+            "intern",
         ]
         for specific_keyword in job_keywords:
             if specific_keyword in job_type:

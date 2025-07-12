@@ -10,11 +10,9 @@ def paste_jobs_command(command_args: str) -> str:
         from flag notation
 
     Args:
-        command_args (str): The arguments string with format options:
-                           Flag notation: "[flags] [search terms]"
-                           Examples: "software -c google -l remote"
-                                   "-c microsoft internship"
-                                   "python -t internship -s summer"
+        command_args (str): The arguments passed to the command,
+                                as a string.  
+
     Returns:
         str: string containing parsed parameters
     """
@@ -32,7 +30,7 @@ def paste_jobs_command(command_args: str) -> str:
 def filter_jobs(all_jobs: list[dict[str, Any]],
                     current_filters: str) -> list[dict[str, Any]]:
     """
-    Filters jobs based on provided criteria including general search and specific flags.
+    Filters jobs based on provided criteria
 
     Args:
         jobs (list): List of job dictionaries

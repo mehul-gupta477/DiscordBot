@@ -110,7 +110,7 @@ async def help(ctx) -> None:
         "`!resume` – Link to engineering resume resources\n"
         "`!events` – See upcoming club events\n"
         "`!resources` – Get recommended CS learning materials\n"
-        "`!jobs [search_term] [flags]` – Search for jobs and internships\n\n"
+        "`!jobs search-terms` – Search for jobs and internships\n\n"
     )
     await ctx.send(help_message)
 
@@ -162,20 +162,13 @@ async def jobs(ctx, *, args: str = "") -> None:
     """
     Searches for jobs and internships based on specified criteria.
 
-    Usage: !jobs [flags] [search term]
+    Usage: !jobs [search_critera]
 
     Examples:
     - !jobs software engineer
-    - !jobs -c google -l remote
-    - !jobs python -t internship -s summer
-    - !jobs -c microsoft internship
-
-    Available Flags:
-    -r, --role    Filter by role/position
-    -t, --type    Filter by job type (internship, full-time, etc.)
-    -s, --season  Filter by season (summer, fall, winter, spring)
-    -c, --company Filter by company name
-    -l, --location Filter by location
+    - !jobs google remote
+    - !jobs python internship summer
+    - !jobs microsoft internship
     """
     csv_file_path = "data_collections/runningCSV.csv"
     try:

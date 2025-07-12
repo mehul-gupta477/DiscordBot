@@ -87,15 +87,15 @@ def format_jobs_message(
     filter_text = f" (Filters: {_filters.strip()})" if _filters else ""
     message = f"💼 **Found {len(jobs)} job(s):{filter_text}**\n\n"
     limitted_jobs = jobs[:10]
-    for current_job in limitted_jobs:
-        title = current_job.get("Title", "Untitled Position")
-        job_type = current_job.get("Type", "")
-        company_name = current_job.get("Company", "")
-        location = current_job.get("Location", "")
-        description = current_job.get("Description", "")
-        when_date = current_job.get("whenDate", "")
-        pub_date = current_job.get("pubDate", "")
-        link = current_job.get("link", "")
+    for job in limitted_jobs:
+        title = job.get("Title", "Untitled Position")
+        job_type = job.get("Type", "")
+        company_name = job.get("Company", "")
+        location = job.get("Location", "")
+        description = job.get("Description", "")
+        when_date = job.get("whenDate", "")
+        pub_date = job.get("pubDate", "")
+        link = job.get("link", "")
 
         job_text = f"**{title}**\n"
         job_text += f"📝 {job_type}\n"
@@ -135,15 +135,15 @@ def get_jobs(csv_file_path: str) -> list[dict[str, Any]]:
         print("CSV file not found or inaccessible")
         raise
     filtered_jobs = []
-    for current_job in jobs:
-        job_type = current_job.get("Type", "").lower()
+    for job in jobs:
+        job_type = job.get("Type", "").lower()
         job_keywords = [
             "job",
             "internship",
             "intern",
         ]
-        for specific_keyword in job_keywords:
-            if specific_keyword in job_type:
-                filtered_jobs.append(current_job)
+        for keyword in job_keywords:
+            if keyword in job_type:
+                filtered_jobs.append(job)
                 break
     return filtered_jobs

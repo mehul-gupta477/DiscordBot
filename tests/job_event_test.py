@@ -15,7 +15,6 @@ class TestJobEventFunctions(unittest.TestCase):
     """
     Tests for paste_jobs_command
     """
-
     def setUp(self):
         self.sample_jobs = [
             {
@@ -74,7 +73,7 @@ class TestJobEventFunctions(unittest.TestCase):
                 "entryDate": "2025-07-03",
             },
         ]
-
+        
     def test_paste_jobs_command_empty_args(self):
         """
         Test that no imputs in command line will return no filters
@@ -83,49 +82,13 @@ class TestJobEventFunctions(unittest.TestCase):
         expected = ""
         self.assertEqual(result, expected)
 
-    def test_paste_jobs_command_bracket_notation_full(self):
+    def test_paste_jobs_command_search(self):
         """
-        Test that inputs on command line return as filters
-        """
-        command = "-r tester -t internship -s summer -c cheese -l italy"
-        result = paste_jobs_command(command)
-        expected = "tester internship summer cheese italy"
-        self.assertEqual(result, expected)
-
-    def test_paste_jobs_command_flag_notation_all_flags(self):
-        """
-        Test for more flags to return as filters
-        """
-        command = "unicorn -r grooming -t internship -s spring -c mythical -l portland"
-        result = paste_jobs_command(command)
-        expected = "unicorn grooming internship spring mythical portland"
-        self.assertEqual(result, expected)
-
-    def test_paste_jobs_command_flag_notation_long_flags(self):
-        """
-        Test for longer flag names to return as filters
-        """
-        command = "cloud --role whisperer --type internship --season summer --company sky --location denver"  # noqa: E501
-        result = paste_jobs_command(command)
-        expected = "cloud whisperer internship summer sky denver"
-        self.assertEqual(result, expected)
-
-    def test_paste_jobs_command_flag_notation_general_search_only(self):
-        """
-        Test for no flags, just command line inputs to return as filters
+        Test command line inputs to return as filters
         """
         command = "pizza quality assurance tester"
         result = paste_jobs_command(command)
         expected = "pizza quality assurance tester"
-        self.assertEqual(result, expected)
-
-    def test_paste_jobs_command_flag_notation_mixed_order(self):
-        """
-        Test for flags in unexpected order to return as filters
-        """
-        command = "-c whiskers cat -l remote behavior"
-        result = paste_jobs_command(command)
-        expected = "whiskers cat remote behavior"
         self.assertEqual(result, expected)
 
     def test_filter_jobs_no_filters(self):

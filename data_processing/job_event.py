@@ -48,16 +48,16 @@ def filter_jobs(
     if not _filters:
         return jobs
     filtered_jobs = []
-    for current_job in jobs:
+    for job in jobs:
         include_job = False
         search_terms = _filters.split()
         searchable_fields = [
-            current_job.get("Title", ""),
-            current_job.get("Company", ""),
-            current_job.get("Description", ""),
-            current_job.get("Location", ""),
-            current_job.get("whenDate", ""),
-            current_job.get("pubDate", ""),
+            job.get("Title", ""),
+            job.get("Company", ""),
+            job.get("Description", ""),
+            job.get("Location", ""),
+            job.get("whenDate", ""),
+            job.get("pubDate", ""),
         ]
         for term in search_terms:
             for field in searchable_fields:
@@ -65,7 +65,7 @@ def filter_jobs(
                     include_job = True
                     break
         if include_job:
-            filtered_jobs.append(current_job)
+            filtered_jobs.append(job)
     return filtered_jobs
 
 

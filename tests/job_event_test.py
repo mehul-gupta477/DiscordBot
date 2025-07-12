@@ -293,12 +293,6 @@ class TestGetJobs(unittest.TestCase):
             temp_file.write("Internship,Pizza Intern,Help wanted,Cheesy Dreams Inc,Italy,Summer 2025,2025-07-01,http://cheesydreams.com/apply,2025-07-07\n")  # noqa: E501
             self.temp_file_path = temp_file.name
 
-    def tearDown(self):
-        # Clean up temporary file
-        if hasattr(self, 'temp_file_path'):
-            os.unlink(self.temp_file_path)
-        self.temp_file_path = self.temp_file.name
-
     @patch("data_collections.csv_updater.extract_entries_from_csv")
     def test_get_jobs_error_handling(self, mock_extract):
         """

@@ -287,14 +287,11 @@ class TestGetJobs(unittest.TestCase):
     """
     def setUp(self):
         # Create a temporary CSV file for testing
-        self.temp_file = tempfile.NamedTemporaryFile(delete=False,      # noqa: SIM115
-                                                        mode='w',       # noqa: SIM115
-                                                        suffix=".csv",          # noqa: SIM115
-                                                        encoding="utf8")        # noqa: SIM115
-        self.temp_file.write("Type,Title,Description,Company,Location,whenDate,pubDate,link,entryDate\n")
-        self.temp_file.write("Internship,Pizza Intern,Help wanted,Cheesy Dreams Inc,Italy,Summer 2025,2025-07-01,http://cheesydreams.com/apply,2025-07-07\n")    # noqa: E501
-        self.temp_file.close()
-        self.temp_file_path = self.temp_file.name
+        with tempfile.NamedTemporaryFile(delete=False, mode='w', 
+                                            suffix=".csv", encoding="utf8") as temp_file:
+            temp_file.write("Type,Title,Description,Company,Location,whenDate,pubDate,link,entryDate\n")
+            temp_file.write("Internship,Pizza Intern,Help wanted,Cheesy Dreams Inc,Italy,Summer 2025,2025-07-01,http://cheesydreams.com/apply,2025-07-07\n")  # noqa: E501
+            self.temp_file_path = temp_file.name
 
     def tearDown(self):
         # Clean up temporary file

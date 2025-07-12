@@ -2,9 +2,7 @@
 """
 import unittest
 from unittest.mock import patch
-import sys
 import tempfile
-import os
 from data_processing.job_event import (     # noqa: E501
     paste_jobs_command,
     filter_jobs,

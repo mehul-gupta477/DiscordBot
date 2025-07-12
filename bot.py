@@ -180,8 +180,8 @@ async def jobs(ctx, *, args: str = "") -> None:
         )
     else:
         filters = paste_jobs_command(args)
-        filtered_jobs = filter_jobs(all_jobs, filters)
-        message = format_jobs_message(filtered_jobs, filters)
+        jobs = filter_jobs(all_jobs, filters)
+        message = format_jobs_message(jobs, filters)
         await ctx.send(message)
 
 

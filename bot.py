@@ -178,10 +178,7 @@ async def jobs(ctx, *, args: str = "") -> None:
             "Sorry, there was an error searching for jobs. Please try again later."
         )
     else:
-        if not args:  
-            args = ""  
-        else:
-            args = args.strip()
+        args = "" if not args else args.strip()
         jobs = filter_jobs(jobs, args)
         message = format_jobs_message(jobs, args)
         await ctx.send(message)

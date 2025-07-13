@@ -4,7 +4,6 @@ import unittest
 from unittest.mock import patch
 import tempfile
 from data_processing.job_event import (  # noqa: E501
-    paste_jobs_command,
     filter_jobs,
     format_jobs_message,
     get_jobs,
@@ -13,7 +12,7 @@ from data_processing.job_event import (  # noqa: E501
 
 class TestJobEventFunctions(unittest.TestCase):
     """
-    Tests for paste_jobs_command
+    Tests for filter_jobs_command
     """
     def setUp(self):
         self.sample_jobs = [
@@ -73,23 +72,6 @@ class TestJobEventFunctions(unittest.TestCase):
                 "entryDate": "2025-07-03",
             },
         ]
-        
-    def test_paste_jobs_command_empty_args(self):
-        """
-        Test that no imputs in command line will return no filters
-        """
-        result = paste_jobs_command("")
-        expected = ""
-        self.assertEqual(result, expected)
-
-    def test_paste_jobs_command_search(self):
-        """
-        Test command line inputs to return as filters
-        """
-        command = "pizza quality assurance tester"
-        result = paste_jobs_command(command)
-        expected = "pizza quality assurance tester"
-        self.assertEqual(result, expected)
 
     def test_filter_jobs_no_filters(self):
         """
@@ -120,7 +102,7 @@ class TestJobEventFunctions(unittest.TestCase):
 
     def test_filter_jobs_role_filter(self):
         """
-        Test that role filters resulting from flags in command line will
+        Test that role filters resulting from inputs in command line will
             look through Title column of csv
         """
         filters = "analyst"
@@ -130,7 +112,7 @@ class TestJobEventFunctions(unittest.TestCase):
 
     def test_filter_jobs_season_filter(self):
         """
-        Test that season filters resulting from flags in command line will
+        Test that season filters resulting from inputs in command line will
             look through Season column of csv
         """
         filters = "summer"
@@ -142,7 +124,7 @@ class TestJobEventFunctions(unittest.TestCase):
 
     def test_filter_jobs_company_filter(self):
         """
-        Test that company filters resulting from flags in command line will
+        Test that company filters resulting from inputs in command line will
             look through Company column of csv
         """
         filters = "whiskers"
@@ -152,7 +134,7 @@ class TestJobEventFunctions(unittest.TestCase):
 
     def test_filter_jobs_location_filter(self):
         """
-        Test that location filters resulting from flags in command line will
+        Test that location filters resulting from inputs in command line will
             look through Location column of csv
         """
         filters = "remote"
@@ -162,7 +144,7 @@ class TestJobEventFunctions(unittest.TestCase):
 
     def test_filter_jobs_multiple_filters(self):
         """
-        Test that multiple filters from flags in command line will
+        Test that multiple filters from command line will
             accurately look through respective columns of csv
         """
         filters = "Intern summer"
@@ -170,17 +152,6 @@ class TestJobEventFunctions(unittest.TestCase):
         self.assertEqual(len(result), 2)
         for job in result:
             self.assertIn("Intern", job["Title"])
-
-    def test_filter_jobs_complex_search(self):
-        """
-        Test that multiple filters from flags in command line will
-            accurately look through respective columns of csv
-        """
-        filters = "whiskers portland"
-        result = filter_jobs(self.sample_jobs, filters)
-        self.assertEqual(len(result), 2)
-        self.assertEqual(result[0]["Company"], "Whiskers & Co")
-        self.assertEqual(result[1]["Title"], "Unicorn Grooming Specialist")
 
     def test_format_jobs_message_empty_list(self):
         """

@@ -8,7 +8,6 @@ from discord.ext import commands
 from dotenv import load_dotenv
 from data_processing.job_event import (
     get_jobs,
-    paste_jobs_command,
     format_jobs_message,
     filter_jobs,
 )
@@ -179,9 +178,12 @@ async def jobs(ctx, *, args: str = "") -> None:
             "Sorry, there was an error searching for jobs. Please try again later."
         )
     else:
-        filters = paste_jobs_command(args)
-        jobs = filter_jobs(jobs, filters)
-        message = format_jobs_message(jobs, filters)
+        if not args:  
+            args = ""  
+        else:
+            args = args.strip()
+        jobs = filter_jobs(jobs, args)
+        message = format_jobs_message(jobs, args)
         await ctx.send(message)
 
 

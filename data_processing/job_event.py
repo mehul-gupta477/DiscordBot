@@ -7,31 +7,6 @@ from data_collections.csv_updater import (
     extract_entries_from_csv,
 )
 
-
-def paste_jobs_command(command_args: str) -> str:
-    """
-    Parses the jobs command arguments to extract search filters
-        from flag notation
-
-    Args:
-        command_args (str): The arguments passed to the command,
-                                as a string.
-
-    Returns:
-        str: string containing parsed parameters
-    """
-    params = ""
-    if not command_args:
-        return params
-    args = command_args.split()
-    for term in args:
-        if term.startswith("-"):
-            pass
-        else:
-            params += term + " "
-    return params.strip()
-
-
 def filter_jobs(
     jobs: list[dict[str, Any]], _filters: str
 ) -> list[dict[str, Any]]:

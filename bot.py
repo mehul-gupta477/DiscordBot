@@ -110,7 +110,7 @@ async def help(ctx) -> None:
         "`!resume` – Link to engineering resume resources\n"
         "`!events` – See upcoming club events\n"
         "`!resources` – Get recommended CS learning materials\n"
-        "`!jobs search-terms` – Search for jobs and internships\n\n"
+        "`!jobs search-criteria` – Search for jobs and internships\n\n"
     )
     await ctx.send(help_message)
 
@@ -173,7 +173,7 @@ async def jobs(ctx, *, args: str = "") -> None:
     csv_file_path = "data_collections/runningCSV.csv"
     try:
         jobs = get_jobs(csv_file_path)
-    except OSError:
+    except (OSError, RuntimeError):
         await ctx.send(
             "Sorry, there was an error searching for jobs. Please try again later."
         )

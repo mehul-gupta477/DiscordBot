@@ -15,7 +15,7 @@ def filter_jobs(
 
     Args:
         jobs (list): List of job dictionaries
-        filters (dict): Dictionary of filter criteria
+        filters (str): String from command line as filter criteria
 
     Returns:
         list: Filtered list of jobs
@@ -52,7 +52,7 @@ def format_jobs_message(
 
     Args:
         jobs (list): List of job dictionaries
-        filters (dict, optional): Applied filters for context
+        filters (str, optional): Applied filters for context
 
     Returns:
         str: Formatted message string
@@ -61,8 +61,8 @@ def format_jobs_message(
         return "💼 No jobs found matching your criteria."
     filter_text = f" (Filters: {_filters.strip()})" if _filters else ""
     message = f"💼 **Found {len(jobs)} job(s):{filter_text}**\n\n"
-    limitted_jobs = jobs[:10]
-    for job in limitted_jobs:
+    limited_jobs = jobs[:10]
+    for job in limited_jobs:
         title = job.get("Title", "Untitled Position")
         job_type = job.get("Type", "")
         company_name = job.get("Company", "")

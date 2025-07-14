@@ -15,7 +15,7 @@ def filter_jobs(
 
     Args:
         jobs (list): List of job dictionaries
-        filters (str): String of filter criteria
+        _filters (str): String of filter criteria
 
     Returns:
         list: Filtered list of jobs
@@ -105,9 +105,6 @@ def get_jobs(csv_file_path: str) -> list[dict[str, Any]]:
         jobs = extract_entries_from_csv(csv_file_path)
     except RuntimeError:
         print("Error loading or filtering jobs from CSV")
-        raise
-    except OSError:
-        print("CSV file not found or inaccessible")
         raise
     filtered_jobs = []
     for job in jobs:

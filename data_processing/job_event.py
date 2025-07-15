@@ -3,13 +3,13 @@ jobs that match the inputted criteria.
 """
 
 from typing import Any
+
 from data_collections.csv_updater import (
     extract_entries_from_csv,
 )
 
-def filter_jobs(
-    jobs: list[dict[str, Any]], _filters: str
-) -> list[dict[str, Any]]:
+
+def filter_jobs(jobs: list[dict[str, Any]], _filters: str) -> list[dict[str, Any]]:
     """
     Filters jobs based on provided criteria
 
@@ -44,9 +44,7 @@ def filter_jobs(
     return filtered_jobs
 
 
-def format_jobs_message(
-    jobs: list[dict[str, Any]], _filters: str
-) -> str:
+def format_jobs_message(jobs: list[dict[str, Any]], _filters: str) -> str:
     """
     Formats job results into a Discord message.
 

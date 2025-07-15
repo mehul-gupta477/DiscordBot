@@ -1,8 +1,9 @@
 """Unittests for job_event.py"""
 
+import tempfile
 import unittest
 from unittest.mock import patch
-import tempfile
+
 from data_processing.job_event import (  # noqa: E501
     filter_jobs,
     format_jobs_message,
@@ -14,6 +15,7 @@ class TestJobEventFunctions(unittest.TestCase):
     """
     Tests for filter_jobs function
     """
+
     def setUp(self):
         self.sample_jobs = [
             {
@@ -72,6 +74,7 @@ class TestJobEventFunctions(unittest.TestCase):
                 "entryDate": "2025-07-03",
             },
         ]
+
     def test_filter_jobs_no_filters(self):
         """
         Test that filter_jobs will return correct amount of jobs given no filters
@@ -80,6 +83,7 @@ class TestJobEventFunctions(unittest.TestCase):
         result = filter_jobs(self.sample_jobs, filters)
         self.assertEqual(len(result), 5)
         self.assertEqual(result, self.sample_jobs)
+
     def test_filter_jobs_role_filter(self):
         """
         Test that role filters resulting from inputs in command line will
@@ -89,6 +93,7 @@ class TestJobEventFunctions(unittest.TestCase):
         result = filter_jobs(self.sample_jobs, filters)
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0]["Title"], "Senior Cat Behavior Analyst")
+
     def test_filter_jobs_season_filter(self):
         """
         Test that season filters resulting from inputs in command line will
@@ -100,6 +105,7 @@ class TestJobEventFunctions(unittest.TestCase):
         titles = [job["Title"] for job in result]
         self.assertIn("Pizza Quality Assurance Intern", titles)
         self.assertIn("Cloud Whisperer Intern", titles)
+
     def test_filter_jobs_company_filter(self):
         """
         Test that company filters resulting from inputs in command line will
@@ -109,6 +115,7 @@ class TestJobEventFunctions(unittest.TestCase):
         result = filter_jobs(self.sample_jobs, filters)
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0]["Company"], "Whiskers & Co")
+
     def test_filter_jobs_location_filter(self):
         """
         Test that location filters resulting from inputs in command line will
@@ -118,6 +125,7 @@ class TestJobEventFunctions(unittest.TestCase):
         result = filter_jobs(self.sample_jobs, filters)
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0]["Location"], "Remote")
+
     def test_filter_jobs_multiple_filters(self):
         """
         Test that multiple filters from command line will
@@ -128,6 +136,7 @@ class TestJobEventFunctions(unittest.TestCase):
         self.assertEqual(len(result), 2)
         for job in result:
             self.assertIn("Intern", job["Title"])
+
     def test_format_jobs_message_empty_list(self):
         """
         Test that given the input of no matching jobs,
@@ -135,6 +144,7 @@ class TestJobEventFunctions(unittest.TestCase):
         """
         result = format_jobs_message([], "")
         self.assertEqual(result, "💼 No jobs found matching your criteria.")
+
     def test_format_jobs_message_single_job(self):
         """
         Test that given the input of a singular matching job,
@@ -148,6 +158,7 @@ class TestJobEventFunctions(unittest.TestCase):
         self.assertIn("Napoli, Italy", result)
         self.assertIn("Summer 2025", result)
         self.assertIn("http://cheesydreams.com/apply", result)
+
     def test_format_jobs_message_multiple_jobs(self):
         """
         Test that given the input of multiple matching jobs,
@@ -159,6 +170,7 @@ class TestJobEventFunctions(unittest.TestCase):
         self.assertIn("Pizza Quality Assurance Intern", result)
         self.assertIn("Senior Cat Behavior Analyst", result)
         self.assertIn("Professional Bubble Wrap Popper", result)
+
     def test_format_jobs_message_with_filters(self):
         """
         Test that given filters in command line,
@@ -168,6 +180,7 @@ class TestJobEventFunctions(unittest.TestCase):
         filters = "cheesy internship"
         result = format_jobs_message(jobs, filters)
         self.assertIn("(Filters: cheesy internship)", result)
+
     def test_format_jobs_message_with_general_search_filter(self):
         """
         Test that given general search terms in command line,
@@ -177,6 +190,7 @@ class TestJobEventFunctions(unittest.TestCase):
         filters = "pizza"
         result = format_jobs_message(jobs, filters)
         self.assertIn("(Filters: pizza)", result)
+
     def test_format_jobs_message_limit_display(self):
         """
         Test that the message is limitted to 10 jobs per !job event
@@ -186,10 +200,12 @@ class TestJobEventFunctions(unittest.TestCase):
         self.assertIn("💼 **Found 15 job(s):**", result)
         self.assertIn("... and 5 more jobs", result)
 
+
 class TestGetJobs(unittest.TestCase):
     """
     Tests for get_jobs function
     """
+
     def setUp(self):
         """
         Create a temporary CSV file for testing
@@ -204,6 +220,7 @@ class TestGetJobs(unittest.TestCase):
                 "Internship,Pizza Intern,Help wanted,Cheesy Dreams Inc,Italy,Summer 2025,2025-07-01,http://cheesydreams.com/apply,2025-07-07\n"
             )  # noqa: E501
             self.temp_file_path = temp_file.name
+
     @patch("data_collections.csv_updater.extract_entries_from_csv")
     def test_get_jobs_error_handling(self, mock_extract):
         """
@@ -212,6 +229,7 @@ class TestGetJobs(unittest.TestCase):
         mock_extract.side_effect = RuntimeError("No such file or directory")
         with self.assertRaises(RuntimeError):
             get_jobs("missing.csv")
+
     @patch("data_collections.csv_updater.extract_entries_from_csv")
     def test_get_jobs_filter_find_match(self, mock_extract):
         """
@@ -228,6 +246,7 @@ class TestGetJobs(unittest.TestCase):
         ]
         results = get_jobs(self.temp_file_path)
         self.assertEqual(len(results), 1)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -97,7 +97,7 @@ class TestJobEventFunctions(unittest.TestCase):
     def test_filter_jobs_season_filter(self):
         """
         Test that season filters resulting from inputs in command line will
-            look through wehenDate column of csv
+            look through whenDate column of csv
         """
         filters = "summer"
         result = filter_jobs(self.sample_jobs, filters)

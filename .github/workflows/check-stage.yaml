@@ -1,5 +1,6 @@
 name: Validate Commit Was Deployed to Staging
 on:
+  workflow_dispatch:
   pull_request:
     branches:
       - release/**

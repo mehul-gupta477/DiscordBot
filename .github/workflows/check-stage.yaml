@@ -12,14 +12,11 @@ jobs:
         steps:
             - name: Checkout repo
               uses: actions/checkout@v4
-            
-            - name: Get current commit SHA
-              run: echo "SHA=$(git rev-parse HEAD)" >> GITHUB_ENV
 
             - name: Check if commit exists on 'stage'
               run: |
                 git fetch origin stage
-                if git branch --contains $SHA origin/stage; then
+                if git merge-base --is-ancestor $GITHUB_SHA origin/stage; then
                     echo "HEAD commit is on stage"
                 else
                     echo "HEAD commit not on stage - must be deployed to staging first"

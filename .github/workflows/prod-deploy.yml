@@ -29,6 +29,6 @@ jobs:
                     chmod 600 .env
 
                     git pull origin main
-                    echo ${{ secrets.GCP_ROOT_PASSWORD }} | sudo -S systemctl restart discordbot-prod.service
+                    sudo systemctl restart discordbot-prod.service
                 EOF
 

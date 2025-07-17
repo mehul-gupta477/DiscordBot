@@ -174,7 +174,7 @@ git checkout -b <new_branch_name>
 
 ### Migrating Environments
 
-We now have deployment environments to ensure that we are not deploying unfinished or buggy code to development! Our branch merges are directly tied to the environments your code will run in. Here’s how it works:
+We have deployment environments to ensure that we are not deploying unfinished or buggy code to users! Our branch merges are directly tied to the environments your code will run in. Here’s how it works:
 
 ```text
 [Branch]
@@ -189,8 +189,47 @@ Development -> Staging -> Production
 - **release branch**: Merging from `stage` to a `release branch` prepares your code for deployment to **Production**.
 - **main**: Once your release branch is merged into `main`, your code is officially live in the **Production** environment.
 
-**Summary:**  
-Each branch merge advances your code to the next environment in the pipeline.
+#### Step-By-Step Migration
+In this section you will learn how to get your code from `Development` to `Production`
+
+1. **Create a branch from main**
+     
+    run the following commands
+    ```bash
+    git checkout main
+    git pull origin main
+    git checkout -b <branch-name>
+    ```
+    > [!NOTE]
+    >
+    > Please check out the [Branch Naming Convention](https://github.com/innovateorange/DiscordBot/blob/main/CONTRIBUTING.md#branch-naming-conventions) section of this document to understand how to name your branches
+2. **Push your changes to remote**
+3. **Validate your changes in Development**
+
+    > [!NOTE]
+    >
+    > Please check out the [Validating Changes to the Bot Locally](https://github.com/innovateorange/DiscordBot/blob/main/CONTRIBUTING.md#validating-changes-to-the-bot-locally) section of this document if you need to run and test / validate your changes to the bot locally
+4. **Merge branch into `stage`**
+
+   > [!IMPORTANT]
+   >
+   > Do **NOT** create a pull request yet. Only proceed with the following commands **after you have validated your changes in the `Development` environment**
+   ```bash
+   git checkout stage
+   git pull origin stage
+   git merge <branch-name>
+   ```
+
+   > [!NOTE]
+   > Your changes aren't in `Staging` right of way. CI/CD Jobs will create a deployment job that needs to be reviewed by your Project Manager / Team Lead first
+5. **Validate your changes in `Staging`**
+   
+   > [!NOTE]
+   >
+   > Please check out the [Validating Changes in Staging](https://github.com/innovateorange/DiscordBot/blob/main/CONTRIBUTING.md#validating-changes-in-staging) section of this document especially if you need to run and test / validate your changes to the bot within the Staging Environment
+6. **
+
+  
 
 ### Testing Your Code With Unittests
 

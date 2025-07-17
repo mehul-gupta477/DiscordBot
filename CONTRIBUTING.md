@@ -193,13 +193,15 @@ Development -> Staging -> Production
 In this section you will learn how to get your code from `Development` to `Production`
 
 1. **Create a branch from main**
-     
-    run the following commands
+
+    Run the following commands
+
     ```bash
     git checkout main
     git pull origin main
     git checkout -b <branch-name>
     ```
+
     > [!NOTE]
     >
     > Please check out the [Branch Naming Convention](https://github.com/innovateorange/DiscordBot/blob/main/CONTRIBUTING.md#branch-naming-conventions) section of this document to understand how to name your branches
@@ -214,14 +216,16 @@ In this section you will learn how to get your code from `Development` to `Produ
    > [!IMPORTANT]
    >
    > Do **NOT** create a pull request. Only proceed with the following commands **after you have validated your changes in the `Development` environment**
+
    ```bash
    git checkout stage
    git pull origin stage
    git merge <branch-name>
    ```
+
    If you create a pull request to `stage`, your branch will be rebased. This can cause problems later when you try to create a pull request to `main`, as your branch will now include not only your changes but also those from others who have pushed to `stage`. To avoid this, use the commands above. This approach creates a merge commit on `stage` rather than rebasing your branch, keeping your changes isolated and the history cleaner.
    > [!NOTE]
-   > Your changes aren't in `Staging` right of way. CI/CD Jobs will create a deployment job that needs to be reviewed by your Project Manager / Team Lead first
+   > Your changes aren't in `Staging` right away. CI/CD Jobs will create a deployment job that needs to be reviewed by your Project Manager / Team Lead first
 5. **Validate your changes in `Staging`**
    
    > [!NOTE]
@@ -443,7 +447,7 @@ Once your changes have passed local testing and are ready for broader validation
 
 ### Validating Changes in Production
 
-Once your changes have passed all tests and reviews in the staging environment, they are ready to be considered for deployment to production. The process for migrating changes to production is managed by the project managers, who handle release branches by copying the `main` branch and accepting PRs only once a feature branch is consider `Production`-ready.
+Once your changes have passed all tests and reviews in the staging environment, they are ready to be considered for deployment to production. The process for migrating changes to production is managed by the project managers, who handle release branches by copying the `main` branch and accepting PRs only once a feature branch is considered `Production`-ready.
 
 - **Testing:**  
   Interact with the production bot (`Bug [Production]`) in Discord to verify that all new features, bug fixes, and updates are functioning as expected.
@@ -453,7 +457,7 @@ Once your changes have passed all tests and reviews in the staging environment, 
 
 ### Code Review
 
-Congrats you have made it to the part where you interact with people! Code review is an opportunity for other people to review your changes and offer you feedback. It's important to make sure that you keep an open-mind in this process. Receiving feedback can be challenging initially, but with respectful communication it will help you gain the skills of a mature software engineer.
+Congrats you have made it to the part where you interact with people! Code review is an opportunity for other people to review your changes and offer you feedback. It's important to make sure that you keep an open mind in this process. Receiving feedback can be challenging initially, but with respectful communication it will help you gain the skills of a mature software engineer.
 
 When it comes to code review, there are a few things that you should keep in mind:
 

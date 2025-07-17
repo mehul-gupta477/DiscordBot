@@ -155,7 +155,7 @@ git checkout -b <new_branch_name>
 ```
 
 > [!CAUTION]
-> Note that this command creates a branch based on the branch you are currently in, so ensure you are on the `stage` branch before creating a new branch. Checking out from any branch other than `stage` risks a failed deployment.
+> Note that this command creates a branch based on the branch you are currently in, so ensure you are on the `main` branch before creating a new branch. Checking out from any branch other than `main` risks a failed deployment.
 
 > [!NOTE]
 > You can see which branch you are on by using the git branch command:
@@ -164,10 +164,10 @@ git checkout -b <new_branch_name>
 > git branch
 > ```
 >
-> If you are on a different branch other than stage when creating your feature branch, ensure you run the following commands
+> If you are on a different branch other than `main` when creating your feature branch, ensure you run the following commands
 >
 > ```bash
-> git checkout stage
+> git checkout main
 > git pull
 > git checkout -b <new_branch_name>
 > ```
@@ -213,13 +213,13 @@ In this section you will learn how to get your code from `Development` to `Produ
 
    > [!IMPORTANT]
    >
-   > Do **NOT** create a pull request yet. Only proceed with the following commands **after you have validated your changes in the `Development` environment**
+   > Do **NOT** create a pull request. Only proceed with the following commands **after you have validated your changes in the `Development` environment**
    ```bash
    git checkout stage
    git pull origin stage
    git merge <branch-name>
    ```
-
+  If you create a pull request to `stage`, your branch will be rebased. This can cause problems later when you try to create a pull request to `main`, as your branch will now include not only your changes but also those from others who have pushed to `stage`. To avoid this, use the commands above. This approach creates a merge commit on `stage` rather than rebasing your branch, keeping your changes isolated and the history cleaner.
    > [!NOTE]
    > Your changes aren't in `Staging` right of way. CI/CD Jobs will create a deployment job that needs to be reviewed by your Project Manager / Team Lead first
 5. **Validate your changes in `Staging`**
@@ -227,9 +227,15 @@ In this section you will learn how to get your code from `Development` to `Produ
    > [!NOTE]
    >
    > Please check out the [Validating Changes in Staging](https://github.com/innovateorange/DiscordBot/blob/main/CONTRIBUTING.md#validating-changes-in-staging) section of this document especially if you need to run and test / validate your changes to the bot within the Staging Environment
-6. **
-
-  
+6. **Create a PR to release/***
+   
+   > [!IMPORTANT]
+   >
+   > Do **NOT** create a pull request until you have validated your changes in `Staging`
+   
+   > [!NOTE]
+   >
+   > At this point your code will go into review. Reviewers may ask you to make some changes. If that is the case you need to redo each of the above steps
 
 ### Testing Your Code With Unittests
 

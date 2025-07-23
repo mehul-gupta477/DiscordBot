@@ -37,7 +37,15 @@ jobs:
           WORKSHOP_RSS: ${{ secrets.WORKSHOP_RSS }}
         run: |
           source .virtualenv/bin/activate
-          python -m data_collections.mainRSSRunner 
+          python -m data_collections.mainRSSRunner
+
+      - name: Update runningCSV.csv with Speaker/Panel Events
+        env:
+          TASK_TYPE: "SPEAKER-PANEL"
+          WORKSHOP_RSS: ${{ secrets.SPEAKER_PANEL_RSS }}
+        run: |
+          source .virtualenv/bin/activate
+          python -m data_collections.mainRSSRunner
 
       - name: Commit & push changes if any
         run: |

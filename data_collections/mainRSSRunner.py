@@ -46,6 +46,9 @@ if __name__ == "__main__":
     elif task_type == "WORKSHOP":
         url = os.getenv("WORKSHOP_RSS")
         data = run_get_events(url, task_type)
+    elif task_type == "SPEAKER-PANEL":
+        url = os.getenv("SPEAKER-PANEL-RSS")
+        data = run_get_events(url, task_type)
     else:
         raise ValueError(f"Unsupported TASK_TYPE: {task_type}")
     items_to_csv(data, "data_collections/runningCSV.csv")

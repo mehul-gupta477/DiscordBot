@@ -37,7 +37,7 @@ jobs:
           git config --global user.email 'github-actions@github.com'
           
           if ! git diff --quiet; then
-            git add data_collections/runningCSV.csv
+            git add -f data_collections/runningCSV.csv
             git commit -m 'Update runningCSV.csv'
             git push origin main
           else

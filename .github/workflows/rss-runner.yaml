@@ -26,10 +26,18 @@ jobs:
       - name: Update runningCSV.csv with Information Session Events
         env:
           TASK_TYPE: "INFO-SESSION"
-          EVENTS_RSS_URL: ${{ secrets.INFO_SESSION_RSS }}
+          INFO_SESSION_RSS: ${{ secrets.INFO_SESSION_RSS }}
         run: |
           source .virtualenv/bin/activate
           python -m data_collections.mainRSSRunner
+      
+      - name: Update runningCSV.csv with Workshop Events
+        env:
+          TASK_TYPE: "WORKSHOP"
+          WORKSHOP_RSS: ${{ secrets.WORKSHOP_RSS }}
+        run: |
+          source .virtualenv/bin/activate
+          python -m data_collections.mainRSSRunner 
 
       - name: Commit & push changes if any
         run: |

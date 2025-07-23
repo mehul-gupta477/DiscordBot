@@ -26,9 +26,9 @@ from .csv_updater import items_to_csv
 from .events import getEvents
 
 
-def run_info_session_RSS(url, subType):
+def run_get_events(url, subType):
     if not url:
-        raise ValueError("INFO-SESSION-RSS variable not set")
+        raise ValueError(f"{subType}_RSS variable not set")
     data = getEvents(url, subType)
     return data
 
@@ -42,7 +42,10 @@ if __name__ == "__main__":
 
     if task_type == "INFO-SESSION":
         url = os.getenv("INFO_SESSION_RSS")
-        data = run_info_session_RSS(url, task_type)
+        data = run_get_events(url, task_type)
+    elif task_type == "WORKSHOP":
+        url = os.getenv("WORKSHOP_RSS")
+        data = run_get_events(url, task_type)
     else:
         raise ValueError(f"Unsupported TASK_TYPE: {task_type}")
     items_to_csv(data, "data_collections/runningCSV.csv")

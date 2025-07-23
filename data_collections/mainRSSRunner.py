@@ -47,7 +47,10 @@ if __name__ == "__main__":
         url = os.getenv("WORKSHOP_RSS")
         data = run_get_events(url, task_type)
     elif task_type == "SPEAKER-PANEL":
-        url = os.getenv("SPEAKER-PANEL-RSS")
+        url = os.getenv("SPEAKER_PANEL_RSS")
+        data = run_get_events(url, task_type)
+    elif task_type == "OTHER":
+        url = os.getenv("OTHER_RSS")
         data = run_get_events(url, task_type)
     else:
         raise ValueError(f"Unsupported TASK_TYPE: {task_type}")

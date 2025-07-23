@@ -47,6 +47,14 @@ jobs:
           source .virtualenv/bin/activate
           python -m data_collections.mainRSSRunner
 
+      - name: Update runningCSV.csv with Other Events
+        env:
+          TASK_TYPE: "OTHER"
+          WORKSHOP_RSS: ${{ secrets.OTHER_RSS }}
+        run: |
+          source .virtualenv/bin/activate
+          python -m data_collections.mainRSSRunner
+
       - name: Commit & push changes if any
         run: |
           git config --global user.name 'github-actions'

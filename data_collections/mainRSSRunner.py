@@ -40,18 +40,19 @@ if __name__ == "__main__":
     if not task_type:
         raise ValueError("TASK_TYPE variable not set")
 
-    if task_type == "INFO-SESSION":
+    url = None
+    if task_type == "INFO_SESSION":
         url = os.getenv("INFO_SESSION_RSS")
-        data = run_get_events(url, task_type)
     elif task_type == "WORKSHOP":
         url = os.getenv("WORKSHOP_RSS")
-        data = run_get_events(url, task_type)
-    elif task_type == "SPEAKER-PANEL":
+    elif task_type == "SPEAKER_PANEL":
         url = os.getenv("SPEAKER_PANEL_RSS")
-        data = run_get_events(url, task_type)
     elif task_type == "OTHER":
         url = os.getenv("OTHER_RSS")
-        data = run_get_events(url, task_type)
+    elif task_type == "CAREER_FAIR":
+        url = os.getenv("CAREER_FAIR_RSS")
     else:
         raise ValueError(f"Unsupported TASK_TYPE: {task_type}")
+
+    data = run_get_events(url, task_type)
     items_to_csv(data, "data_collections/runningCSV.csv")

@@ -25,7 +25,7 @@ jobs:
       
       - name: Update runningCSV.csv with Information Session Events
         env:
-          TASK_TYPE: "INFO-SESSION"
+          TASK_TYPE: "INFO_SESSION"
           INFO_SESSION_RSS: ${{ secrets.INFO_SESSION_RSS }}
         run: |
           source .virtualenv/bin/activate
@@ -41,7 +41,7 @@ jobs:
 
       - name: Update runningCSV.csv with Speaker/Panel Events
         env:
-          TASK_TYPE: "SPEAKER-PANEL"
+          TASK_TYPE: "SPEAKER_PANEL"
           WORKSHOP_RSS: ${{ secrets.SPEAKER_PANEL_RSS }}
         run: |
           source .virtualenv/bin/activate
@@ -51,6 +51,14 @@ jobs:
         env:
           TASK_TYPE: "OTHER"
           WORKSHOP_RSS: ${{ secrets.OTHER_RSS }}
+        run: |
+          source .virtualenv/bin/activate
+          python -m data_collections.mainRSSRunner
+      
+      - name: Update runningCSV.csv with Career Fair Events
+        env:
+          TASK_TYPE: "CAREER_FAIR"
+          WORKSHOP_RSS: ${{ secrets.CAREER_FAIR_RSS }}
         run: |
           source .virtualenv/bin/activate
           python -m data_collections.mainRSSRunner

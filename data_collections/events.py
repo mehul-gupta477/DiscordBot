@@ -64,7 +64,7 @@ def getEvents(url, subType):
 
         event = {
             "Type": "Event",
-            "Sub-Type": subType.lower(),
+            "subType": subType.lower(),
             "Company": "",
             "Title": title,
             "Description": descrip,

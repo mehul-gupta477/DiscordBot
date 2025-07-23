@@ -1,20 +1,29 @@
 """
 mainRSSRunner.py
 
-This module provides functionality to run RSS event collection tasks and save the results to a CSV file.
-It loads environment variables (RSS Feed URLS), determines the task type (from ENV variables), fetches event data from an RSS feed, and writes
-the collected items to a CSV file.
+This module provides functionality to run RSS event collection tasks and
+save the results to a CSV file.
+
+This Module does the following:
+    - loads environment variables (RSS Feed URLS)
+    - determines the task type (from ENV variables)
+    - fetches event data from an RSS feed
+    - writes the collected items to a CSV file.
 
 Functions:
-    run_events_RSS(url): Fetches event data from the provided RSS URL using the getEvents function.
+    run_get_events(url, subType):
+        Fetches event data from the provided RSS URL using the getEvents function.
 
 Usage:
     Run this module as a script. It expects the following environment variables:
-        - TASK_TYPE: Specifies the type of task to run (currently only "EVENTS" is supported).
-        - EVENTS_RSS_URL: The URL of the RSS feed to fetch events from.
+        - TASK_TYPE: Specifies the type of task to run
+            (e.g., "INFO_SESSION", "WORKSHOP", "SPEAKER_PANEL", "OTHER", "CAREER_FAIR").
+        - Corresponding RSS URL environment variable for the selected TASK_TYPE.
 
 Raises:
-    ValueError: If required environment variables are not set or if an unsupported TASK_TYPE is provided.
+    ValueError:
+        - If required environment variables are not set
+        - If an unsupported TASK_TYPE is provided.
 
 """
 

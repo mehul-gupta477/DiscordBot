@@ -76,13 +76,3 @@ def items_to_csv(data: list[dict], path_to_file: str):
             print(f"Items Successfully saved to {path_to_file}")
         except Exception as e:
             raise RuntimeError(f"Failed to save data to CSV: {e}") from e
-
-
-if __name__ == "__main__":
-    load_dotenv()
-    url = os.getenv("EVENTS_RSS_URL")
-    if not url:
-        raise ValueError("EVENTS_RSS_URL variable not set")
-
-    data = getEvents(url)
-    items_to_csv(data, "data_collections/runningCSV.csv")

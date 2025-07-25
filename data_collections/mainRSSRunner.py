@@ -6,8 +6,8 @@ from dotenv import load_dotenv
 
 from .csv_updater import items_to_csv
 from .events import getEvents
-from .jobs import getJobs
 from .internships import getInternships
+from .jobs import getJobs
 
 
 def run_events_RSS(url):
@@ -16,11 +16,13 @@ def run_events_RSS(url):
     data = getEvents(url)
     return data
 
+
 def run_jobs_RSS(url):
     if not url:
         raise ValueError("JOBS_RSS variable not set")
     data = getJobs(url)
     return data
+
 
 def run_internships_RSS(url):
     if not url:

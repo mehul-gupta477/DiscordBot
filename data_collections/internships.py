@@ -1,46 +1,92 @@
-from .jobs import extract_locations
-import feedparser
-import os
-import re
 import datetime
-from dotenv import load_dotenv
+import re
+
+import feedparser
+
+from .jobs import extract_locations
 
 VALID_STATES = {
-    'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
-    'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD',
-    'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ',
-    'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',
-    'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
+    "AL",
+    "AK",
+    "AZ",
+    "AR",
+    "CA",
+    "CO",
+    "CT",
+    "DE",
+    "FL",
+    "GA",
+    "HI",
+    "ID",
+    "IL",
+    "IN",
+    "IA",
+    "KS",
+    "KY",
+    "LA",
+    "ME",
+    "MD",
+    "MA",
+    "MI",
+    "MN",
+    "MS",
+    "MO",
+    "MT",
+    "NE",
+    "NV",
+    "NH",
+    "NJ",
+    "NM",
+    "NY",
+    "NC",
+    "ND",
+    "OH",
+    "OK",
+    "OR",
+    "PA",
+    "RI",
+    "SC",
+    "SD",
+    "TN",
+    "TX",
+    "UT",
+    "VT",
+    "VA",
+    "WA",
+    "WV",
+    "WI",
+    "WY",
 }
+
 
 def getInternships(url):
     try:
         data = feedparser.parse(url)
     except Exception as e:
         raise RuntimeError(f"Failed to parse the RSS feed from {url}: {e}") from e
-    
+
     if getattr(data, "bozo", False):
         raise RuntimeError(
             f"Mailformed RSS feed {url!r}: {getattr(data, 'bozo_exception', '')}"
         )
-    
+
     internships = []
 
     for entry in data.get("entries", []):
-        title = re.sub(r'\s+at.*','',entry.get("title", ""), flags=re.IGNORECASE)
+        title = re.sub(r"\s+at.*", "", entry.get("title", ""), flags=re.IGNORECASE)
         descrip = entry.get("description", "")
 
         company = "Unknown"
         whenDate = "Unknown"
         locations = "Unknown"
 
-        # Retrieves Employer Information    
-        match = re.search(r'Employer:.*?(?=\n|<|Expires:)', descrip, re.DOTALL)
+        # Retrieves Employer Information
+        match = re.search(r"Employer:.*?(?=\n|<|Expires:)", descrip, re.DOTALL)
         if match:
             company = match.group().strip("Employer: ")
 
         # Retrieves whenDate Information
-        match = re.search(r'Expires:\s*(\d{2}/\d{2}/\d{4})', descrip)
+        match = re.search(r"Expires:\s*(\d{2}/\d{2}/\d{4})", descrip)
         if match:
             whenDate = match.group(1)
 
@@ -64,5 +110,5 @@ def getInternships(url):
         }
 
         internships.append(internship)
-    
+
     return internships

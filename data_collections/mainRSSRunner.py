@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from .csv_updater import items_to_csv
 from .events import getEvents
 from .jobs import getJobs
+from .internships import getInternships
 
 
 def run_events_RSS(url):
@@ -19,6 +20,12 @@ def run_jobs_RSS(url):
     if not url:
         raise ValueError("JOBS_RSS variable not set")
     data = getJobs(url)
+    return data
+
+def run_internships_RSS(url):
+    if not url:
+        raise ValueError("INTERNSHIPS_RSS variable not set")
+    data = getInternships(url)
     return data
 
 
@@ -35,6 +42,9 @@ if __name__ == "__main__":
     elif task_type == "JOBS":
         url = os.getenv("JOBS_RSS")
         data = run_jobs_RSS(url)
+    elif task_type == "INTERNSHIPS":
+        url = os.getenv("INTERNSHIPS_RSS")
+        data = run_internships_RSS(url)
     else:
         raise ValueError(f"Unsupported TASK_TYPE: {task_type}")
     items_to_csv(data, "data_collections/runningCSV.csv")

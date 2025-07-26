@@ -4,7 +4,7 @@ import re
 import feedparser
 
 
-def getEvents(url, subType):
+def getEvents(url):
     """
     Parses the RSS feed from the given URL and extracts event details.
     Args:
@@ -64,7 +64,6 @@ def getEvents(url, subType):
 
         event = {
             "Type": "Event",
-            "subType": subType.lower(),
             "Company": "",
             "Title": title,
             "Description": descrip,

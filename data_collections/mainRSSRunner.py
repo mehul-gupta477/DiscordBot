@@ -10,10 +10,10 @@ from .internships import getInternships
 from .jobs import getJobs
 
 
-def run_events_RSS(url):
+def run_events_RSS(url, subType):
     if not url:
-        raise ValueError("EVENTS_RSS_URL variable not set")
-    data = getEvents(url)
+        raise ValueError(f"{subType}_RSS variable not set")
+    data = getEvents(url, subType)
     return data
 
 
@@ -38,9 +38,22 @@ if __name__ == "__main__":
     if not task_type:
         raise ValueError("TASK_TYPE variable not set")
 
-    if task_type == "EVENTS":
-        url = os.getenv("EVENTS_RSS_URL")
-        data = run_events_RSS(url)
+    url = None
+    if task_type == "INFO_SESSION":
+        url = os.getenv("INFO_SESSION_RSS")
+        data = run_events_RSS(url, task_type)
+    elif task_type == "WORKSHOP":
+        url = os.getenv("WORKSHOP_RSS")
+        data = run_events_RSS(url, task_type)
+    elif task_type == "SPEAKER_PANEL":
+        url = os.getenv("SPEAKER_PANEL_RSS")
+        data = run_events_RSS(url, task_type)
+    elif task_type == "OTHER":
+        url = os.getenv("OTHER_RSS")
+        data = run_events_RSS(url, task_type)
+    elif task_type == "CAREER_FAIR":
+        url = os.getenv("CAREER_FAIR")
+        data = run_events_RSS(url, task_type)
     elif task_type == "JOBS":
         url = os.getenv("JOBS_RSS")
         data = run_jobs_RSS(url)

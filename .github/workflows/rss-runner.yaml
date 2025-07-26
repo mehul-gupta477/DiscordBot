@@ -23,22 +23,6 @@ jobs:
           chmod +x setup.sh
           ./setup.sh
       
-      - name: Update runningCSV.csv with Jobs 
-        env:
-          TASK_TYPE: "JOBS"
-          JOBS_RSS: ${{ secrets.JOBS_RSS }}
-        run: |
-          source .virtualenv/bin/activate
-          python -m data_collections.mainRSSRunner
-
-      - - name: Update runningCSV.csv with Internships 
-        env:
-          TASK_TYPE: "INTERNSHIPS"
-          INTERNSHIPS_RSS: ${{ secrets.INTERNSHIPS_RSS }}
-        run: |
-          source .virtualenv/bin/activate
-          python -m data_collections.mainRSSRunner
-
       - name: Update runningCSV.csv with Information Session Events
         env:
           TASK_TYPE: "INFO_SESSION"

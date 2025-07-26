@@ -33,7 +33,7 @@ jobs:
 
       - - name: Update runningCSV.csv with Internships 
         env:
-          TASK_TYPE: "EVENTS"
+          TASK_TYPE: "INTERNSHIPS"
           INTERNSHIPS_RSS: ${{ secrets.INTERNSHIPS_RSS }}
         run: |
           source .virtualenv/bin/activate

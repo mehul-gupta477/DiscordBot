@@ -2,9 +2,6 @@ import csv
 import os
 
 import pandas as pd
-from dotenv import load_dotenv
-
-from .events import getEvents
 
 
 def extract_entries_from_csv(path: str) -> list[dict]:

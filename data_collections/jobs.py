@@ -65,7 +65,7 @@ def getJobs(url):
 
     if getattr(data, "bozo", False):
         raise RuntimeError(
-            f"Mailformed RSS feed {url!r}: {getattr(data, 'bozo_exception', '')}"
+            f"Malformed RSS feed {url!r}: {getattr(data, 'bozo_exception', '')}"
         )
 
     jobs = []
@@ -81,7 +81,7 @@ def getJobs(url):
         # Retrieves Employer Information
         match = re.search(r"Employer:.*?(?=\n|<|Expires:)", descrip, re.DOTALL)
         if match:
-            company = match.group().strip("Employer: ")
+            company = match.group().removeprefix("Employer: ").strip()
 
         # Retrieves whenDate Information
         match = re.search(r"Expires:\s*(\d{2}/\d{2}/\d{4})", descrip)
@@ -139,9 +139,8 @@ def extract_locations(description):
             # Validate state part
             if ", " in loc:
                 *_, state = loc.rsplit(", ", 1)
-                if state in VALID_STATES:
+                if state in VALID_STATES and len(loc.split()) <= 3:
                     # Word count filter: e.g., skip "Main Office Downtown Boston, MA"
-                    if len(loc.split()) <= 3:
-                        result.add(loc)
+                    result.add(loc)
 
     return list(result) if result else ["Unknown"]

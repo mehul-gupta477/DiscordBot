@@ -67,7 +67,7 @@ def getInternships(url):
 
     if getattr(data, "bozo", False):
         raise RuntimeError(
-            f"Mailformed RSS feed {url!r}: {getattr(data, 'bozo_exception', '')}"
+            f"Malformed RSS feed {url!r}: {getattr(data, 'bozo_exception', '')}"
         )
 
     internships = []
@@ -83,7 +83,7 @@ def getInternships(url):
         # Retrieves Employer Information
         match = re.search(r"Employer:.*?(?=\n|<|Expires:)", descrip, re.DOTALL)
         if match:
-            company = match.group().strip("Employer: ")
+            company = match.group().removeprefix("Employer: ").strip()
 
         # Retrieves whenDate Information
         match = re.search(r"Expires:\s*(\d{2}/\d{2}/\d{4})", descrip)

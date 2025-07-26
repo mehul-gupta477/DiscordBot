@@ -37,7 +37,6 @@ from .internships import getInternships
 from .jobs import getJobs
 
 
-
 def run_events_RSS(url, subType):
     if not url:
         raise ValueError(f"{subType}_RSS variable not set")
@@ -91,5 +90,4 @@ if __name__ == "__main__":
     else:
         raise ValueError(f"Unsupported TASK_TYPE: {task_type}")
 
-    data = run_get_events(url, task_type)
     items_to_csv(data, "data_collections/runningCSV.csv")

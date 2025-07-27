@@ -1,7 +1,7 @@
 name: Document Formatter
 on:
   push:
-    branches: ["hotfix/*", "bugfix/*", "release/*","stable/*"]
+    branches: ["hotfix/*", "bugfix/*", "release/*", "stable/*"]
     paths: ['**/*.yml', '**/*.yaml']
   pull_request:
     branches: ["hotfix/*", "bugfix/*", "release/*", "stable/*"]

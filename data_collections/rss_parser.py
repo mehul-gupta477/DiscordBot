@@ -2,7 +2,9 @@ import datetime
 import re
 
 import feedparser
+
 from .constants import VALID_STATES
+
 
 def getInternships(url):
     return parse_rss_feed(url, "Internship")
@@ -17,7 +19,9 @@ def parse_rss_feed(url, item_type):
     try:
         data = feedparser.parse(url)
     except (ConnectionError, TimeoutError) as e:
-        raise RuntimeError(f"Network error while fetching RSS feed from {url}: {e}") from e
+        raise RuntimeError(
+            f"Network error while fetching RSS feed from {url}: {e}"
+        ) from e
     except Exception as e:
         raise RuntimeError(f"Failed to parse the RSS feed from {url}: {e}") from e
 
@@ -25,10 +29,12 @@ def parse_rss_feed(url, item_type):
         raise RuntimeError(
             f"Malformed RSS feed {url!r}: {getattr(data, 'bozo_exception', '')}"
         )
-    
+
     items = []
     for entry in data.get("entries", []):
-        title = re.sub(r"\s+at\s+.+$", "", entry.get("title", "").strip(), flags=re.IGNORECASE)
+        title = re.sub(
+            r"\s+at\s+.+$", "", entry.get("title", "").strip(), flags=re.IGNORECASE
+        )
         descrip = entry.get("description", "")
 
         company = "Unknown"
@@ -36,7 +42,9 @@ def parse_rss_feed(url, item_type):
         locations = "Unknown"
 
         # Retrieves Employer Information
-        match = re.search(r"Employer:\s*([^\n<]+?)(?=\n|<|Expires:|$)", descrip, re.DOTALL)
+        match = re.search(
+            r"Employer:\s*([^\n<]+?)(?=\n|<|Expires:|$)", descrip, re.DOTALL
+        )
         if match:
             company = match.group(1).strip()
 

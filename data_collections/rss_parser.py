@@ -51,12 +51,7 @@ def parse_rss_feed(url, item_type):
         # Retrieves whenDate Information
         match = re.search(r"Expires:\s*(\d{2}/\d{2}/\d{4})", descrip)
         if match:
-            date_str = match.group(1)
-            try:
-                datetime.datetime.strptime(whenDate, "%m/%d/%Y")
-                whenDate = date_str
-            except:
-                whenDate = "Unknown"
+            whenDate = match.group(1)
 
         # Retrieves Locations Information
         locations = extract_locations(descrip)

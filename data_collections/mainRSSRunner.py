@@ -33,8 +33,7 @@ from dotenv import load_dotenv
 
 from .csv_updater import items_to_csv
 from .events import getEvents
-from .internships import getInternships
-from .jobs import getJobs
+from .rss_parser import getInternships, getJobs
 
 
 def run_events_RSS(url, subType):
@@ -79,7 +78,7 @@ if __name__ == "__main__":
         url = os.getenv("OTHER_RSS")
         data = run_events_RSS(url, task_type)
     elif task_type == "CAREER_FAIR":
-        url = os.getenv("CAREER_FAIR")
+        url = os.getenv("CAREER_FAIR_RSS")
         data = run_events_RSS(url, task_type)
     elif task_type == "JOBS":
         url = os.getenv("JOBS_RSS")

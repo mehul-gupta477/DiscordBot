@@ -31,7 +31,7 @@ jobs:
           source .virtualenv/bin/activate
           python -m data_collections.mainRSSRunner
 
-      - - name: Update runningCSV.csv with Internships 
+      - name: Update runningCSV.csv with Internships 
         env:
           TASK_TYPE: "INTERNSHIPS"
           INTERNSHIPS_RSS: ${{ secrets.INTERNSHIPS_RSS }}

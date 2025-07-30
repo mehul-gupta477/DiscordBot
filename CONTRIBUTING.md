@@ -9,25 +9,6 @@ included in the ReadMe file of this repo:
 
 ## Contributing to Discord Bot Project
 
-### Style and lint
-
-Discord Bot Project uses two tools to verify code formatting and lint checking. The
-first tool is [black](https://github.com/psf/black) which is a code formatting
-tool that will automatically update the code formatting to a consistent style.
-The second tool is [ruff](https://github.com/astral-sh/ruff) which is a code linter
-which does a deeper analysis of the Python code to find both style issues and
-potential bugs and other common issues in Python.
-
-You can check that your local modifications conform to the style rules
-by running `nox` which will run `black` and `ruff` to check the local
-code formatting and lint. You will need to have [nox](https://github.com/wntrblm/nox)
-installed to run this command. You can do this with `pip install -U nox`.
-
->[!NOTE]
->If black returns a code formatting error, you can run `nox -s format` to
-automatically update the code formatting to conform to the style. However,
-if `ruff` returns any error, you will have to resolve these issues by manually updating your code.
-
 ### Creating a new issue
 
 This is where contributions begin within our project.
@@ -60,6 +41,8 @@ We use custom issue templates to streamline how you report bugs, suggest new fea
 
 These templates ensure that issues are organized and easier for maintainers to address. Please fill them out thoroughly!
 
+## Development Workflow
+
 ### Setting up your virtual environment (.venv)
 
 Working on Python projects, it's generally a good idea to use virtual environments to prevent library conflicts. Here's how you can set up a virtual environment for this project:
@@ -70,7 +53,7 @@ Working on Python projects, it's generally a good idea to use virtual environmen
     Navigate to the project directory and execute the `setup.sh` script to create and configure the virtual environment:
 
     ```bash
-    ./setup.sh
+    source ./setup.sh
     ```
 
     This script automates the creation, activation, and dependency installation.
@@ -117,6 +100,25 @@ deactivate
 > Make sure to activate the virtual environment every time you work on the project to ensure you're using the correct dependencies.
 
 This setup ensures that your development environment is isolated and consistent with the project's requirements.
+
+### Style and lint
+
+Discord Bot Project uses two tools to verify code formatting and lint checking. The
+first tool is [black](https://github.com/psf/black) which is a code formatting
+tool that will automatically update the code formatting to a consistent style.
+The second tool is [ruff](https://github.com/astral-sh/ruff) which is a code linter
+which does a deeper analysis of the Python code to find both style issues and
+potential bugs and other common issues in Python.
+
+You can check that your local modifications conform to the style rules
+by running `nox` which will run `black` and `ruff` to check the local
+code formatting and lint. You will need to have [nox](https://github.com/wntrblm/nox)
+installed to run this command. You can do this with `pip install -U nox`.
+
+>[!NOTE]
+>If black returns a code formatting error, you can run `nox -s format` to
+automatically update the code formatting to conform to the style. However,
+if `ruff` returns any error, you will have to resolve these issues by manually updating your code.
 
 ### Branch Naming Conventions
 
@@ -421,40 +423,6 @@ Once you have ensured that you have done all of the above, you can mark your pul
 
 Once you do that, you are ready for code review!
 
-### Validating Changes in Staging
-
-Once your changes have passed local testing and are ready for broader validation, they should be tested in the **Staging** environment. The Discord Bot is deployed on our GCP LM, and the staging bot mirrors the production setup as closely as possible.
-
->[!WARNING]  
-> After your code is merged into the `stage` branch, you should **not** run the bot locally. All testing at this point must be performed using the staging bot instance.
-
-#### How to Test in Staging
-
-1. **Push your branch to `stage`:**  
-  Merge your feature branch into the `stage` branch following the standard workflow.
-
-2. **Deployment:**  
-  The bot will automatically be deployed to the Staging environment via our CI/CD pipeline upon merge to `stage`.
-
-3. **Testing:**  
-
-- Interact with the staging bot (`Bug [Staging]`) on Discord.
-- Validate all new features, bug fixes, and changes in the staging environment.
-- Confirm that your changes work as expected.
-
-> [!NOTE]
-> The staging bot uses a separate Discord token and configuration from development and production. Ensure you are testing with the correct bot in the correct environment.
-
-### Validating Changes in Production
-
-Once your changes have passed all tests and reviews in the staging environment, they are ready to be considered for deployment to production. The process for migrating changes to production is managed by the project managers, who handle release branches by copying the `main` branch and accepting PRs only once a feature branch is considered `Production`-ready.
-
-- **Testing:**  
-  Interact with the production bot (`Bug [Production]`) in Discord to verify that all new features, bug fixes, and updates are functioning as expected.
-
-- **Monitoring:**  
-  Closely monitor the bot for any unexpected behavior or issues. If problems arise, report them immediately using the appropriate issue template.
-
 ### Code Review
 
 Congrats you have made it to the part where you interact with people! Code review is an opportunity for other people to review your changes and offer you feedback. It's important to make sure that you keep an open mind in this process. Receiving feedback can be challenging initially, but with respectful communication it will help you gain the skills of a mature software engineer.
@@ -486,60 +454,10 @@ This workflow installs project dependencies, runs linting tools, and executes ou
 - `codeql.yml`  
 CodeQL analyzes the codebase for potential security vulnerabilities. It searches for code patterns that could lead to bugs or exploits and helps catch more significant issues that traditional testing might miss.
   
-  >![NOTE]This workflow runs everytime there is a new pull request that is attempting to push to main
+  >![NOTE]This workflow runs every time there is a new pull request that is attempting to push to main
 
 - `dependabot.yml`  
 Dependabot automatically monitors our dependencies and opens pull requests when updates are available. This helps us stay current with library versions and patch known security issues before they become an issue.
-
-### Updating the Discord Notifier
-
-> [!NOTE]
-Only the Project Manager is able to update the contributors within the Discord Notifier, as they will be the only ones with access to this file.
-
-Our project uses discord webhooks & github workflows to enable us with discord notifications directly from Github! We have three files (one being secret) to accomplish this. They are as follows:
-
-- `discord_notify.yml`
-GitHub Workflow file that tells Github what events to look for to run the `notify_discord.py` script
-- `notify_discord.py`
-Python Script that builds the message and sends to the discord webhook based on the type of GitHub Event
-- `user_map.json`[Secret]
-JSON file that contains the mapping of each contributer's GitHub username to their DiscordID. We actually store this as a base64 string in our GitHub Secrets.
-
-The only file that should ever be updated is the `user_map.json` file, that being when a new member would join the project.
-
-Before we begin, let's decode our user_map.json base64 string by running the following command in your terminal:
-
-```bash
-echo "STRING-GOES-HERE" | base64 -d
-```
-
-From here you can create a temporary file (I use user_map.json) and copy what was outputted on the terminal into that file. That way, you can now modify the file!
-
-Now you'll have to grab both the contributer's GitHub Username and DiscordID.
-
-To grab the contributer's DiscordID, do the following:
-
-1. Enable Developer Mode on Discord ([Don't Know how?](https://youtu.be/8FNYLcjBERM))
-2. Right Click on Contributer's Profile
-3. Click "Copy User ID"
-
-Now that you have the contributer's DiscordID, map their GitHub username to their DiscordID with the JSON's structure:
-
-```json
-"GitHub_Username": <DiscordID>
-```
-
-Now let's encode that that file by running the following command in your terminal:
-
-```bash
-cat user_map.json | base64
-```
-
-Take this string and update our USER_MAP GitHub Secret!
-
-And done, you have now succesfully modified and updated our USER_MAP GitHub Secret!
-
-By contributing to this repo, you're also contributing to the standard of quality. So, if the CI/CD workflow fails on your pull request, don't worry; it's just part of the process to help you (and the rest of the team) write better, more secure code.
 
 > This document will be updated based on the needs of the team
 >

@@ -191,6 +191,11 @@ Development -> Staging -> Production
 - **release branch**: Merging from `stage` to a `release branch` prepares your code for deployment to **Production**.
 - **main**: Once your release branch is merged into `main`, your code is officially live in the **Production** environment.
 
+>[!NOTE]
+> For the releases we are using [0-based versioning](https://0ver.org/) (e.g., 0.1.0, 0.1.1, 0.1.2, etc.). The leading 0 will remain unchanged, the second number is for major changes, and the third number is for minor changes.
+>
+> For example, if the last release was `0.1.2`, the next release will be `0.1.3` if you are making a minor change like a hotfix or patch. If you are making a major change that modifies core functionality of the bot, then you should increment the second number to `0.2.2`.
+
 #### Step-By-Step Migration
 In this section you will learn how to get your code from `Development` to `Production`
 

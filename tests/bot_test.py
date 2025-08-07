@@ -9,6 +9,8 @@ import discord
 
 
 class TestCSClubBot(unittest.IsolatedAsyncioTestCase):
+    # dasdasda
+    # inset aisi ki taisi
     """Test suite for the CS Club Discord Bot commands"""
 
     async def asyncSetUp(self):

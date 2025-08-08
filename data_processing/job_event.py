@@ -26,6 +26,7 @@ def filter_jobs(jobs: list[dict[str, Any]], _filters: str) -> list[dict[str, Any
     filtered_jobs = []
     for job in jobs:
         include_job = False
+        confidence = 0
         search_terms = _filters.split()
         searchable_fields = [
             job.get("Title", ""),
@@ -40,9 +41,12 @@ def filter_jobs(jobs: list[dict[str, Any]], _filters: str) -> list[dict[str, Any
             for field in searchable_fields:
                 if term.lower() in field.lower():
                     include_job = True
+                    confidence += 1
                     break
         if include_job:
+            job.update({"confidence": confidence})
             filtered_jobs.append(job)
+    filtered_jobs = sorted(filtered_jobs, key=lambda x: x["confidence"], reverse=True)
     return filtered_jobs[:5]
 
 

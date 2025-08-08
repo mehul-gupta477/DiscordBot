@@ -3,6 +3,7 @@ jobs that match the inputted criteria.
 """
 
 from typing import Any
+from datetime import datetime
 
 from data_collections.csv_updater import (
     extract_entries_from_csv,
@@ -28,6 +29,7 @@ def filter_jobs(jobs: list[dict[str, Any]], _filters: str) -> list[dict[str, Any
         search_terms = _filters.split()
         searchable_fields = [
             job.get("Title", ""),
+            job.get("subType", ""),
             job.get("Company", ""),
             job.get("Description", ""),
             job.get("Location", ""),
@@ -41,7 +43,7 @@ def filter_jobs(jobs: list[dict[str, Any]], _filters: str) -> list[dict[str, Any
                     break
         if include_job:
             filtered_jobs.append(job)
-    return filtered_jobs
+    return filtered_jobs[:5]
 
 
 def format_jobs_message(jobs: list[dict[str, Any]], _filters: str) -> str:
@@ -59,33 +61,47 @@ def format_jobs_message(jobs: list[dict[str, Any]], _filters: str) -> str:
         return "💼 No jobs found matching your criteria."
     filter_text = f" (Filters: {_filters.strip()})" if _filters else ""
     message = f"💼 **Found {len(jobs)} job(s):{filter_text}**\n\n"
-    limited_jobs = jobs[:10]
+    limited_jobs = jobs[:5]
     for job in limited_jobs:
         title = job.get("Title", "Untitled Position")
         job_type = job.get("Type", "")
         company_name = job.get("Company", "")
         location = job.get("Location", "")
+
+        if isinstance(location, str) and location.startswith("[") and location.endswith("]"):
+            location_str = location.replace("[", "").replace("]", "").replace("'", "")
+        else:
+            location_str = str(location)
+
         description = job.get("Description", "")
         when_date = job.get("whenDate", "")
         pub_date = job.get("pubDate", "")
         link = job.get("link", "")
+        formatted_pub_date = pub_date
+
+        if pub_date:
+            try:
+                dt = datetime.strptime(pub_date, "%a, %d %b %Y %H:%M:%S %z")
+                formatted_pub_date = dt.strftime("%b %d %Y")
+            except Exception:
+                formatted_pub_date = pub_date
 
         job_text = f"**{title}**\n"
         job_text += f"📝 {job_type}\n"
         job_text += f"🏢 {company_name}\n"
-        if location:
-            job_text += f"📍 {location}\n"
+        if location_str.strip():
+            job_text += f"📍 {location_str}\n"
         if when_date:
             job_text += f"📅 Start Date: {when_date}\n"
         if pub_date:
-            job_text += f"📅 Posted: {pub_date}\n"
+            job_text += f"📅 Posted: {formatted_pub_date}\n"
         if description:
             job_text += f"📝 {description}\n"
         if link:
-            job_text += f"🔗 [Apply Here]({link})\n"
+            job_text += f"🔗 [Apply Here](<{link}>)\n"
         message += job_text + "\n"
-    if len(jobs) > 10:
-        message += f"... and {len(jobs) - 10} more jobs. Use more specific filters to narrow results."  # noqa: E501
+    if len(jobs) > 5:
+        message += f"... and {len(jobs) - 5} more jobs. Use more specific filters to narrow results."  # noqa: E501
     return message
 
 

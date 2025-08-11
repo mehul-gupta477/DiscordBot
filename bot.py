@@ -88,4 +88,4 @@ if __name__ == "__main__":
     run_bot()
 
 # To run the bot, run the command: python bot.py in the folder containing the file.
-# Make sure you have the discord.py library installed.
+# Make sure you have the discord.py library installed. dasdasda

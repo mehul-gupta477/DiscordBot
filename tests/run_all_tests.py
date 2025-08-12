@@ -75,6 +75,8 @@ def load_test_module(module_name):
             module_name, 
             os.path.join(os.path.dirname(__file__), f"{module_name}.py")
         )
+        if spec is None or spec.loader is None:
+            raise ImportError(f"Cannot load spec for {module_name}")
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
         return module

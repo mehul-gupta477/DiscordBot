@@ -259,8 +259,15 @@ def main():
     # Generate report if requested
     if args.report:
         print(f"\n\033[96mGenerating test report...\033[0m")
-        # Note: This would need to be implemented to save results
-        print(f"\033[96mReport saved to: test_report.txt\033[0m")
+        # Get results from the run_all_tests function
+        if hasattr(run_all_tests, '_last_results'):
+            report_success = generate_test_report(run_all_tests._last_results)
+            if report_success:
+                print(f"\033[96mReport saved to: test_report.txt\033[0m")
+            else:
+                print(f"\033[91mFailed to generate report\033[0m")
+        else:
+            print(f"\033[91mNo test results available for report generation\033[0m")
     
     # Exit with appropriate code
     sys.exit(0 if success else 1)

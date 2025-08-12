@@ -155,7 +155,7 @@ git checkout -b <new_branch_name>
 ```
 
 > [!CAUTION]
-> Note that this command creates a branch based on the branch you are currently in, so ensure you are on the `stage` branch before creating a new branch. Checking out from any branch other than `stage` risks a failed deployment.
+> Note that this command creates a branch based on the branch you are currently in, so ensure you are on the `main` branch before creating a new branch. Checking out from any branch other than `main` risks a failed deployment.
 
 > [!NOTE]
 > You can see which branch you are on by using the git branch command:
@@ -164,17 +164,17 @@ git checkout -b <new_branch_name>
 > git branch
 > ```
 >
-> If you are on a different branch other than stage when creating your feature branch, ensure you run the following commands
+> If you are on a different branch other than `main` when creating your feature branch, ensure you run the following commands
 >
 > ```bash
-> git checkout stage
+> git checkout main
 > git pull
 > git checkout -b <new_branch_name>
 > ```
 
 ### Migrating Environments
 
-We now have deployment environments to ensure that we are not deploying unfinished or buggy code to development! Our branch merges are directly tied to the environments your code will run in. Here’s how it works:
+We have deployment environments to ensure that we are not deploying unfinished or buggy code to users. Our branch merges are directly tied to the environments your code will run in. Here’s how it works:
 
 ```text
 [Branch]
@@ -189,8 +189,57 @@ Development -> Staging -> Production
 - **release branch**: Merging from `stage` to a `release branch` prepares your code for deployment to **Production**.
 - **main**: Once your release branch is merged into `main`, your code is officially live in the **Production** environment.
 
-**Summary:**  
-Each branch merge advances your code to the next environment in the pipeline.
+#### Step-By-Step Migration
+In this section you will learn how to get your code from `Development` to `Production`
+
+1. **Create a branch from main**
+
+    Run the following commands
+
+    ```bash
+    git checkout main
+    git pull origin main
+    git checkout -b <branch-name>
+    ```
+
+    > [!NOTE]
+    >
+    > Please check out the [Branch Naming Convention](https://github.com/innovateorange/DiscordBot/blob/main/CONTRIBUTING.md#branch-naming-conventions) section of this document to understand how to name your branches
+2. **Push your changes to remote**
+3. **Validate your changes in Development**
+
+    > [!NOTE]
+    >
+    > Please check out the [Validating Changes to the Bot Locally](https://github.com/innovateorange/DiscordBot/blob/main/CONTRIBUTING.md#validating-changes-to-the-bot-locally) section of this document if you need to run and test / validate your changes to the bot locally
+4. **Merge branch into `stage`**
+
+   > [!IMPORTANT]
+   >
+   > Do **NOT** create a pull request. Only proceed with the following commands **after you have validated your changes in the `Development` environment**
+
+   ```bash
+   git checkout stage
+   git pull origin stage
+   git merge <branch-name>
+   ```
+
+   If you create a pull request to `stage`, your branch will be rebased. This can cause problems later when you try to create a pull request to `main`, as your branch will now include not only your changes but also those from others who have pushed to `stage`. To avoid this, use the commands above. This approach creates a merge commit on `stage` rather than rebasing your branch, keeping your changes isolated and the history cleaner.
+   > [!NOTE]
+   > Your changes aren't in `Staging` right away. CI/CD Jobs will create a deployment job that needs to be reviewed by your Project Manager / Team Lead first
+5. **Validate your changes in `Staging`**
+   
+   > [!NOTE]
+   >
+   > Please check out the [Validating Changes in Staging](https://github.com/innovateorange/DiscordBot/blob/main/CONTRIBUTING.md#validating-changes-in-staging) section of this document especially if you need to run and test / validate your changes to the bot within the Staging Environment
+6. **Create a PR to release/***
+   
+   > [!IMPORTANT]
+   >
+   > Do **NOT** create a pull request until you have validated your changes in `Staging`
+   
+   > [!NOTE]
+   >
+   > At this point your code will go into review. Reviewers may ask you to make some changes. If that is the case you need to redo each of the above steps
 
 ### Testing Your Code With Unittests
 
@@ -340,7 +389,7 @@ git push # Pushes changes to upstream
 
 ### Creating a Pull Request Draft
 
-Once you have established a upstream tracking for your the branch, navigate to the GitHub repository's `Pull requests` section. You should see a button that says `Compare & pull request`.
+Once you have established an upstream tracking for your branch, navigate to the GitHub repository's `Pull requests` section. You should see a button that says `Compare & pull request`.
 
 It should look similar to this:
 
@@ -354,19 +403,19 @@ Click the dropdown menu of the `Create pull request` button:
 
 ![image](images/pull_request_ex3.png)
 
-And then create a draft pull request. Now you can see if your changes pass the [CI/CD](https://github.com/innovateorange/DiscordBot/actions) checks. From here you can work on your changes until it is ready for review.
+And then create a draft pull request. Now you can see if your changes pass the [CI/CD](https://github.com/innovateorange/DiscordBot/actions) checks.
 
 Before submitting your code for review, please ensure that you have completed the following:
 
 - [ ] Ensure that your code passes all of the [CI/CD](https://github.com/innovateorange/DiscordBot/actions) checks
 - [ ] You have added tests for any new features
 - [ ] You have added documentation for any new features
-- [ ] You have added a description of the changes you made in the pull request
+- [ ] You have populated the pull request template with the appropriate information
 
 > [!NOTE]
-> If your pull request is missing any of the above, it will be converted back to a draft and will not be reviewed until the above conditions are met. This is to ensure we are following best practices for industry-ready code.
+> If your pull request is missing any of the above, it will be converted back to a draft and will not be reviewed until the above conditions are met. This is to ensure we are following best practices for `Production`-ready code.
 
-Once you have ensured that you have done all of the above, you can convert your draft to a pull request for review. You can do this by pressing the `Ready for review` button:
+Once you have ensured that you have done all of the above, you can mark your pull request as `Ready for review`. You can do this by pressing the `Ready for review` button:
 
 ![image](images/pull_request_ex5.png)
 
@@ -385,42 +434,30 @@ Once your changes have passed local testing and are ready for broader validation
   Merge your feature branch into the `stage` branch following the standard workflow.
 
 2. **Deployment:**  
-  The bot will be automatically deployed to the Staging environment via our CI/CD pipeline.
+  The bot will automatically be deployed to the Staging environment via our CI/CD pipeline upon merge to `stage`.
 
 3. **Testing:**  
 
-- Interact with the staging bot (`Bug [Staging]`) in Discord.
+- Interact with the staging bot (`Bug [Staging]`) on Discord.
 - Validate all new features, bug fixes, and changes in the staging environment.
-- Confirm that your changes work as expected and do not introduce regressions.
-
-4. **Reporting Issues:**  
-  If you encounter any problems, create an issue in the repository and assign it the appropriate template.
+- Confirm that your changes work as expected.
 
 > [!NOTE]
 > The staging bot uses a separate Discord token and configuration from development and production. Ensure you are testing with the correct bot in the correct environment.
 
-**Summary:**  
-All code merged into `stage` must be tested exclusively through the staging bot. This ensures that your changes are validated in an environment that closely matches production, reducing the risk of deployment issues.
-
 ### Validating Changes in Production
 
-Once your changes have passed all tests and reviews in the staging environment, they are ready to be considered for deployment to production. The process for migrating changes to production is managed by the project managers, who handle release branches by copying the `stage` branch and removing any unsuccessful commits before deploying.
-
-- **Deployment:**  
-  Project managers will create the release branch by copying the current `stage` branch and removing any commits that did not pass validation. After this, the production bot will be automatically deployed via our CI/CD pipeline.
+Once your changes have passed all tests and reviews in the staging environment, they are ready to be considered for deployment to production. The process for migrating changes to production is managed by the project managers, who handle release branches by copying the `main` branch and accepting PRs only once a feature branch is considered `Production`-ready.
 
 - **Testing:**  
-  Interact with the production bot (`Bug [Production]`) in Discord to verify that all new features, bug fixes, and updates are functioning as expected in the live environment.
+  Interact with the production bot (`Bug [Production]`) in Discord to verify that all new features, bug fixes, and updates are functioning as expected.
 
 - **Monitoring:**  
   Closely monitor the bot for any unexpected behavior or issues. If problems arise, report them immediately using the appropriate issue template.
 
-> [!NOTE]
-> Only thoroughly tested and reviewed code should be deployed to production. This ensures stability and reliability for all users.
-
 ### Code Review
 
-Congrats you have made it to the part where you interact with people! Code review is an opportunity for other people to review your changes and offer you feedback. It's important to make sure that you keep an open-minded in this process. Receiving feedback can be challenging initially, but with respectful communication it will help you gain the skills of a mature software engineer.
+Congrats you have made it to the part where you interact with people! Code review is an opportunity for other people to review your changes and offer you feedback. It's important to make sure that you keep an open mind in this process. Receiving feedback can be challenging initially, but with respectful communication it will help you gain the skills of a mature software engineer.
 
 When it comes to code review, there are a few things that you should keep in mind:
 
@@ -506,4 +543,5 @@ By contributing to this repo, you're also contributing to the standard of qualit
 
 > This document will be updated based on the needs of the team
 >
-> -[Caleb](@Lementknight)
+> -[Caleb](https://github.com/Lementknight)
+> -[Andrew](https://github.com/andewmark)

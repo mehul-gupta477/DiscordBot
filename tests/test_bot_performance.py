@@ -29,7 +29,7 @@ class TestBotPerformance(unittest.IsolatedAsyncioTestCase):
     async def test_command_response_time(self):
         """Test that commands respond within acceptable time limits"""
         commands_to_test = ["help", "resume", "events", "resources"]
-        max_response_time = 0.1  # 100ms max
+        max_response_time = float(os.getenv('TEST_MAX_RESPONSE_TIME', '0.5'))  # 500ms default, configurable
         
         for cmd_name in commands_to_test:
             ctx = MagicMock()

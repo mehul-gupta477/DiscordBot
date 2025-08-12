@@ -128,9 +128,9 @@ class TestBotIntegration(unittest.IsolatedAsyncioTestCase):
         """Test bot behavior in production-like environment"""
         # Simulate production environment without .env file
         with patch("bot.load_dotenv", return_value=False):
-            with self.assertRaises(SystemExit) as cm:
+            with patch("sys.exit") as mock_exit:
                 run_bot()
-            self.assertEqual(cm.exception.code, 1)
+                mock_exit.assert_called_with(1)
 
     async def test_concurrent_users_different_commands(self):
         """Test multiple users executing different commands simultaneously"""

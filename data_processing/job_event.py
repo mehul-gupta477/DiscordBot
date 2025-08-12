@@ -5,8 +5,8 @@ jobs that match the inputted criteria.
 from typing import Any
 from datetime import datetime
 
-from data_collections.csv_updater import (
-    extract_entries_from_csv,
+from data_processing.get_type_data import (
+    get_type_data,
 )
 
 
@@ -47,7 +47,7 @@ def filter_jobs(jobs: list[dict[str, Any]], _filters: str) -> list[dict[str, Any
             job.update({"confidence": confidence})
             filtered_jobs.append(job)
     filtered_jobs = sorted(filtered_jobs, key=lambda x: x["confidence"], reverse=True)
-    return filtered_jobs[:5]
+    return filtered_jobs
 
 
 def format_jobs_message(jobs: list[dict[str, Any]], _filters: str) -> str:
@@ -120,20 +120,10 @@ def get_jobs(csv_file_path: str) -> list[dict[str, Any]]:
         list: List of job dictionaries matching the criteria
     """
     try:
-        jobs = extract_entries_from_csv(csv_file_path)
+        jobs = get_type_data(csv_file_path, "Job")
+        _jobs = get_type_data(csv_file_path, "Internship")
+        jobs.extend(_jobs)
     except RuntimeError:
         print("Error loading or filtering jobs from CSV")
         raise
-    filtered_jobs = []
-    for job in jobs:
-        job_type = job.get("Type", "").lower()
-        job_keywords = [
-            "job",
-            "internship",
-            "intern",
-        ]
-        for keyword in job_keywords:
-            if keyword in job_type:
-                filtered_jobs.append(job)
-                break
-    return filtered_jobs
+    return jobs

@@ -133,10 +133,6 @@ def run_all_tests(verbosity=2, pattern=None, modules=None, args=None):
     print("\033[95m" + "="*80 + "\033[0m")
     print("\033[95mDiscord Bot - Comprehensive Test Suite\033[0m")
     print("\033[95m" + "="*80 + "\033[0m")
-    """Run all test suites"""
-    print("\033[95m" + "="*80 + "\033[0m")
-    print("\033[95mDiscord Bot - Comprehensive Test Suite\033[0m")
-    print("\033[95m" + "="*80 + "\033[0m")
     
     if modules is None:
         modules = TEST_MODULES

@@ -125,7 +125,7 @@ class TestBotExtended(unittest.IsolatedAsyncioTestCase):
         with patch("bot.bot.run") as mock_run:
             run_bot()
             # Should strip whitespace
-            mock_run.assert_called_once_with("  valid_token  ")
+            mock_run.assert_called_once_with("valid_token")  # Fixed: no whitespace
 
     @patch("os.getenv", return_value=None)
     @patch("bot.load_dotenv", return_value=True)

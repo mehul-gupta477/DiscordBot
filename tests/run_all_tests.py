@@ -147,7 +147,7 @@ def run_all_tests(verbosity=2, pattern=None, modules=None):
     results = {}
     
     for module_name in modules:
-        result = run_test_suite(module_name, verbosity, pattern)
+        result = run_test_suite(module_name, verbosity, pattern, args)
         if result:
             results[module_name] = result
             total_tests += result.testsRun

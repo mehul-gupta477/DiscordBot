@@ -146,6 +146,9 @@ def run_all_tests(verbosity=2, pattern=None, modules=None):
     
     end_time = time.time()
     
+    # Store results for report generation
+    run_all_tests._last_results = results
+    
     # Print overall summary
     print(f"\n\033[95m{'='*80}\033[0m")
     print(f"\033[95mOVERALL TEST SUMMARY\033[0m")

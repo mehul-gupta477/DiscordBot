@@ -25,31 +25,43 @@ TEST_MODULES = [
 class ColoredTextTestResult(unittest.TextTestResult):
     """Custom test result class with colored output"""
     
-    def __init__(self, stream, descriptions, verbosity):
+    def __init__(self, stream, descriptions, verbosity, use_colors=True):
         super().__init__(stream, descriptions, verbosity)
         self.success_count = 0
+        self.use_colors = use_colors
     
     def addSuccess(self, test):
         super().addSuccess(test)
         self.success_count += 1
         if self.verbosity > 1:
-            self.stream.writeln(f"\033[92m✓ {self.getDescription(test)}\033[0m")
+            if self.use_colors:
+                self.stream.writeln(f"\033[92m✓ {self.getDescription(test)}\033[0m")
+            else:
+                self.stream.writeln(f"✓ {self.getDescription(test)}")
     
     def addError(self, test, err):
         super().addError(test, err)
         if self.verbosity > 1:
-            self.stream.writeln(f"\033[91m✗ {self.getDescription(test)} - ERROR\033[0m")
+            if self.use_colors:
+                self.stream.writeln(f"\033[91m✗ {self.getDescription(test)} - ERROR\033[0m")
+            else:
+                self.stream.writeln(f"✗ {self.getDescription(test)} - ERROR")
     
     def addFailure(self, test, err):
         super().addFailure(test, err)
         if self.verbosity > 1:
-            self.stream.writeln(f"\033[91m✗ {self.getDescription(test)} - FAILED\033[0m")
+            if self.use_colors:
+                self.stream.writeln(f"\033[91m✗ {self.getDescription(test)} - FAILED\033[0m")
+            else:
+                self.stream.writeln(f"✗ {self.getDescription(test)} - FAILED")
     
     def addSkip(self, test, reason):
         super().addSkip(test, reason)
         if self.verbosity > 1:
-            self.stream.writeln(f"\033[93m- {self.getDescription(test)} - SKIPPED\033[0m")
-
+            if self.use_colors:
+                self.stream.writeln(f"\033[93m- {self.getDescription(test)} - SKIPPED\033[0m")
+            else:
+                self.stream.writeln(f"- {self.getDescription(test)} - SKIPPED")
 
 class ColoredTextTestRunner(unittest.TextTestRunner):
     """Custom test runner with colored output"""

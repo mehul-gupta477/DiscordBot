@@ -1,6 +1,8 @@
 """
-File `get_type_data.py` is responsible for retrieving specific types of data from a CSV file.
+File `get_type_data.py` is responsible for retrieving specific types of data 
+    from a CSV file.
 """
+
 import datetime
 from typing import Any
 
@@ -8,16 +10,19 @@ from data_collections.csv_updater import (
     extract_entries_from_csv,
 )
 
+
 def get_type_data(csv_file_path: str, data_type: str) -> list[dict[str, Any]]:
     """
-    Retrieves data of a specific type from a CSV file and returns it as a list of dictionaries.
-    
+    Retrieves data of a specific type from a CSV file and returns it as a 
+        list of dictionaries.
+
     Args:
         csv_file_path (str): Path to the CSV file containing data.
         data_type (str): Type of data to retrieve (e.g., "event").
-        
+
     Returns:
-        list[dict[str, Any]]: List of dictionaries containing the specified type of data.
+        list[dict[str, Any]]: List of dictionaries containing the specified 
+            type of data.
     """
     items = []
     for entry in extract_entries_from_csv(csv_file_path):

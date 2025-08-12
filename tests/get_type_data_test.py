@@ -1,8 +1,9 @@
+import tempfile
 import unittest
 from unittest.mock import patch
-import tempfile
 
 from data_processing.get_type_data import get_type_data
+
 
 class TestGetTypeData(unittest.TestCase):
     def setUp(self):
@@ -14,7 +15,7 @@ class TestGetTypeData(unittest.TestCase):
         ) as temp_file:
             temp_file.write(
                 "Type,subType,Title,Description,Company,Location,whenDate,pubDate,link,entryDate\n"
-            )
+            ) # noqa: E501
             temp_file.write(
                 "Internship,,Pizza Intern,Help wanted,Cheesy Dreams Inc,Italy,Summer 2025,2025-07-01,http://cheesydreams.com/apply,2025-07-07\n"
             )  # noqa: E501

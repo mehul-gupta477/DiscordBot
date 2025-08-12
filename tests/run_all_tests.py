@@ -193,32 +193,36 @@ def run_all_tests(verbosity=2, pattern=None, modules=None):
 
 def generate_test_report(results, filename="test_report.txt"):
     """Generate a detailed test report file"""
-    with open(filename, 'w') as f:
-        f.write("Discord Bot - Test Report\n")
-        f.write("=" * 50 + "\n\n")
-        f.write(f"Generated at: {time.strftime('%Y-%m-%d %H:%M:%S')}\n\n")
-        
-        for module_name, result in results.items():
-            f.write(f"Module: {module_name}\n")
-            f.write("-" * 30 + "\n")
-            f.write(f"Tests run: {result.testsRun}\n")
-            f.write(f"Failures: {len(result.failures)}\n")
-            f.write(f"Errors: {len(result.errors)}\n")
-            f.write(f"Skipped: {len(result.skipped)}\n\n")
+    try:
+        with open(filename, 'w') as f:
+            f.write("Discord Bot - Test Report\n")
+            f.write("=" * 50 + "\n\n")
+            f.write(f"Generated at: {time.strftime('%Y-%m-%d %H:%M:%S')}\n\n")
             
-            if result.failures:
-                f.write("FAILURES:\n")
-                for test, traceback in result.failures:
-                    f.write(f"- {test}\n")
-                    f.write(f"  {traceback}\n")
-            
-            if result.errors:
-                f.write("ERRORS:\n")
-                for test, traceback in result.errors:
-                    f.write(f"- {test}\n")
-                    f.write(f"  {traceback}\n")
-            
-            f.write("\n")
+            for module_name, result in results.items():
+                f.write(f"Module: {module_name}\n")
+                f.write("-" * 30 + "\n")
+                f.write(f"Tests run: {result.testsRun}\n")
+                f.write(f"Failures: {len(result.failures)}\n")
+                f.write(f"Errors: {len(result.errors)}\n")
+                f.write(f"Skipped: {len(result.skipped)}\n\n")
+                
+                if result.failures:
+                    f.write("FAILURES:\n")
+                    for test, traceback in result.failures:
+                        f.write(f"- {test}\n")
+                        f.write(f"  {traceback}\n")
+                
+                if result.errors:
+                    f.write("ERRORS:\n")
+                    for test, traceback in result.errors:
+                        f.write(f"- {test}\n")
+                        f.write(f"  {traceback}\n")
+                
+                f.write("\n")
+        return True
+    except Exception:
+        return False
 
 
 def main():

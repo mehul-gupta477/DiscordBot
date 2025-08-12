@@ -49,16 +49,13 @@ class TestBotIntegration(unittest.IsolatedAsyncioTestCase):
         help_message = self.ctx.send.call_args[0][0]
         self.assertIn("!resources", help_message)
         
-        # Reset mock for next call
-        self.ctx.send.reset_mock()
-        
         # Step 2: User requests resources
         await bot.get_command("resources").callback(self.ctx)
-        resources_message = self.ctx.send.call_args[0][0]
+
+        # Verify both calls were made and check their contents
+        self.assertEqual(self.ctx.send.call_count, 2)
+        resources_message = self.ctx.send.call_args_list[1].args[0]
         self.assertIn("CS50", resources_message)
-        
-        # Verify both calls were made
-        self.assertEqual(self.ctx.send.call_count, 1)
 
     async def test_bot_responds_to_different_user_types(self):
         """Test bot responds appropriately to different types of Discord users"""

@@ -110,7 +110,7 @@ def run_test_suite(module_name, verbosity=2, pattern=None):
         suite = loader.loadTestsFromModule(module)
     
     # Run tests
-    use_colors = not getattr(args, 'no_color', False)
+    use_colors = not getattr(cli_args, 'no_color', False)
     runner = ColoredTextTestRunner(verbosity=verbosity, stream=sys.stdout, use_colors=use_colors)
     start_time = time.time()
     result = runner.run(suite)

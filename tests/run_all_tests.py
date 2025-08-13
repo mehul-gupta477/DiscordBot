@@ -85,7 +85,7 @@ def load_test_module(module_name):
         return None
 
 
-def run_test_suite(module_name, verbosity=2, pattern=None):
+def run_test_suite(module_name, verbosity: int = 2, pattern: str | None = None, cli_args=None):
     """Run tests for a specific module"""
     print(f"\n\033[94m{'='*60}\033[0m")
     print(f"\033[94mRunning tests from: {module_name}\033[0m")

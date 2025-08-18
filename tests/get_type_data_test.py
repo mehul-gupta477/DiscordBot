@@ -26,7 +26,7 @@ class TestGetTypeData(unittest.TestCase):
         """
         Remove the temporary file after tests
         """
-        try:
+        try:    #noqa: SIM105
             os.remove(self.temp_file_path)
         except OSError:
             pass

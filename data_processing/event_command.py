@@ -49,7 +49,7 @@ def filter_events(events: list[dict[str, Any]], _filters: str) -> list[dict[str,
             event.update({"confidence": confidence})
             filtered_events.append(event)
     filtered_events.sort(key=lambda x: x["confidence"], reverse=True)
-    return filtered_events[:5]
+    return filtered_events
 
 def format_event_message(events: list[dict[str, Any]], _filters: str) -> str:
     """

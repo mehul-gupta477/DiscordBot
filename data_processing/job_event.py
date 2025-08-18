@@ -2,8 +2,8 @@
 jobs that match the inputted criteria.
 """
 
-from typing import Any
 from datetime import datetime
+from typing import Any
 
 from data_processing.get_type_data import (
     get_type_data,
@@ -44,8 +44,7 @@ def filter_jobs(jobs: list[dict[str, Any]], _filters: str) -> list[dict[str, Any
                     confidence += 1
                     break
         if include_job:
-            job.update({"confidence": confidence})
-            filtered_jobs.append(job)
+            filtered_jobs.append({**job, "confidence": confidence})
     filtered_jobs = sorted(filtered_jobs, key=lambda x: x["confidence"], reverse=True)
     return filtered_jobs
 
@@ -72,7 +71,11 @@ def format_jobs_message(jobs: list[dict[str, Any]], _filters: str) -> str:
         company_name = job.get("Company", "")
         location = job.get("Location", "")
 
-        if isinstance(location, str) and location.startswith("[") and location.endswith("]"):
+        if (
+            isinstance(location, str)
+            and location.startswith("[")
+            and location.endswith("]")
+        ):
             location_str = location.replace("[", "").replace("]", "").replace("'", "")
         else:
             location_str = str(location)
@@ -111,7 +114,7 @@ def format_jobs_message(jobs: list[dict[str, Any]], _filters: str) -> str:
 
 def get_jobs(csv_file_path: str) -> list[dict[str, Any]]:
     """
-    Reads job data from CSV file and filters based on command parameters.
+    Reads job and internship data from CSV file and filters based on command parameters.
 
     Args:
         csv_file_path (str): Path to the CSV file containing job data

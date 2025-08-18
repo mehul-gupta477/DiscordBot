@@ -1,5 +1,6 @@
 """Unittests for job_event.py"""
 
+import os
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -198,7 +199,7 @@ class TestJobEventFunctions(unittest.TestCase):
 
     def test_format_jobs_message_limit_display(self):
         """
-        Test that the message is limitted to 5 jobs per !job event
+        Test that the message is limited to 5 jobs per !jobs event
         """
         many_jobs = self.sample_jobs * 3
         result = format_jobs_message(many_jobs, "")
@@ -225,6 +226,15 @@ class TestGetJobs(unittest.TestCase):
                 "Internship,,Pizza Intern,Help wanted,Cheesy Dreams Inc,Italy,Summer 2025,2025-07-01,http://cheesydreams.com/apply,2025-07-07\n"
             )  # noqa: E501
             self.temp_file_path = temp_file.name
+
+    def tearDown(self):
+        """
+        Remove the temporary file after tests
+        """
+        try: #noqa: SIM105
+            os.remove(self.temp_file_path)
+        except OSError:
+            pass
 
     @patch("data_collections.csv_updater.extract_entries_from_csv")
     def test_get_jobs_error_handling(self, mock_extract):

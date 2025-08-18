@@ -1,3 +1,4 @@
+import os
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -15,11 +16,20 @@ class TestGetTypeData(unittest.TestCase):
         ) as temp_file:
             temp_file.write(
                 "Type,subType,Title,Description,Company,Location,whenDate,pubDate,link,entryDate\n"
-            ) # noqa: E501
+            )  # noqa: E501
             temp_file.write(
                 "Internship,,Pizza Intern,Help wanted,Cheesy Dreams Inc,Italy,Summer 2025,2025-07-01,http://cheesydreams.com/apply,2025-07-07\n"
             )  # noqa: E501
             self.temp_file_path = temp_file.name
+
+    def tearDown(self):
+        """
+        Remove the temporary file after tests
+        """
+        try:
+            os.remove(self.temp_file_path)
+        except OSError:
+            pass
 
     @patch("data_collections.csv_updater.extract_entries_from_csv")
     def test_get_type_data_error_handling(self, mock_extract):
@@ -33,7 +43,7 @@ class TestGetTypeData(unittest.TestCase):
     @patch("data_collections.csv_updater.extract_entries_from_csv")
     def test_get_type_data_filter_find_match(self, mock_extract):
         """
-        Test for successful filtering of Intership type data
+        Test for successful filtering of Internship type data
         """
         mock_extract.return_value = [
             {

@@ -358,8 +358,8 @@ func (g *CardGame) evaluatePokerHand(hand []Card) int {
 		return 8 // Straight flush
 	} else if g.hasOfAKind(values, 4) {
 		return 7 // Four of a kind
-	} else if g.hasOfAKind(values, 3) && g.hasOfAKind(values, 2) {
-		return 6 // Full house
+	} else if g.hasOfAKind(values, 3) && g.hasOfAKind(values, 2) && len(values) == 2 {  
+        return 6 // Full house
 	} else if isFlush {
 		return 5 // Flush
 	} else if isStraight {

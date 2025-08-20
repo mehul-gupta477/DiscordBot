@@ -348,7 +348,7 @@ func (g *CardGame) evaluatePokerHand(hand []Card) int {
 	if !isStraight && len(sortedHand) == 5 {
 		if sortedHand[0].Value == 1 && sortedHand[1].Value == 2 && 
 		   sortedHand[2].Value == 3 && sortedHand[3].Value == 4 && 
-		   sortedHand[4].Value == 13 {
+		   sortedHand[4].Value == 5 {
 			isStraight = true
 		}
 	}

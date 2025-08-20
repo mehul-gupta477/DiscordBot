@@ -590,3 +590,7 @@ func RunCardGameSimulation() {
 	// End the game
 	game.EndGame()
 }
+
+func main() {
+	RunCardGameSimulation()
+}

@@ -343,6 +343,15 @@ func (g *CardGame) evaluatePokerHand(hand []Card) int {
 			break
 		}
 	}
+	
+	// Check for Ace-low straight (A-2-3-4-5)
+	if !isStraight && len(sortedHand) == 5 {
+		if sortedHand[0].Value == 1 && sortedHand[1].Value == 2 && 
+		   sortedHand[2].Value == 3 && sortedHand[3].Value == 4 && 
+		   sortedHand[4].Value == 13 {
+			isStraight = true
+		}
+	}
 
 	// Determine hand rank (higher is better)
 	if isFlush && isStraight {

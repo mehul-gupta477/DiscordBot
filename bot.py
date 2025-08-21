@@ -86,6 +86,7 @@ def run_bot():
 
 if __name__ == "__main__":
     run_bot()
-    # dsadasd
+    # run_bot() is it correct or not
 # to run the bot, run the command: python bot.py in the folder containing the file.
 # make sure you have the discord.py library installed.
+#  das das d asd sad asd asd as

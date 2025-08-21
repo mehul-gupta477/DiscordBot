@@ -43,3 +43,5 @@ def lint(session: nox.Session) -> None:
     """Run linting checks."""
     session.install("ruff")
     session.run("ruff", "check", "--fix", ".")
+
+# dsdasda

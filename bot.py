@@ -13,6 +13,12 @@ from data_processing.job_event import (
     get_jobs,
 )
 
+from data_processing.event_command import (
+    filter_events,
+    format_event_message,
+    get_events,
+)
+
 # Set up Discord Intents to enable bot to receive message events
 intents: discord.Intents = discord.Intents.default()
 intents.messages = True

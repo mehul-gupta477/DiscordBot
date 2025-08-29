@@ -1,5 +1,6 @@
 """Unittests for job_event.py"""
 
+import os
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -20,6 +21,7 @@ class TestJobEventFunctions(unittest.TestCase):
         self.sample_jobs = [
             {
                 "Type": "Internship",
+                "subType": "",
                 "Title": "Pizza Quality Assurance Intern",
                 "Description": "Help us ensure our pizza reaches peak deliciousness. Must love cheese and have strong opinions about pineapple.",  # noqa: E501
                 "Company": "Cheesy Dreams Inc",
@@ -31,6 +33,7 @@ class TestJobEventFunctions(unittest.TestCase):
             },
             {
                 "Type": "Full-time",
+                "subType": "",
                 "Title": "Senior Cat Behavior Analyst",
                 "Description": "Decode the mysterious ways of felines. Remote work encouraged (cats don't commute).",  # noqa: E501
                 "Company": "Whiskers & Co",
@@ -42,6 +45,7 @@ class TestJobEventFunctions(unittest.TestCase):
             },
             {
                 "Type": "Part-time",
+                "subType": "",
                 "Title": "Professional Bubble Wrap Popper",
                 "Description": "Join our stress-relief team. Must have excellent finger dexterity and appreciation for satisfying sounds.",  # noqa: E501
                 "Company": "Pop Culture Studios",
@@ -53,6 +57,7 @@ class TestJobEventFunctions(unittest.TestCase):
             },
             {
                 "Type": "Internship",
+                "subType": "",
                 "Title": "Unicorn Grooming Specialist",
                 "Description": "Maintain the magical appearance of our unicorn fleet. Glitter allergy is a dealbreaker.",  # noqa: E501
                 "Company": "Mythical Creatures Ltd",
@@ -64,6 +69,7 @@ class TestJobEventFunctions(unittest.TestCase):
             },
             {
                 "Type": "Internship",
+                "subType": "",
                 "Title": "Cloud Whisperer Intern",
                 "Description": "Interpret weather patterns and cloud formations. Must be comfortable working at high altitudes.",  # noqa: E501
                 "Company": "Sky High Analytics",
@@ -193,12 +199,12 @@ class TestJobEventFunctions(unittest.TestCase):
 
     def test_format_jobs_message_limit_display(self):
         """
-        Test that the message is limitted to 10 jobs per !job event
+        Test that the message is limited to 5 jobs per !jobs event
         """
         many_jobs = self.sample_jobs * 3
         result = format_jobs_message(many_jobs, "")
         self.assertIn("💼 **Found 15 job(s):**", result)
-        self.assertIn("... and 5 more jobs", result)
+        self.assertIn("... and 10 more jobs", result)
 
 
 class TestGetJobs(unittest.TestCase):
@@ -214,12 +220,21 @@ class TestGetJobs(unittest.TestCase):
             delete=False, mode="w", suffix=".csv", encoding="utf8"
         ) as temp_file:
             temp_file.write(
-                "Type,Title,Description,Company,Location,whenDate,pubDate,link,entryDate\n"
+                "Type,subType,Title,Description,Company,Location,whenDate,pubDate,link,entryDate\n"
             )
             temp_file.write(
-                "Internship,Pizza Intern,Help wanted,Cheesy Dreams Inc,Italy,Summer 2025,2025-07-01,http://cheesydreams.com/apply,2025-07-07\n"
+                "Internship,,Pizza Intern,Help wanted,Cheesy Dreams Inc,Italy,Summer 2025,2025-07-01,http://cheesydreams.com/apply,2025-07-07\n"
             )  # noqa: E501
             self.temp_file_path = temp_file.name
+
+    def tearDown(self):
+        """
+        Remove the temporary file after tests
+        """
+        try: #noqa: SIM105
+            os.remove(self.temp_file_path)
+        except OSError:
+            pass
 
     @patch("data_collections.csv_updater.extract_entries_from_csv")
     def test_get_jobs_error_handling(self, mock_extract):

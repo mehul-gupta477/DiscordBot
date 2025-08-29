@@ -39,7 +39,6 @@ class TestCSClubBot(unittest.IsolatedAsyncioTestCase):
             "📄 Resume Resources: https://www.reddit.com/r/EngineeringResumes/wiki/index/"
         )
 
-
     async def test_resources_command(self):
         """Test the !resources command
         Verifies that:

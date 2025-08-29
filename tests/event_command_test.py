@@ -1,13 +1,12 @@
 """Unittests for event_command.py"""
 
 import unittest
-import tempfile
-from unittest.mock import patch
 
 from data_processing.event_command import (
     filter_events,
     format_event_message,
 )
+
 
 class TestEventCommand(unittest.TestCase):
     """
@@ -56,7 +55,7 @@ class TestEventCommand(unittest.TestCase):
         result = filter_events(self.sample_events, filters)
         self.assertEqual(len(result), 3)
         self.assertEqual(result[0]["Title"], "Git Workshop")
-    
+
     def test_filter_events_multiple_criteria(self):
         """
         Test that filter_events filters events by multiple criteria.
@@ -66,6 +65,7 @@ class TestEventCommand(unittest.TestCase):
         self.assertEqual(len(result), 1)
         for event in result:
             self.assertIn("Final Meeting + Pizza", event["Title"])
+
     def test_format_event_message(self):
         """
         Test that format_event_message formats the event message correctly.
@@ -77,4 +77,3 @@ class TestEventCommand(unittest.TestCase):
         self.assertIn("LeetCode Challenge Night", result)
         self.assertIn("Final Meeting + Pizza", result)
         self.assertIn("Total events found: 3 (Filters: Workshop)", result)
-    

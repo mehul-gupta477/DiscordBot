@@ -7,16 +7,15 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
-from data_processing.job_event import (
-    filter_jobs,
-    format_jobs_message,
-    get_jobs,
-)
-
 from data_processing.event_command import (
     filter_events,
     format_event_message,
     get_events,
+)
+from data_processing.job_event import (
+    filter_jobs,
+    format_jobs_message,
+    get_jobs,
 )
 
 # Set up Discord Intents to enable bot to receive message events
@@ -142,16 +141,14 @@ async def events(ctx, *, args: str = "") -> None:
     """
     Sends a message listing upcoming club events and their dates in
     response to the `!events` command.
-    
+
     Usage: !events [location] [date] [type]
     """
     csv_file_path = "data_collections/runningCSV.csv"
     try:
         _events = get_events(csv_file_path)
     except (OSError, RuntimeError):
-        await ctx.send(
-            "Error retrieving events. Please try again later"
-        )
+        await ctx.send("Error retrieving events. Please try again later")
     else:
         args = args.strip()
         _events = filter_events(_events, args)

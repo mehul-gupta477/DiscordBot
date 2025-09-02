@@ -57,7 +57,7 @@ func NewCardGame(gameType string) *CardGame {
 func NewStandardDeck() Deck {
 	suits := []string{"♠️", "♥️", "♦️", "♣️"}
 	ranks := []string{"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"}
-	values := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}
+	values := []int{14, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}
 
 	var cards []Card
 	for _, suit := range suits {

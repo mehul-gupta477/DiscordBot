@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-// Card represents a playing card dasdasdasa
+// Card represents a playing card dasdasdasadsdas
 type Card struct {
 	Suit  string
 	Rank  string

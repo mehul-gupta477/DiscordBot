@@ -29,7 +29,7 @@ type CardPlayer struct {
 	IsActive bool
 }
 
-// CardGame represents the card game state
+// CardGame represents the card game states
 type CardGame struct {
 	Players     []CardPlayer
 	Deck        Deck

@@ -19,7 +19,7 @@ type Deck struct {
 	Cards []Card
 }
 
-// CardPlayer represents a player in the card game
+// CardPlayer represents a player in the card game dada
 type CardPlayer struct {
 	ID       int
 	Name     string

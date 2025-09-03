@@ -40,7 +40,7 @@ type CardGame struct {
 	DiscardPile []Card
 }
 
-// NewCardGame creates a new card game instance
+// NewCardGame creates a new card game instances
 func NewCardGame(gameType string) *CardGame {
 	return &CardGame{
 		Players:     make([]CardPlayer, 0),

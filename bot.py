@@ -51,7 +51,7 @@ async def on_member_join(member: discord.Member) -> None:
 
     # Look for common welcome channel names
     for channel in member.guild.text_channels:
-        if channel.name.lower() in ["welcome", "general", "introductions", "lobby"]:
+        if channel.name.lower() in ["welcome", "welcomes", "general", "introductions", "lobby"]:
             welcome_channel = channel
             break
 

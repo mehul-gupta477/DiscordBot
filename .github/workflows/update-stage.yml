@@ -7,8 +7,24 @@ on:
 jobs:
   flatten-stage-with-prod:
     runs-on: ubuntu-latest
+    env:
+      SOURCE_BRANCH: main
+      TARGET_BRANCH: stage
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.SOURCE_BRANCH }}
+          fetch-depth: 0
+
+      - name: Push ${{ env.SOURCE_BRANCH }} to ${{ env.TARGET_BRANCH }}
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git fetch origin --prune
+          echo "Pushing $(git rev-parse --short HEAD) to ${TARGET_BRANCH}"
+          git push --force-with-lease origin ${SOURCE_BRANCH}:refs/heads/${TARGET_BRANCH}
       - name: checkout repository
         uses: actions/checkout@v4
         with: 

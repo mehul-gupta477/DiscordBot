@@ -1,0 +1,29 @@
+name: Update stage branch from main
+on:
+  schedule:
+      - cron: "0 4 1,15 * *"
+  workflow_dispatch:
+
+jobs:
+  flatten-stage-with-prod:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+        with: 
+          ref: main
+          fetch-depth: 0
+      
+      - name: Push main to stage
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+
+          git fetch origin
+
+          git checkout main
+          git push origin main:stage --force
+
+
+    

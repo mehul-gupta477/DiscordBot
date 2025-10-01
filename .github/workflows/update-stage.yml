@@ -1,9 +1,8 @@
 name: Update stage branch from main
 on:
   schedule:
-      - cron: "0 4 1,15 * *"
+    - cron: "0 4 1,15 * *"
   workflow_dispatch:
-
 jobs:
   create-pr-main-to-stage:
     runs-on: ubuntu-latest
@@ -11,14 +10,12 @@ jobs:
       SOURCE_BRANCH: main
       TARGET_BRANCH: stage
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           ref: ${{ env.SOURCE_BRANCH }}
           fetch-depth: 0
-
       - name: Create or update PR from main to stage
         run: |
           git fetch origin --prune
@@ -63,6 +60,3 @@ jobs:
           # Auto-merge the PR with admin privileges to bypass branch protection
           echo "Auto-merging PR #$PR_NUMBER with admin privileges"
           gh pr merge $PR_NUMBER --squash --auto --admin
-
-
-    

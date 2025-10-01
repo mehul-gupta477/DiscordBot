@@ -88,5 +88,4 @@ if __name__ == "__main__":
         data = run_internships_RSS(url)
     else:
         raise ValueError(f"Unsupported TASK_TYPE: {task_type}")
-
     items_to_csv(data, "data_collections/runningCSV.csv")

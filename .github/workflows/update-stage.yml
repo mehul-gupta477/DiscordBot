@@ -10,8 +10,16 @@ jobs:
     env:
       SOURCE_BRANCH: main
       TARGET_BRANCH: stage
+      GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
 
     steps:
+      - name: Read GPG Key
+        run: |
+          echo -n "${{ secrets.GPG_SIGNING_KEY }}" | base64 --decode | gpg --import
+      - name: Set up GPG for commit signing
+        run: |
+          git config --global user.signingkey $GPG_KEY_ID
+          git config --global commit.gpgsign true
       - name: Checkout repository
         uses: actions/checkout@v4
         with:

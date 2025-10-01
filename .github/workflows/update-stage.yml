@@ -59,4 +59,4 @@ jobs:
 
           # Auto-merge the PR with admin privileges to bypass branch protection
           echo "Auto-merging PR #$PR_NUMBER with admin privileges"
-          gh pr merge $PR_NUMBER --squash --auto --admin
+          gh pr merge $PR_NUMBER --squash --admin

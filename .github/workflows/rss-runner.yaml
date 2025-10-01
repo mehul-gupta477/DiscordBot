@@ -79,7 +79,6 @@ jobs:
           source .virtualenv/bin/activate
           python -m data_collections.mainRSSRunner
 
-
       - name: Commit & push changes if any
         run: |
           git config --global user.name 'github-actions'

@@ -20,6 +20,12 @@ jobs:
 
       - name: Check that all commits from PR branch exist in stage
         run: |
+<<<<<<< HEAD
+          git fetch origin stage
+          COMMIT_SHA="${{ github.event.pull_request.head.sha }}"
+          if git merge-base --is-ancestor "$COMMIT_SHA" origin/stage; then
+              echo "HEAD commit is on stage"
+=======
           # Get source branch and target branch
           HEAD_SHA="${{ github.event.pull_request.head.sha }}"
           BASE_SHA="${{ github.event.pull_request.base.sha }}"
@@ -55,6 +61,7 @@ jobs:
           if [ "$MISSING_IN_STAGE" -eq 1 ]; then
             echo "Some commits are not in stage. You must deploy to staging first."
             exit 1
+>>>>>>> 765f419f0e5027212a60dcdf2d75f14225661142
           else
             echo "All commits have been deployed to staging."
           fi

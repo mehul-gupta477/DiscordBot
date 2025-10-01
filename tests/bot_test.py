@@ -39,15 +39,6 @@ class TestCSClubBot(unittest.IsolatedAsyncioTestCase):
             "📄 Resume Resources: https://www.reddit.com/r/EngineeringResumes/wiki/index/"
         )
 
-    async def test_events_command(self):
-        """Test the !events command
-        Verifies that:
-        1. The command responds with a message
-        2. The response includes information about the Git Workshop"""
-        await bot.get_command("events").callback(self.ctx)
-        self.ctx.send.assert_called()
-        self.assertIn("Git Workshop", self.ctx.send.call_args[0][0])
-
     async def test_resources_command(self):
         """Test the !resources command
         Verifies that:

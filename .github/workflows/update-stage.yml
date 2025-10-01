@@ -5,48 +5,51 @@ on:
   workflow_dispatch:
 
 jobs:
-  flatten-stage-with-prod:
+  create-pr-main-to-stage:
     runs-on: ubuntu-latest
     env:
       SOURCE_BRANCH: main
       TARGET_BRANCH: stage
-      GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - name: Read GPG Key
-        run: |
-          echo -n "${{ secrets.GPG_SIGNING_KEY }}" | base64 --decode | gpg --import
-      - name: Set up GPG for commit signing
-        run: |
-          git config --global user.signingkey $GPG_KEY_ID
-          git config --global commit.gpgsign true
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           ref: ${{ env.SOURCE_BRANCH }}
           fetch-depth: 0
 
-      - name: Push ${{ env.SOURCE_BRANCH }} to ${{ env.TARGET_BRANCH }}
+      - name: Create or update PR from main to stage
         run: |
-          git config --global user.name 'github-actions'
-          git config --global user.email 'github-actions@github.com'
           git fetch origin --prune
-          echo "Pushing $(git rev-parse --short HEAD) to ${TARGET_BRANCH}"
-          git push --force-with-lease origin ${SOURCE_BRANCH}:refs/heads/${TARGET_BRANCH}
-      - name: checkout repository
-        uses: actions/checkout@v4
-        with: 
-          ref: main
-          fetch-depth: 0
-      
-      - name: Push main to stage
-        run: |
-          git config --global user.name 'github-actions'
-          git config --global user.email 'github-actions@github.com'
 
-          git fetch origin --prune
-          # Push main to stage, but refuse if origin/stage moved unexpectedly
-          git push --force-with-lease origin main:refs/heads/stage
+          # Check if a PR already exists
+          EXISTING_PR=$(gh pr list --base ${TARGET_BRANCH} --head ${SOURCE_BRANCH} --json number --jq '.[0].number')
+
+          if [ -z "$EXISTING_PR" ]; then
+            # Create new PR with multi-line body
+            PR_BODY="Automated update of stage branch from main branch.
+
+          This PR is automatically created by the update-stage workflow.
+
+          🤖 Generated with GitHub Actions"
+
+            PR_NUMBER=$(gh pr create \
+              --base ${TARGET_BRANCH} \
+              --head ${SOURCE_BRANCH} \
+              --title "Update stage from main" \
+              --body "$PR_BODY" \
+              --json number --jq '.number')
+
+            echo "Created PR #$PR_NUMBER"
+          else
+            PR_NUMBER=$EXISTING_PR
+            echo "PR #$PR_NUMBER already exists from ${SOURCE_BRANCH} to ${TARGET_BRANCH}"
+          fi
+
+          # Auto-merge the PR
+          echo "Auto-merging PR #$PR_NUMBER"
+          gh pr merge $PR_NUMBER --squash --auto || gh pr merge $PR_NUMBER --squash
 
 
     

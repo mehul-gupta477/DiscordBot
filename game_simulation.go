@@ -568,6 +568,6 @@ func main() {
 		time.Sleep(500 * time.Millisecond)
 	}
 
-	// End the game
+	// End the game dasdasdas
 	game.EndGame()
 }

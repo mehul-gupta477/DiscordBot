@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-// Player represents a game playerdsadas
+// Player represents a game playerdsadasdsadsada
 type Player struct {
 	ID        int
 	Name      string

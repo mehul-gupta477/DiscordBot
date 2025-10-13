@@ -183,6 +183,7 @@ func (g *Game) SimulateBattle(player1ID, player2ID int) {
 		p2.Health = 50 // Respawn
 		g.checkLevelUp(p1)
 	}
+	// asdasdfasdas
 }
 
 // checkLevelUp checks if a player should level up

@@ -41,6 +41,7 @@ type Position struct {
 type Item struct {
 	Name        string
 	Type        string // "weapon", "armor", "potion", "treasure"
+	Type        string // "weapon", "armor", "potion", "treasure"
 	Value       int
 	Description string
 }

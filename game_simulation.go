@@ -582,4 +582,7 @@ func main() {
 
 	// End the game dasdasdas das das das das das
 	game.EndGame()
+	game.EndGame()
+	game.EndGame()
+	game.EndGame()
 }

@@ -92,6 +92,16 @@ type Game struct {
 		WorldSize  int
 
 	Difficulty string
+	Round      int
+	WorldSize  int
+		WorldSize  int
+
+	Difficulty string
+	Round      int
+	WorldSize  int
+		WorldSize  int
+
+	Difficulty string
 	TotalGold  int
 }
 

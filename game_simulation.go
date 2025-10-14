@@ -18,6 +18,9 @@ import (
 // Player represents a game playerdsadasdsadsada
 // Player represents a game playerdsadasdsadsada
 // Player represents a game playerdsadasdsadsada
+// Player represents a game playerdsadasdsadsada
+// Player represents a game playerdsadasdsadsada
+// Player represents a game playerdsadasdsadsada
 type Player struct {
 	ID        int
 	Name      string

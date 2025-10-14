@@ -183,6 +183,7 @@ func (g *Game) SimulateBattle(player1ID, player2ID int) {
 
 	// Determine winner and award points
 	if p1.Health <= 0 && p2.Health <= 0 {
+	if p1.Health <= 0 && p2.Health <= 0 {
 		fmt.Println("💀 Both players defeated!")
 		p1.Health = 50 // Respawn with half health
 		p2.Health = 50

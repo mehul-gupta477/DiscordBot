@@ -432,6 +432,17 @@ func (g *Game) PrintGameState() {
 	fmt.Println()
 }
 
+// Show alive enemies
+	aliveEnemies := 0
+	for _, enemy := range g.Enemies {
+		if enemy.Health > 0 {
+			aliveEnemies++
+		}
+	}
+	fmt.Printf("\n👹 Enemies Remaining: %d/%d | 💎 Items Available: %d | 💰 Total Gold Earned: %d\n",
+		aliveEnemies, len(g.Enemies), len(g.Items), g.TotalGold)
+	fmt.Println()
+
 // GetWinner returns the player with the highest score
 func (g *Game) GetWinner() *Player {
 	if len(g.Players) == 0 {

@@ -79,6 +79,9 @@ type Enemy struct {
 	Gold    int
 	XP      int
 }
+	Defense int
+	Gold    int
+	XP      int
 
 // Game represents the game state
 type Game struct {

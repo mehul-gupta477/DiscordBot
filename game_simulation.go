@@ -333,6 +333,22 @@ func (g *Game) randomEvent() {
 			}
 		}
 	}
+	case events[3]: // Health potions
+		for i := range g.Players {
+			g.Players[i].Health += 20
+			if g.Players[i].Health > 100 {
+				g.Players[i].Health = 100
+			}
+		}
+	}
+	case events[3]: // Health potions
+		for i := range g.Players {
+			g.Players[i].Health += 20
+			if g.Players[i].Health > 100 {
+				g.Players[i].Health = 100
+			}
+		}
+	}
 }
 
 // PrintGameState displays current game state

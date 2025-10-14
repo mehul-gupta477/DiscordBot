@@ -53,6 +53,11 @@ type Player struct {
 	Gold      int
 }
 
+/
+	Speed     int
+	Gold      int
+}
+
 // Position represents a player's position in the game world
 type Position struct {
 	X, Y int

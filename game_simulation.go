@@ -135,6 +135,10 @@ func (g *Game) AddPlayer(name string) {
 			X: rand.Intn(g.WorldSize),
 			Y: rand.Intn(g.WorldSize),
 		},
+		Position: Position{
+			X: rand.Intn(g.WorldSize),
+			Y: rand.Intn(g.WorldSize),
+		},
 		Inventory: make([]Item, 0),
 		Attack:    10,
 		Defense:   5,

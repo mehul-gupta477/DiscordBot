@@ -114,6 +114,7 @@ func NewGame(worldSize int) *Game {
 
 // AddPlayer adds a new player to the game
 func (g *Game) AddPlayer(name string) {
+func (g *Game) AddPlayer(name string) {
 	player := Player{
 		ID:     len(g.Players) + 1,
 		Name:   name,

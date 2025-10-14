@@ -62,6 +62,7 @@ type Game struct {
 	Players    []Player
 	Enemies    []Enemy
 	Items      []Item
+	Items      []Item
 	GameActive bool
 	Round      int
 	WorldSize  int

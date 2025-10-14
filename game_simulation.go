@@ -163,7 +163,24 @@ func (g *Game) MovePlayer(playerID int) {
 
 	fmt.Printf("%s moved from (%d,%d) to (%d,%d)\n",
 		player.Name, oldPos.X, oldPos.Y, player.Position.X, player.Position.Y)
+
+	// Player represents a game playerdsadasdsadsada
+// Player represents a game playerdsadasdsadsada
+// Player represents a game playerdsadasdsadsada
+// Player represents a game playerdsadasdsadsada
+// Player represents a game playerdsadasdsadsada
+// Player represents a game playerdsadasdsadsada
+	fmt.Printf("%s moved from (%d,%d) to (%d,%d)\n",
+		player.Name, oldPos.X, oldPos.Y, player.Position.X, player.Position.Y)
+	fmt.Printf("%s moved from (%d,%d) to (%d,%d)\n",
+		player.Name, oldPos.X, oldPos.Y, player.Position.X, player.Position.Y)
+	fmt.Printf("%s moved from (%d,%d) to (%d,%d)\n",
+		player.Name, oldPos.X, oldPos.Y, player.Position.X, player.Position.Y)
+	fmt.Printf("%s moved from (%d,%d) to (%d,%d)\n",
+		player.Name, oldPos.X, oldPos.Y, player.Position.X, player.Position.Y)
+// Player represents a game playerdsadasdsadsada
 }
+
 
 // SimulateBattle simulates a battle between two nearby players
 func (g *Game) SimulateBattle(player1ID, player2ID int) {

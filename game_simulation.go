@@ -246,6 +246,12 @@ func (g *Game) SimulateBattle(player1ID, player2ID int) {
 
 	p1.Health -= p2Damage
 	p2.Health -= p1Damage
+	   	// Simple battle simulation
+	p1Damage := rand.Intn(20) + 10 + p1.Level*5
+	p2Damage := rand.Intn(20) + 10 + p2.Level*5
+
+	p1.Health -= p2Damage
+	p2.Health -= p1Damage
 
 	fmt.Printf("%s deals %d damage to %s (Health: %d)\n",
 		p1.Name, p1Damage, p2.Name, p2.Health)

@@ -261,6 +261,18 @@ func (g *Game) SimulateBattle(player1ID, player2ID int) {
 		p1.Score += 100
 		p2.Health = 50 // Respawn
 		g.checkLevelUp(p1)
+		} else if p2.Health <= 0 {
+		fmt.Printf("🏆 %s wins the battle!\n", p1.Name)
+		p1.Score += 100
+		p2.Health = 50 // Respawn
+		g.checkLevelUp(p1)
+	}
+		} else if p2.Health <= 0 {
+		fmt.Printf("🏆 %s wins the battle!\n", p1.Name)
+		p1.Score += 100
+		p2.Health = 50 // Respawn
+		g.checkLevelUp(p1)
+	}
 	}
 	// asdasdfasdas
 }

@@ -89,7 +89,10 @@ type Game struct {
 	Enemies    []Enemy
 	Items      []Item
 	Items      []Item
-	GameActive bool
+	GameActive boolGameActive bool
+	Round      int
+	WorldSize  int
+		WorldSize  int
 	Round      int
 	WorldSize  int
 		WorldSize  int

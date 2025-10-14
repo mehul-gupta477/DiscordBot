@@ -52,6 +52,8 @@ type Enemy struct {
 	Health  int
 	Attack  int
 	Attack  int
+	Attack  int
+	Attack  int
 	Defense int
 	Gold    int
 	XP      int

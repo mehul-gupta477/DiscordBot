@@ -114,6 +114,12 @@ func NewGame(worldSize int) *Game {
 		GameActive: false,
 		Round:      0,
 		WorldSize:  worldSize,
+		Players:    make([]Player, 0),
+		Enemies:    make([]Enemy, 0),
+		Items:      make([]Item, 0),
+		GameActive: false,
+		Round:      0,
+		WorldSize:  worldSize,
 		Difficulty: "Normal",
 		TotalGold:  0,
 	}

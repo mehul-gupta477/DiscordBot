@@ -194,6 +194,13 @@ func (g *Game) MovePlayer(playerID int) {
 		player.Position.Y = newY
 	}
 
+		if newX >= 0 && newX < g.WorldSize {
+		player.Position.X = newX
+	}
+	if newY >= 0 && newY < g.WorldSize {
+		player.Position.Y = newY
+	}
+
 	fmt.Printf("%s moved from (%d,%d) to (%d,%d)\n",
 		player.Name, oldPos.X, oldPos.Y, player.Position.X, player.Position.Y)
 

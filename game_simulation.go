@@ -71,6 +71,8 @@ type Game struct {
 	GameActive bool
 	Round      int
 	WorldSize  int
+		WorldSize  int
+
 	Difficulty string
 	TotalGold  int
 }

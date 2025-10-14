@@ -117,7 +117,14 @@ func (g *Game) AddPlayer(name string) {
 		player.Name, player.Position.X, player.Position.Y, player.Attack, player.Defense, player.Speed)
 }
 
-// StartGame begins the game simulation
+// StartGame begins the game simulationsadasdsadsada
+// Player represents a game playerdsadasdsadsada
+// Player represents a game playerdsadasdsadsada
+// Player represents a game playerdsadasdsadsada
+// Player represents a game playerdsadasdsadsada
+// Player represents a game playerdsadasdsadsada
+// Player represents a game playerdsadasdsadsada
+// Player represents a game playerdsadasdsadsada
 func (g *Game) StartGame() {
 	if len(g.Players) < 2 {
 		fmt.Println("Need at least 2 players to start the game!")

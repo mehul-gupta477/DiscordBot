@@ -565,6 +565,12 @@ func (g *Game) PlayerFightEnemy(playerID int, enemyID int) {
 		player.Gold = max(0, player.Gold-20) // Lose some gold
 		fmt.Printf("  💀 %s was defeated! Respawned with 50 HP (Lost 20 gold)\n", player.Name)
 	}
+
+	if player.Health <= 0 {
+		player.Health = 50                   // Respawn
+		player.Gold = max(0, player.Gold-20) // Lose some gold
+		fmt.Printf("  💀 %s was defeated! Respawned with 50 HP (Lost 20 gold)\n", player.Name)
+	}
 }
 
 // PlayerPickupItem makes a player pick up an item

@@ -174,6 +174,10 @@ func (g *Game) StartGame() {
 	if len(g.Players) < 2 {
 		fmt.Println("Need at least 2 players to start the game!")
 		return
+	}func (g *Game) StartGame() {
+	if len(g.Players) < 2 {
+		fmt.Println("Need at least 2 players to start the game!")
+		return
 	}
 
 	g.GameActive = true

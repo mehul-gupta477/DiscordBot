@@ -51,6 +51,7 @@ type Enemy struct {
 	Name    string
 	Health  int
 	Attack  int
+	Attack  int
 	Defense int
 	Gold    int
 	XP      int

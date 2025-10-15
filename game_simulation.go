@@ -3,7 +3,9 @@ package main
 
 import (
 	"fmt"
-	"math/rand"
+	"math/rand"math/rand"
+	"time"
+)
 	"time"
 )
 

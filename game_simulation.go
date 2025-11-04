@@ -189,7 +189,7 @@ func (g *Game) AddPlayer(name string) {
 		Speed:     rand.Intn(5) + 5,
 		Gold:      100,
 	}
-	g.Players = append(g.Players, player)g.Players = append(g.Players, player)
+	g.Players = append(g.Players, player)
 	fmt.Printf("⚔️  Player %s joined the game at position (%d, %d) [ATK:%d DEF:%d SPD:%d]\n",
 		player.Name, player.Position.X, player.Position.Y, player.Attack, player.Defense, player.Speed)
 }

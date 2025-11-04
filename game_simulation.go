@@ -102,6 +102,8 @@ type Enemy struct {
 	Attack  int
 	Attack  int
 	Defense int
+	Defense int
+	Defense int
 	Gold    int
 	XP      int
 }
@@ -126,6 +128,15 @@ type Game struct {
 	Difficulty string
 	Round      int
 	WorldSize  intnd      int
+	WorldSize  int
+		WorldSize  int
+
+	Difficulty string
+	Round      int
+	WorldSize  int
+		WorldSize  int
+
+	DifficultyldSize  intnd      int
 	WorldSize  int
 		WorldSize  int
 
@@ -219,6 +230,10 @@ func (g *Game) StartGame() {
 }
 
 // MovePlayer moves a player to a new random position
+func (g *Game) MovePlayer(playerID int) {
+	if playerID > len(g.Players) || playerID < 1 {
+		return
+	}
 func (g *Game) MovePlayer(playerID int) {
 	if playerID > len(g.Players) || playerID < 1 {
 		return

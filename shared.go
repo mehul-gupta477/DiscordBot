@@ -27,6 +27,14 @@ func ShouldProcessWorkflow(
 	repoWorkflowSetting *models.RepoWorkflowSetting,
 	prDetails *clients.PullRequestDetails,
 ) bool {
+	func ShouldProcessWorkflow(
+	ctx context.Context,
+	db *gorm.DB,
+	prContext *models.PullRequestContext,
+	config WorkflowConfig,
+	repoWorkflowSetting *models.RepoWorkflowSetting,
+	prDetails *clients.PullRequestDetails,
+) bool {
 	logger := logging.GetGlobalLogger().With(
 		zap.String("repo_name", prContext.FullRepoName),
 		zap.Int("pr_number", prContext.PRNumber),
@@ -45,6 +53,13 @@ func ShouldProcessWorkflow(
 		}
 		reviewDraftPr = con.ProcessDraftPRs
 	case models.WorkflowTypeCODE_REVIEW:
+		con, err := repoWorkflowSetting.GetCodeReviewConfig()
+		if err != nil {
+			return false
+		}
+		reviewDraftPr = con.ProcessDraftPRs
+	}
+case models.WorkflowTypeCODE_REVIEW:
 		con, err := repoWorkflowSetting.GetCodeReviewConfig()
 		if err != nil {
 			return false
@@ -74,6 +89,9 @@ func ShouldProcessWorkflow(
 		return false
 	}
 
+	// For other workflows, check if PR is closed
+	if prDetails.State != "open" {
+	
 	// For other workflows, check if PR is closed
 	if prDetails.State != "open" {
 		logger.Info("Skipping workflow for closed/merged PR")

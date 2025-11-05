@@ -47,6 +47,25 @@ class TestBotExtended(unittest.IsolatedAsyncioTestCase):
         # Verify structure
         self.assertIn("**🤖 CuseBot Commands:**", sent_message)
         self.assertIn("`!help`", sent_message)
+        self.assertIn("`   self.ctx.guild.id = 67890
+        self.ctx.guild.name = "Test Guild"
+        self.ctx.channel = MagicMock()
+        self.ctx.channel.id = 11111
+        self.ctx.channel.name = "test-channel"
+        self.ctx.message = MagicMock()
+        self.ctx.message.created_at = discord.utils.utcnow()
+
+    # Test command content validation
+    async def test_help_command_content_structure(self):
+        """Test that help command returns properly formatted content"""
+        await bot.get_command("help").callback(self.ctx)
+        
+        # Get the sent message
+        sent_message = self.ctx.send.call_args[0][0]
+        
+        # Verify structure
+        self.assertIn("**🤖 CuseBot Commands:**", sent_message)
+        self.assertIn("`!help`", sent_message)
         self.assertIn("`!resume`", sent_message)
         self.assertIn("`!events`", sent_message)
         self.assertIn("`!resources`", sent_message)
@@ -57,6 +76,20 @@ class TestBotExtended(unittest.IsolatedAsyncioTestCase):
         
         sent_message = self.ctx.send.call_args[0][0]
         self.assertIn("https://", sent_message)
+        self.assertIn("reddit.com", sent_message)
+        self.assertIn("📄", sent_message)
+
+    async def test_events_command_date_format(self):
+        """Test that events command includes proper date formatting"""
+        await bot.get_command("events").callback(self.ctx)
+        
+        sent_message = self.ctx.send.call_args[0][0]
+        self.assertIn("📅 Upcoming Events:", sent_message)
+        self.assertIn("April", sent_message)
+        self.assertIn("Git Workshop", sent_message)
+        self.assertIn("LeetCode Challenge", sent_message)
+        self.assertIn("🍕", sent_message)
+   self.assertIn("https://", sent_message)
         self.assertIn("reddit.com", sent_message)
         self.assertIn("📄", sent_message)
 
@@ -116,6 +149,21 @@ class TestBotExtended(unittest.IsolatedAsyncioTestCase):
             self.assertIn(cmd, command_names)
 
     # Test environment and token handling edge cases
+    @patch("os.Test that bot is configured with correct settings"""
+        self.assertEqual(bot.command_prefix, "!")
+        self.assertTrue(bot.intents.messages)
+        self.assertTrue(bot.intents.message_content)
+        self.assertIsNone(bot.help_command)
+
+    def test_bot_has_all_commands(self):
+        """Test that all expected commands are registered"""
+        command_names = [cmd.name for cmd in bot.commands]
+        expected_commands = ["help", "resume", "events", "resources"]
+        
+        for cmd in expected_commands:
+            self.assertIn(cmd, command_names)
+
+    # Test environment and token handling edge cases
     @patch("os.getenv")
     @patch("bot.load_dotenv", return_value=True)
     def test_token_with_whitespace(self, mock_load_dotenv, mock_getenv):
@@ -159,6 +207,22 @@ class TestBotExtended(unittest.IsolatedAsyncioTestCase):
             bot.get_command("events").callback(ctx3)
         )
 
+        # Verify est_multiple_commands_concurrently(self):
+        """Test that multiple commands can be executed concurrently"""
+        ctx1 = MagicMock()
+        ctx1.send = AsyncMock()
+        ctx2 = MagicMock()
+        ctx2.send = AsyncMock()
+        ctx3 = MagicMock()
+        ctx3.send = AsyncMock()
+
+        # Execute commands concurrently
+        await asyncio.gather(
+            bot.get_command("help").callback(ctx1),
+            bot.get_command("resume").callback(ctx2),
+            bot.get_command("events").callback(ctx3)
+        )
+
         # Verify all commands executed
         ctx1.send.assert_called_once()
         ctx2.send.assert_called_once()
@@ -184,6 +248,11 @@ class TestBotExtended(unittest.IsolatedAsyncioTestCase):
                 await bot.on_ready()
                 mock_print.assert_called_with("✅ Logged in as TestBot#1234")
             else:
+              Trigger the on_ready event directly if it exists
+            if hasattr(bot, 'on_ready'):
+                await bot.on_ready()
+                mock_print.assert_called_with("✅ Logged in as TestBot#1234")
+            else:
                 # Skip test if on_ready handler doesn't exist
                 self.skipTest("Bot does not have on_ready event handler")
 
@@ -192,6 +261,10 @@ class TestBotExtended(unittest.IsolatedAsyncioTestCase):
         """Test that commands are case sensitive"""
         # Commands should be lowercase
         self.assertIsNotNone(bot.get_command("help"))
+        self.assertIsNone(bot.get_command("HELP"))
+        self.assertIsNone(bot.get_command("Help"))
+
+    # Perfor.assertIsNotNone(bot.get_command("help"))
         self.assertIsNone(bot.get_command("HELP"))
         self.assertIsNone(bot.get_command("Help"))
 
@@ -207,6 +280,10 @@ class TestBotExtended(unittest.IsolatedAsyncioTestCase):
         # Execute help command rapidly
         tasks = [bot.get_command("help").callback(ctx) for ctx in contexts]
         await asyncio.gather(*tasks)
+
+        # Verify all executed successfully
+        for ctx in contexts:
+            ctasyncio.gather(*tasks)
 
         # Verify all executed successfully
         for ctx in contexts:

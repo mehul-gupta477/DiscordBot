@@ -4,5 +4,8 @@
 
 The purpose of 
 ![CodeRabbit Pullthis project is to create a discord bot that students can use for their career development.
+The purpose of 
+![CodeRabbit Pullthis project is to create a discord bot that students can use for their career development.
 
+![CodeRabbit Pull
 ![CodeRabbit Pull

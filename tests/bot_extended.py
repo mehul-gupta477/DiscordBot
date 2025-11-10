@@ -16,6 +16,21 @@ import re
 from bot import bot, run_bot
 
 
+import unittest
+from unittest.mock import AsyncMock, MagicMock, patch, call, PropertyMock
+import asyncio
+import discord
+from discord.ext import commands
+import sys
+import os
+import time
+import threading
+import json
+import re
+from bot import bot, run_bot
+
+
+
 class TestBotExtended(unittest.IsolatedAsyncioTestCase):
     """Extended test suite for Discord bot with comprehensive coverage"""
 

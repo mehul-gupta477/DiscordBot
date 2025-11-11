@@ -150,6 +150,34 @@ class TestBotExtended(unittest.IsolatedAsyncioTestCase):
     # Test bot initialization and configuration
     def test_bot_configuration(self):
         """Test that bot is configured with correct settings"""
+        self.assertEqusync def test_command_with_forbidden_error(self):
+        """Test command behavior when bot lacks permissions"""
+        self.ctx.send.side_effect = discord.Forbidden(MagicMock(), "Missing permissions")
+        
+        with self.assertRaises(discord.Forbidden):
+            await bot.get_command("resume").callback(self.ctx)
+
+    # Test bot initialization and configuration
+    def test_bot_configuration(self):
+        """Test that bot is configured with correct settings"""
+        self.assertEqusync def test_command_with_forbidden_error(self):
+        """Test command behavior when bot lacks permissions"""
+        self.ctx.send.side_effect = discord.Forbidden(MagicMock(), "Missing permissions")
+        
+        with self.assertRaises(discord.Forbidden):
+            await bot.get_command("resume").callback(self.ctx)
+
+    # Test bot initialization and configuration
+    def test_bot_configuration(self):
+        """Test that bot is configured with correct settings"""
+        self.assertEqual(bot.command_prefix, "!")
+        self.assertTrue(bot.intents.messages)
+        self.assertTrue(bot.intents.message_content)
+        self.assertIsNone(bot.help_command)
+
+    # Test bot initialization and configuration
+    def test_bot_configuration(self):
+        """Test that bot is configured with correct settings"""
         self.assertEqual(bot.command_prefix, "!")
         self.assertTrue(bot.intents.messages)
         self.assertTrue(bot.intents.message_content)
@@ -179,6 +207,18 @@ class TestBotExtended(unittest.IsolatedAsyncioTestCase):
             self.assertIn(cmd, command_names)
 
     # Test environment and token handling edge cases
+    @patch("os.getenv")
+    @patch("bot.load_dotenv", return_value=True)
+    def test_token_with_whitespace(self, mock_load_dotenv, mock_getenv):
+        """Test handling of token with leading/trailing whitespace"""
+        mock_getenv.return_value = "  valid_token  "
+        
+        with patch("bot.bot.run") as mock_run:
+            run_bot()
+            # Should strip whitespace
+            mock_run.assert_called_once_with("valid_token")  # Fixed: no whitespace
+
+     # Test environment and token handling edge cases
     @patch("os.getenv")
     @patch("bot.load_dotenv", return_value=True)
     def test_token_with_whitespace(self, mock_load_dotenv, mock_getenv):

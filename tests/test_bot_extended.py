@@ -4,12 +4,6 @@
 
 import unittest
 from unittest.mock import AsyncMock, MagicMock, patch, call, PropertyMock
-from unittest.mock import AsyncMock, MagicMock, patch, call, PropertyMock
-from unittest.mock import AsyncMock, MagicMock, patch, call, PropertyMock
-from unittest.mock import AsyncMock, MagicMock, patch, call, PropertyMock
-from unittest.mock import AsyncMock, MagicMock, patch, call, PropertyMock
-from unittest.mock import AsyncMock, MagicMock, patch, call, PropertyMock
-from unittest.mock import AsyncMock, MagicMock, patch, call, PropertyMock
 import asyncio
 import discord
 from discord.ext import commands

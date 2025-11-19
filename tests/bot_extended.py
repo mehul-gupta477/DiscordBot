@@ -46,8 +46,9 @@ class TestBotExtended(unittest.IsolatedAsyncioTestCase):
         self.ctx.guild.id = 67890
         self.ctx.guild.name = "Test Guild"
         self.ctx.channel = MagicMock()
-        self.ctx.channel.id = 11111
-        self.ctx.channel.name = "test-channel"
+        self.assertIn("`!resume`", sent_message)
+        self.assertIn("`!events`", sent_message)
+        self.assertIn("`!resources`", sent_message)
         self.ctx.message = MagicMock()
         self.ctx.message.created_at = discord.utils.utcnow()
 

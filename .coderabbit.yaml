@@ -3,7 +3,7 @@ language: "en-US"
 early_access: false
 reviews:
   profile: "chill"
-  request_chanccess: false
+  request_changes_workflow: false
 reviews:
   profile: "chill"
   request_changes_workflow: false

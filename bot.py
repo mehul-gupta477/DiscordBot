@@ -57,9 +57,13 @@ async def resume(ctx):
 
 # !events command placeholder
 @bot.command()
-async def event: Sends a link to resume resources."""
+async def events(ctx): 
+    """Command: Sends a list of upcoming events."""
     await ctx.send(
-        "📄 Resume Resources: https://www.reddit.com/r/EngineeringResumes/wiki/index/"
+        "� Upcoming Events:\n"
+        "- April 12: Git Workshop\n"
+        "- April 19: LeetCode Challenge\n"
+        "- April 26: Pizza Party\n"
     )
 
 
@@ -70,6 +74,7 @@ async def events(ctx):
     await ctx.send(
         "📅 Upcoming Events:\n"
         "- April 12: Git Workshop\n"
+    )
 
 # !resources command placeholder
 @bot.command()
@@ -79,6 +84,10 @@ async def resources(ctx):
         "📚 CS Learning Resources:\n"
         "- [CS50](https://cs50.harvard.edu)\n"
         "- [The Odin Project](https://theodinproject.com)\n"
+        "- [FreeCodeCamp](https://freecodecamp.org)\n"
+        "- [LeetCode](https://leetcode.com)"
+    )
+
 @bot.command()
 async def resources(ctx):
     """Command: Sends recommended CS learning resources."""
@@ -94,15 +103,6 @@ async def resources(ctx):
 def run_bot():
     if load_dotenv():
         token = os.getenv("DISCORD_BOT_TOKEN")
-        assert token != "", "DISCORD_BOT_TOKEN can not be empty"
-        try:
-            bot.run(token)
-        except discord.LoginFailure:
-            print("Invalid token provided. Please check your .env file.")
-            sys.exit(1)
-    else:
-        print("environment file does not found")
-        sys.exit(1)s.getenv("DISCORD_BOT_TOKEN")
         assert token != "", "DISCORD_BOT_TOKEN can not be empty"
         try:
             bot.run(token)

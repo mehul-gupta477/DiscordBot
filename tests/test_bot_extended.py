@@ -46,8 +46,9 @@ class TestBotExtended(unittest.IsolatedAsyncioTestCase):
         
         # Verify structure
         self.assertIn("**🤖 CuseBot Commands:**", sent_message)
-        self.assertIn("`!help`", sent_message)
-        self.assertIn("`   self.ctx.guild.id = 67890
+        self.assertIn("`!resume`", sent_message)
+        self.assertIn("`!events`", sent_message)
+        self.assertIn("`!resources`", sent_message)
         self.ctx.guild.name = "Test Guild"
         self.ctx.channel = MagicMock()
         self.ctx.channel.id = 11111

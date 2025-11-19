@@ -22,7 +22,7 @@ def tests(session: nox.Session) -> None:
         "discover",
         "-s",
         "tests",
-        "-p",test",
+        "-p",
         "discover",
         "-s",
         "tests",

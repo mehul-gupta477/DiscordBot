@@ -78,7 +78,7 @@ async def resources(ctx):
     await ctx.send(
         "📚 CS Learning Resources:\n"
         "- [CS50](https://cs50.harvard.edu)\n"
-        "- [The Odin Projceholder
+        "- [The Odin Project](https://theodinproject.com)\n"
 @bot.command()
 async def resources(ctx):
     """Command: Sends recommended CS learning resources."""

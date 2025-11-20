@@ -1,6 +1,6 @@
 # test_bot_extended.py
 # test_bot_extended.py
-# Enhanced test suite for the Discord bot with comprehensive test coverage
+# Enhanced test suite for the Discord bot with comprehensive test coverages
 # Includes edge cases, error handling, integration tests, performance tests, security tests, and more
 
 import unittest

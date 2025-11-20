@@ -343,12 +343,12 @@ func (g *CardGame) evaluatePokerHand(hand []Card) int {
 			break
 		}
 	}
-	
+
 	// Check for Ace-low straight (A-2-3-4-5)
 	if !isStraight && len(sortedHand) == 5 {
-		if sortedHand[0].Value == 1 && sortedHand[1].Value == 2 && 
-		   sortedHand[2].Value == 3 && sortedHand[3].Value == 4 && 
-		   sortedHand[4].Value == 5 {
+		if sortedHand[0].Value == 1 && sortedHand[1].Value == 2 &&
+			sortedHand[2].Value == 3 && sortedHand[3].Value == 4 &&
+			sortedHand[4].Value == 5 {
 			isStraight = true
 		}
 	}
@@ -358,8 +358,8 @@ func (g *CardGame) evaluatePokerHand(hand []Card) int {
 		return 8 // Straight flush
 	} else if g.hasOfAKind(values, 4) {
 		return 7 // Four of a kind
-	} else if g.hasOfAKind(values, 3) && g.hasOfAKind(values, 2) && len(values) == 2 {  
-        return 6 // Full house
+	} else if g.hasOfAKind(values, 3) && g.hasOfAKind(values, 2) && len(values) == 2 {
+		return 6 // Full house
 	} else if isFlush {
 		return 5 // Flush
 	} else if isStraight {
@@ -589,8 +589,4 @@ func RunCardGameSimulation() {
 
 	// End the game
 	game.EndGame()
-}
-
-func main() {
-	RunCardGameSimulation()
 }

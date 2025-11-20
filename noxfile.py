@@ -43,13 +43,7 @@ def tests(session: nox.Session) -> None:
 
 @nox.session
 def format(session: nox.Session) -> None:
-    """Format te HTML report for local viewing
-    session.run("coverage", "html")
-
-
-@nox.session
-def format(session: nox.Session) -> None:
-    """Format code with black."""
+    """Format the code with black."""
     session.install("black")
     session.run("black", ".")
 
@@ -58,51 +52,4 @@ def format(session: nox.Session) -> None:
 def lint(session: nox.Session) -> None:
     """Run linting checks."""
     session.install("ruff")
-    session.run("ruff", "check", "--fix", ".")
-on.install("ruff"sion: nox.Session) -> None:
-    """Format code with black."""
-    session.install("black")
-    session.run("black", ".")
-
-
-@nox.session
-def lint(seon
-def lint(session: nox.Session) -> None:
-    """Run linting checks."""
-    session.install("ruff")
-    session.run("ruff", "check", "--fix", ".")
-on.install("ruff"sion: nox.Session) -> None:
-    """Format code with black."""
-    session.install("black")
-    session.run("black", ".")
-
-
-@nox.session
-def lint(session: nox.Session) -> None:
-    """Run linting checks."""
-    session.install("ruff")
-    session.run("ruff", "check", "--fix", ".")
-on.install("ruff"sion: nox.Session) -> None:
-    """Format code with black."""
-    session.install("black")
-    session.run("black", ".")
-
-
-@nox.session
-def lint(session: nox.Session) -> None:
-    """Run linting checks."""
-    session.install("ruff")
-    session.run("ruff", "check", "--fix", ".")
-on.install("ruff"sion: nox.Session) -> None:
-    """Format code with black."""
-    session.install("black")
-    session.run("black", ".")
-
-
-@nox.session
-def lint(session: nox.Session) -> None:
-    """Run linting checks."""
-    session.install("ruff")
-    session.run("ruff", "check", "--fix", ".")
-on.install("ruff")
     session.run("ruff", "check", "--fix", ".")

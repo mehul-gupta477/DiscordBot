@@ -7,19 +7,19 @@ import (
 	"time"
 )
 
-// Card represents a playing card
+// Card represents a playing card dasdasdasadsdas
 type Card struct {
 	Suit  string
 	Rank  string
 	Value int
 }
 
-// Deck represents a deck of cards
+// Deck represents a deck of cards dsdasdas
 type Deck struct {
 	Cards []Card
 }
 
-// CardPlayer represents a player in the card game
+// CardPlayer represents a player in the card game dada 1234
 type CardPlayer struct {
 	ID       int
 	Name     string
@@ -29,7 +29,7 @@ type CardPlayer struct {
 	IsActive bool
 }
 
-// CardGame represents the card game state
+// CardGame represents the card game states123
 type CardGame struct {
 	Players     []CardPlayer
 	Deck        Deck
@@ -40,7 +40,7 @@ type CardGame struct {
 	DiscardPile []Card
 }
 
-// NewCardGame creates a new card game instance
+// NewCardGame creates a new card game instances
 func NewCardGame(gameType string) *CardGame {
 	return &CardGame{
 		Players:     make([]CardPlayer, 0),
@@ -57,7 +57,7 @@ func NewCardGame(gameType string) *CardGame {
 func NewStandardDeck() Deck {
 	suits := []string{"♠️", "♥️", "♦️", "♣️"}
 	ranks := []string{"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"}
-	values := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}
+	values := []int{14, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}
 
 	var cards []Card
 	for _, suit := range suits {
@@ -344,12 +344,21 @@ func (g *CardGame) evaluatePokerHand(hand []Card) int {
 		}
 	}
 
+	// Check for Ace-low straight (A-2-3-4-5)
+	if !isStraight && len(sortedHand) == 5 {
+		if sortedHand[0].Value == 1 && sortedHand[1].Value == 2 &&
+			sortedHand[2].Value == 3 && sortedHand[3].Value == 4 &&
+			sortedHand[4].Value == 5 {
+			isStraight = true
+		}
+	}
+
 	// Determine hand rank (higher is better)
 	if isFlush && isStraight {
 		return 8 // Straight flush
 	} else if g.hasOfAKind(values, 4) {
 		return 7 // Four of a kind
-	} else if g.hasOfAKind(values, 3) && g.hasOfAKind(values, 2) {
+	} else if g.hasOfAKind(values, 3) && g.hasOfAKind(values, 2) && len(values) == 2 {
 		return 6 // Full house
 	} else if isFlush {
 		return 5 // Flush

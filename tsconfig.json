@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "jsx": "react-jsx",
-    "moduleResolution": "bundler",
-    "types": ["react", "react-dom"]
+    "module": "esnext",
+    "moduleResolution": "bundler"
   }
 }

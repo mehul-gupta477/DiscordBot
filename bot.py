@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 intents: discord.Intents = discord.Intents.default()
 intents.messages = True
 intents.message_content = True  # Required to read message content (needed for commands)
-intents.members = True  # Privileged intent
+intents.members = True  # Privileged intents
 
 # Initialize bot with command prefix '!' and specified intents
 bot = commands.Bot(command_prefix="!", intents=intents, help_command=None)

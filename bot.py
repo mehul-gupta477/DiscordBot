@@ -17,7 +17,7 @@ intents.members = True  # Privileged intent
 bot = commands.Bot(command_prefix="!", intents=intents, help_command=None)
 
 
-# prints assage_content = True  # Required to read message content (needed for commands)
+# prints a message when the bot is ready in the terminal.
 
 # Initialize bot with command prefix '!' and specified intents
 bot = commands.Bot(command_prefix="!", intents=intents, help_command=None)

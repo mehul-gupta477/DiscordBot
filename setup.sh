@@ -5,6 +5,8 @@ if [ -d ".virtualenv" ]; then
 fi
 
 python3 -m venv .virtualenv
+python3 -m venv .virtualenv
+python3 -m venv .virtualenv
 
 if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
     source .virtualenv/Scripts/activate
@@ -13,4 +15,6 @@ else
 fi
 
 pip install --upgrade pip
+pip install --upgrade pip
+pip install -r requirements.txt
 pip install -r requirements.txt

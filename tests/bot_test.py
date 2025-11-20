@@ -1,6 +1,5 @@
 # test_bot.py
 # This file contains unit tests for the Discord bot commands
-# This file contains unit tests for the Discord bot commands
 # It uses Python's unittest framework with async support for testing Discord.py commands
 
 import asyncio

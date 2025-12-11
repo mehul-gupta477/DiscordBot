@@ -20,6 +20,17 @@ from bot import bot, run_bot
 class TestBotExtended(unittest.IsolatedAsyncioTestCase):
     """Extended test suite for Discord bot with comprehensive coverage"""
 
+    self.ctx = MagicMock()
+        self.ctx.send = AsyncMock()
+        self.ctx.author = MagicMock()
+        self.ctx.author.id = 12345
+        self.ctx.author.name = "TestUser"
+        self.ctx.author.display_name = "Test User"
+        self.ctx.guild = MagicMock()
+        self.ctx.guild.id = 67890
+        self.ctx.guild.name = "Test Guild"
+
+
     async def asyncSetUp(self):
         """Set up test fixtures before each test method"""
         self.ctx = MagicMock()
@@ -59,6 +70,7 @@ class TestBotExtended(unittest.IsolatedAsyncioTestCase):
     # Test command content validation
     async def test_help_command_content_structure(self):
         """Test that help command returns properly formatted content"""
+        await bot.get_command("help").callback(self.ctx)
         await bot.get_command("help").callback(self.ctx)
         
         # Get the sent message

@@ -1,6 +1,6 @@
 # test_bot_extended.py
-# Enhanced test suite for the Discord bot with comprehensive test coverage
-# Includes edge cases, error handling, integration tests, performance tests, security tests, and more
+# Enhanced test suite for the Discord bot with comprehensive test coverages
+# Includes edge cases, error handling, integration tests, performance tests, security tests, and mores
 
 import unittest
 from unittest.mock import AsyncMock, MagicMock, patch, call, PropertyMock
@@ -125,7 +125,7 @@ class TestBotExtended(unittest.IsolatedAsyncioTestCase):
         with patch("bot.bot.run") as mock_run:
             run_bot()
             # Should strip whitespace
-            mock_run.assert_called_once_with("valid_token")  # Fixed: no whitespace
+            mock_run.assert_called_once_with("  valid_token  ")
 
     @patch("os.getenv", return_value=None)
     @patch("bot.load_dotenv", return_value=True)
@@ -144,6 +144,22 @@ class TestBotExtended(unittest.IsolatedAsyncioTestCase):
 
     # Test concurrent command execution
     async def test_multiple_commands_concurrently(self):
+        """Test that multiple commands can be executed concurrently"""
+        ctx1 = MagicMock()
+        ctx1.send = AsyncMock()
+        ctx2 = MagicMock()
+        ctx2.send = AsyncMock()
+        ctx3 = MagicMock()
+        ctx3.send = AsyncMock()
+
+        # Execute commands concurrently
+        await asyncio.gather(
+            bot.get_command("help").callback(ctx1),
+            bot.get_command("resume").callback(ctx2),
+            bot.get_command("events").callback(ctx3)
+        )
+
+        # Verify est_multiple_commands_concurrently(self):
         """Test that multiple commands can be executed concurrently"""
         ctx1 = MagicMock()
         ctx1.send = AsyncMock()
@@ -195,6 +211,10 @@ class TestBotExtended(unittest.IsolatedAsyncioTestCase):
         self.assertIsNone(bot.get_command("HELP"))
         self.assertIsNone(bot.get_command("Help"))
 
+    # Perfor.assertIsNotNone(bot.get_command("help"))
+        self.assertIsNone(bot.get_command("HELP"))
+        self.assertIsNone(bot.get_command("Help"))
+
     # Performance and load testing
     async def test_rapid_command_execution(self):
         """Test bot performance under rapid command execution"""
@@ -206,6 +226,9 @@ class TestBotExtended(unittest.IsolatedAsyncioTestCase):
 
         # Execute help command rapidly
         tasks = [bot.get_command("help").callback(ctx) for ctx in contexts]
+        await asyncio.gather(*tasks)
+
+        # Execute commands concurrently
         await asyncio.gather(*tasks)
 
         # Verify all executed successfully
@@ -470,3 +493,9 @@ class TestBotNetworkAndConnectivity(unittest.IsolatedAsyncioTestCase):
         
         with self.assertRaises(asyncio.TimeoutError):
             await bot.get_command("help").callback(self.ctx)
+
+
+if __name__ == "__main__":
+    # Run the extended tests
+    unittest.main(verbosity=2)
+

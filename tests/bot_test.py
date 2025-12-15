@@ -13,6 +13,7 @@ from bot import bot, run_bot  # Import the bot instance directly
 
 class TestCSClubBot(unittest.IsolatedAsyncioTestCase):
     """Test suite for the CS Club Discord Bot commands"""
+    # """Test suite for the CS Club Discord Bot commands"""
 
     async def asyncSetUp(self):
         """Set up test fixtures before each test method

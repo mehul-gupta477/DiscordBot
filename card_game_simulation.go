@@ -128,7 +128,7 @@ func (g *CardGame) StartGame() {
 	g.Deck.Shuffle()
 
 	fmt.Printf("\n🃏 %s Game Started with %d players!\n", g.GameType, len(g.Players))
-	fmt.Println("=" + string(make([]rune, 50, 50)) + "=")
+	fmt.Println("=" + string(make([]rune, 50)) + "=")
 
 	// Deal initial cards based on game type
 	switch g.GameType {
@@ -486,7 +486,7 @@ func (g *CardGame) printHand(hand []Card) {
 // PrintGameState displays current game state
 func (g *CardGame) PrintGameState() {
 	fmt.Println("\n📊 Current Game State:")
-	fmt.Println("=" + string(make([]rune, 60, 60)) + "=")
+	fmt.Println("=" + string(make([]rune, 60)) + "=")
 	fmt.Printf("Game Type: %s | Round: %d | Cards in Deck: %d\n",
 		g.GameType, g.Round, len(g.Deck.Cards))
 
@@ -522,7 +522,7 @@ func (g *CardGame) EndGame() {
 	winner := g.GetWinner()
 
 	fmt.Println("\n🏁 Game Over!")
-	fmt.Println("=" + string(make([]rune, 50, 50)) + "=")
+	fmt.Println("=" + string(make([]rune, 50)) + "=")
 
 	if winner != nil {
 		fmt.Printf("🥇 Overall Winner: %s with %d wins!\n", winner.Name, winner.Wins)
@@ -548,7 +548,7 @@ func RunCardGameSimulation() {
 	rand.Seed(time.Now().UnixNano())
 
 	fmt.Println("🃏 Welcome to the Discord Bot Card Game Simulation!")
-	fmt.Println("=" + string(make([]rune, 55, 55)) + "=")
+	fmt.Println("=" + string(make([]rune, 55)) + "=")
 
 	// Create different types of card games
 	gameTypes := []string{"HighCard", "BlackJack", "Poker"}

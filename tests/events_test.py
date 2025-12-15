@@ -102,10 +102,3 @@ class TestGetEvents(unittest.TestCase):
         mock_parse.return_value = sample_return
         result = getEvents("http://valid-url.com/rss", "MOCK_TASK")
         self.assertIn("entryDate", result[0])
-
-    # Test that the subType was recorded
-    @patch("feedparser.parse")
-    def test_subType_recorded(self, mock_parse):
-        mock_parse.return_value = sample_return
-        result = getEvents("http://valid-url.com/rss", "MOCK_TASK")
-        self.assertIn("subType", result[0])

@@ -7,22 +7,12 @@ def tests(session: nox.Session) -> None:
     session.install("-r", "requirements.txt")
     session.install("coverage[toml]")
 
-@nox.session
-def tests(session: nox.Session) -> None:
-    """Run the test suite with coverage."""
-    session.install("-r", "requirements.txt")
-    session.install("coverage[toml]")
-
     # Run tests with coverage
     session.run(
         "coverage",
         "run",
         "-m",
         "unittest",
-        "discover",
-        "-s",
-        "tests",
-        "-p",
         "discover",
         "-s",
         "tests",
@@ -43,7 +33,7 @@ def tests(session: nox.Session) -> None:
 
 @nox.session
 def format(session: nox.Session) -> None:
-    """Format the code with black."""
+    """Format code with black."""
     session.install("black")
     session.run("black", ".")
 
@@ -53,3 +43,5 @@ def lint(session: nox.Session) -> None:
     """Run linting checks."""
     session.install("ruff")
     session.run("ruff", "check", "--fix", ".")
+
+# dsdasda

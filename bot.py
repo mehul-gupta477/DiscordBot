@@ -7,16 +7,22 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
+from data_processing.event_command import (
+    filter_events,
+    format_event_message,
+    get_events,
+)
+from data_processing.job_event import (
+    filter_jobs,
+    format_jobs_message,
+    get_jobs,
+)
+
+# Set up Discord Intents to enable bot to receive message events
 intents: discord.Intents = discord.Intents.default()
 intents.messages = True
 intents.message_content = True  # Required to read message content (needed for commands)
-intents.members = True  # Privileged intents
-
-# Initialize bot with command prefix '!' and specified intents
-bot = commands.Bot(command_prefix="!", intents=intents, help_command=None)
-
-
-# prints a message when the bot is ready in the terminal.
+intents.members = True  # Privileged intent
 
 # Initialize bot with command prefix '!' and specified intents
 bot = commands.Bot(command_prefix="!", intents=intents, help_command=None)
@@ -107,13 +113,9 @@ async def help(ctx) -> None:
         "**🤖 BugBot Commands:**\n"
         "`!resume` – Link to engineering resume resources\n"
         "`!events` – See upcoming club events\n"
-        "`!resourceelp` – Show this help message\n"
-        "`!resume` – Link to engineering resume resources\n"
-        "`!events` – See upcoming club events\n"
         "`!resources` – Get recommended CS learning materials\n"
         "`!jobs search-terms` – Search for jobs and internships\n\n"
     )
-    await ctx.se
     await ctx.send(help_message)
 
 
@@ -137,6 +139,17 @@ async def events(ctx, *, args: str = "") -> None:
 
     Usage: !events [location] [date] [type]
     """
+    csv_file_path = "data_collections/runningCSV.csv"
+    try:
+        _events = get_events(csv_file_path)
+    except (OSError, RuntimeError):
+        await ctx.send("Error retrieving events. Please try again later")
+    else:
+        args = args.strip()
+        _events = filter_events(_events, args)
+        message = format_event_message(_events, args)
+        await ctx.send(message)
+
 
 # !resources command placeholder
 @bot.command()
@@ -145,17 +158,6 @@ async def resources(ctx) -> None:
     Sends a list of recommended computer science learning resources
     to the channel in response to the `!resources` command.
     """
-    await ctx.send(
-        "📚 CS Learning Resources:\n"
-        "- [CS50](https://cs50.harvard.edu)\n"
-        "- [The Odin Project](https://theodinproject.com)\n"
-        "- [FreeCodeCamp](https://freecodecamp.org)\n"
-        "- [LeetCode](https://leetcode.com)"
-    )
-
-@bot.command()
-async def resources(ctx):
-    """Command: Sends recommended CS learning resources."""
     await ctx.send(
         "📚 CS Learning Resources:\n"
         "- [CS50](https://cs50.harvard.edu)\n"

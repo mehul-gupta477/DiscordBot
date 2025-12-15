@@ -7,6 +7,17 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
+from data_processing.event_command import (
+    filter_events,
+    format_event_message,
+    get_events,
+)
+from data_processing.job_event import (
+    filter_jobs,
+    format_jobs_message,
+    get_jobs,
+)
+
 # Set up Discord Intents to enable bot to receive message events
 intents: discord.Intents = discord.Intents.default()
 intents.messages = True
@@ -40,21 +51,16 @@ async def on_member_join(member: discord.Member) -> None:
     sends a direct message to the new member. The welcome message
     includes a mention of the "networking" channel if it exists.
     """
-    # Try to find a welcome channel (common names: welcome, general, etc.)
+    # Try to find a dedicated welcome channel only
     welcome_channel: discord.TextChannel | None = None
 
-    # Look for common welcome channel names
+    # Prefer dedicated welcome channels only; do not fall back to other channels
     for channel in member.guild.text_channels:
-        if channel.name.lower() in ["welcome", "general", "introductions", "lobby"]:
+        if channel.name.lower() in ["welcome", "welcomes"]:
             welcome_channel = channel
             break
 
-    # If no specific welcome channel found, use the first available text channel
-    if not welcome_channel:
-        if member.guild.system_channel:
-            welcome_channel = member.guild.system_channel
-        elif member.guild.text_channels:
-            welcome_channel = member.guild.text_channels[0]
+    # If no dedicated welcome channel is found, do not post in other channels
 
     # Find networking channel for clickable link
     networking_channel: discord.TextChannel | None = None
@@ -108,6 +114,7 @@ async def help(ctx) -> None:
         "`!resume` – Link to engineering resume resources\n"
         "`!events` – See upcoming club events\n"
         "`!resources` – Get recommended CS learning materials\n"
+        "`!jobs search-terms` – Search for jobs and internships\n\n"
     )
     await ctx.send(help_message)
 
@@ -125,17 +132,23 @@ async def resume(ctx) -> None:
 
 # !events command placeholder
 @bot.command()
-async def events(ctx) -> None:
+async def events(ctx, *, args: str = "") -> None:
     """
     Sends a message listing upcoming club events and their dates in
     response to the `!events` command.
+
+    Usage: !events [location] [date] [type]
     """
-    await ctx.send(
-        "📅 Upcoming Events:\n"
-        "- April 12: Git Workshop\n"
-        "- April 19: LeetCode Challenge Night\n"
-        "- April 26: Final Meeting + Pizza 🍕"
-    )
+    csv_file_path = "data_collections/runningCSV.csv"
+    try:
+        _events = get_events(csv_file_path)
+    except (OSError, RuntimeError):
+        await ctx.send("Error retrieving events. Please try again later")
+    else:
+        args = args.strip()
+        _events = filter_events(_events, args)
+        message = format_event_message(_events, args)
+        await ctx.send(message)
 
 
 # !resources command placeholder
@@ -152,6 +165,33 @@ async def resources(ctx) -> None:
         "- [FreeCodeCamp](https://www.freecodecamp.org/)\n"
         "- [LeetCode](https://leetcode.com/)"
     )
+
+
+@bot.command()
+async def jobs(ctx, *, args: str = "") -> None:
+    """
+    Searches for jobs and internships based on specified criteria.
+
+    Usage: !jobs [search_terms]
+
+    Examples:
+    - !jobs software engineer
+    - !jobs google remote
+    - !jobs python internship summer
+    - !jobs microsoft internship
+    """
+    csv_file_path = "data_collections/runningCSV.csv"
+    try:
+        _jobs = get_jobs(csv_file_path)
+    except (OSError, RuntimeError):
+        await ctx.send(
+            "Sorry, there was an error searching for jobs. Please try again later."
+        )
+    else:
+        args = args.strip()
+        _jobs = filter_jobs(_jobs, args)
+        message = format_jobs_message(_jobs, args)
+        await ctx.send(message)
 
 
 def run_bot() -> None:

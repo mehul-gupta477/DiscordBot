@@ -18,7 +18,7 @@ from bot import bot, run_bot
 
 
 class TestBotExtended(unittest.IsolatedAsyncioTestCase):
-    """Extended test suite for Discord bot with comprehensive coverage"""
+    """Extended test suite for Discord bot with comprehensive coverage"""ss
 
     self.ctx = MagicMock()
         self.ctx.send = AsyncMock()

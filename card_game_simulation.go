@@ -19,19 +19,6 @@ type Deck struct {
 	Cards []Card
 }
 
-// / Card represents a playing card
-type Card struct {
-	Suit  string
-	Rank  string
-	Value int
-}
-
-// Deck represents a deck of cards
-type Deck struct {
-	Cards []Card
-}
-
-
 // CardPlayer represents a player in the card game
 type CardPlayer struct {
 	ID       int

@@ -5,6 +5,20 @@ import (
 	"math/rand"
 	"sort"
 	"time"
+)package main
+
+import (
+	"fmt"
+	"math/rand"
+	"sort"
+	"time"
+)package main
+
+import (
+	"fmt"
+	"math/rand"
+	"sort"
+	"time"
 )
 
 // Card represents a playing card

@@ -13,6 +13,8 @@ import (
 
 // LibraryCommentValidator handles validation and enhancement of library-related comments using AI and MCP servers
 type LibraryCommentValidator struct {
+type LibraryCommentValidator struct {
+type LibraryCommentValidator struct {
 	aiConfig clients.AIConfig
 }
 

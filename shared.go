@@ -9,6 +9,7 @@ import (
 
 	"github.com/propel-gtm/propel-gtm/api/clients"
 	"github.com/propel-gtm/propel-gtm/api/utils"
+	"github.com/propel-gtm/propel-gtm/api/utils"
 	"go.uber.org/zap"
 )
 

@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"encoding/json"
+	"encoding/json"
 	"fmt"
 	"time"
 
@@ -32,6 +33,7 @@ type LibraryInfo struct {
 	Version    string   `json:"version,omitempty"`
 	Methods    []string `json:"methods,omitempty"`
 	ChangeType string   `json:"change_type"` // "version_update", "method_usage", "deprecation", "breaking_change"
+	Language   string   `json:"language,omitempty"`
 	Language   string   `json:"language,omitempty"`
 	Context    string   `json:"context,omitempty"`
 }
@@ -101,6 +103,11 @@ func (v *LibraryCommentValidator) ValidateAndEnhanceComments(
 	startTime := time.Now()
 
 	// Step 1: Classify and extract library information from comments
+	libraryValidationResults,nt_count", len(generatedComments)))
+
+	startTime := time.Now()
+
+	// Step 1: Classify and extract library information from comments
 	libraryValidationResults, err := v.classifyAndValidateComments(ctx, generatedComments, owner, repo, logger)
 	if err != nil {
 		logger.Error("Failed to classify and validate library comments", zap.Error(err))
@@ -111,6 +118,7 @@ func (v *LibraryCommentValidator) ValidateAndEnhanceComments(
 	enhancedComments := v.applyLibraryValidationResults(generatedComments, libraryValidationResults, logger)
 
 	processingTime := time.Since(startTime)
+	enhancedCount := 0
 	enhancedCount := 0
 	for _, result := range libraryValidationResults {
 		if result.IsLibraryRelated && result.EnhancedComment != "" {
@@ -131,6 +139,7 @@ func (v *LibraryCommentValidator) classifyAndValidateComments(
 	ctx context.Context,
 	comments []*InternalReviewComment,
 	owner string,
+	repo string,
 	repo string,
 	logger *zap.Logger,
 ) ([]LibraryValidationResult, error) {

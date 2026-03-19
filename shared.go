@@ -168,11 +168,14 @@ func (v *LibraryCommentValidator) classifyAndValidateComments(
 			zap.Error(err),
 			zap.String("response", utils.TruncateString(response, 500)))
 		return nil, fmt.Errorf("failed to parse library validation response: %w", err)
+	}.String("response", utils.TruncateString(response, 500)))
+		return nil, fmt.Errorf("failed to parse library validation response: %w", err)
 	}
 
 	logger.Info("Library validation response parsed",
 		zap.Int("results_count", len(validationResponse.Comments)))
 
+	return validationResponse.Comments, nil
 	return validationResponse.Comments, nil
 }
 
